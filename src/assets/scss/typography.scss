@@ -1,0 +1,246 @@
+/*
+Typography
+=========================== */
+html,
+body {
+    padding: 0;
+    margin: 0;
+    overflow-x: hidden !important;
+}
+
+body {
+	color:$color-content;
+    font-family: $font-family;
+    font-size: 14px;
+    line-height: 20px;
+}
+
+a{
+	outline:0;
+    cursor: pointer;
+    @include transition("all .5s ease-in-out");
+
+    &:focus{
+        outline: 0;
+    }
+
+    &:hover{
+        text-decoration:underline;
+    }
+
+    &.link{
+        color: $color-content;
+        text-decoration: none;
+    }
+}
+
+h1{
+	color: $color-title;
+	margin: 0 0 15px 0;
+	font-size: 48px;
+    font-family: $font-family;
+    font-weight: 500;
+    line-height: 52px;
+    letter-spacing: .5px;
+    text-transform: none !important;
+
+    small{
+        color: #9a9a9a;
+    }
+}
+
+h2{
+    @extend h1;
+	font-size:36px;
+	line-height:48px;
+}
+
+h3{
+    @extend h1;
+	font-size:30px;
+	line-height:36px;
+}
+
+h4{
+    @extend h1;
+	font-size:24px;
+	line-height:30px;
+}
+
+h5{
+    @extend h1;
+	font-size:18px;
+	line-height:24px;
+}
+
+h6{
+    @extend h1;
+	font-size:14px;
+	line-height:18px;
+}
+
+p{
+    margin-top: 0;
+    margin-bottom:20px;
+}
+
+label{
+    font-weight: 500;
+    color: $color-title;
+}
+
+.color-gray{
+    color: #9a9a9a;
+}
+
+::-webkit-input-placeholder { /* Chrome/Opera/Safari */
+    color: #cccccc;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #cccccc;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #cccccc;
+}
+:-moz-placeholder { /* Firefox 18- */
+    color: #cccccc;
+}
+
+/*
+Blockquote
+=========================== */
+blockquote{
+    display:block;
+    background: #fff;
+    padding: 15px 20px 15px 45px;
+    margin: 0 0 20px;
+    position: relative;
+    
+    /*Font*/
+    font-family: Georgia, serif;
+    font-size: 14px;
+    line-height: 1.2;
+    color: #666;
+  
+    /*Borders - (Optional)*/
+    border-left-style: solid;
+    border-left-width: 15px;
+    border-right-style: solid;
+    border-right-width: 2px;    
+
+    &.default{
+        border-color: #efefef;
+    }
+
+    &.primary{
+        border-color: $color-primary;
+
+    }
+}
+
+::-webkit-input-placeholder { /* Chrome */
+    color: #c0c0c0;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #c0c0c0;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #c0c0c0;
+    opacity: 1;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+    color: #c0c0c0;
+    opacity: 1;
+}
+
+input, textarea{
+    outline: 0;
+}
+  
+blockquote::before{
+    content: "\201C"; /*Unicode for Left Double Quote*/
+    /*Font*/
+    font-family: Georgia, serif;
+    font-size: 50px;
+    font-weight: bold;
+    color: #999;
+
+    /*Positioning*/
+    position: absolute;
+    left: 10px;
+    top:5px;
+}
+
+blockquote::after{
+    /*Reset to make sure*/
+    content: "";
+}
+
+/*
+List Styling
+=========================== */
+@font-face {
+    font-family: 'PrimeIcons';
+    src: url('~primeicons/fonts/primeicons.eot');
+    src: url('~primeicons/fonts/primeicons.eot?#iefix') format('embedded-opentype'), url('~primeicons/fonts/primeicons.ttf') format('truetype'), url('~primeicons/fonts/primeicons.woff') format('woff'), url('~primeicons/fonts/primeicons.svg?#primeicons') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+.list-rounded{
+    @extend .list-unstyled;
+    
+    li{
+        position: relative;
+        margin-bottom: 10px;
+        padding-left: 20px;
+
+        &:before{
+            font-family: 'primeicons';
+            content: "\e912";
+            position: absolute;
+            top: 0;
+            left: 0;
+            color: $color-primary;
+        }
+    }
+}
+
+.list-circle{
+    @extend .list-rounded;
+
+    li:before{
+        content: "\e911";
+    }
+}
+
+.list-times-circle{
+    @extend .list-rounded;
+
+    li:before{
+        content: "\e90c";
+    }
+}
+.list-check{
+    @extend .list-rounded;
+
+    li:before{
+        content: "\e909";
+    }
+}
+
+.list-stars{
+    @extend .list-rounded;
+
+    li:before{
+        content: "\e936";
+    }
+}
+
+.list-stars-fill{
+    @extend .list-rounded;
+
+    li:before{
+        content: "\e937";
+    }
+}

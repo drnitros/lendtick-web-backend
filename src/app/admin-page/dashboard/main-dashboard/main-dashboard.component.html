@@ -1,0 +1,57 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+	<div class="media">
+		<i-home class="icon"></i-home> 
+		<div class="media-body">
+			<h5 class="title">Dashboard</h5>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<!-- End Sub Header -->
+
+<!-- Start Main Content -->
+<div class="main-content pb-1">
+
+	<!-- Start Counter -->
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter1 icon="fas fa-shopping-basket" title="Orders" counter="143,021" percentage="14"></app-counter1>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter1 icon="fas fa-users" title="Users" counter="996" percentage="35"></app-counter1>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter1 icon="fas fa-chart-line" title="Growth" counter="76%" percentage="76"></app-counter1>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter1 icon="far fa-money-bill-alt" title="Deposit" counter="$145,293" percentage="54"></app-counter1>
+		</div>
+	</div>
+	<!-- End Counter -->
+
+	<!-- Start Chart -->
+	<div class="mb-4">
+		<app-chart4></app-chart4>
+	</div>
+	<!-- End Chart -->
+
+	<div class="row">
+		<div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+			<!-- Widget Todos -->
+			<app-todo></app-todo>
+		</div>
+		<div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+			<!-- Widget Weather -->
+			<app-weather></app-weather>
+		</div>
+		<div class="col-sm-6 col-md-6 col-xl-4 mb-4">
+			<!-- Widget Weather -->
+			<app-list></app-list>
+		</div>
+	</div>
+</div>
+<!-- End Main Content -->

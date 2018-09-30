@@ -1,0 +1,40 @@
+/*
+General Accordion
+=========================== */
+.ui-accordion{
+    @extend .card;
+
+    .ui-accordion-header{
+        > a{
+            @extend .card-header;
+            color: $color-content;
+
+            > .ui-accordion-toggle-icon{
+                float: right;
+                position: relative;
+                top: 2.5px;
+            }
+    
+            &:hover{
+                text-decoration: none;
+    
+                &:hover{
+                    color: $color-primary;
+                }
+            }
+        } 
+
+        &.ui-state-active > a{
+            color: $color-primary;
+        }
+
+        &.ui-state-disabled > a:hover,
+        &.ui-state-disabled > a{
+            color: $color-content;
+        }
+    }
+
+    .ui-accordion-content{
+        @extend .card-body;
+    }
+}

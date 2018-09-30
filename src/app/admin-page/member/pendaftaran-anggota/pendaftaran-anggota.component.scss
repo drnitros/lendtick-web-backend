@@ -1,0 +1,29 @@
+@import '../../../../assets/scss/css3-mixins';
+@import '../../../../assets/scss/variable';
+
+.th-option{
+    width: 100px;
+    text-align: center;
+}
+
+.th-avatar{
+    width: 75px;
+}
+
+.img-avatar{
+    width: 40px;
+    border-radius: 50%;
+    border: solid 1px #efefef;
+    position: absolute;
+    top: 10px;
+    left: 25px;
+    @extend .panel-shadow;
+}
+
+@media(max-width:767px){
+    .img-avatar{
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+}

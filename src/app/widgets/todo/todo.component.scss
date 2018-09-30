@@ -1,0 +1,14 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.todo{
+    .list-unstyled{
+        li{
+            border-bottom: solid 1px #efefef;
+            padding: 10px 20px;
+        }
+    } 
+    .body-input{
+        border-top: solid 1px #efefef;
+    }
+}

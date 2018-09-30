@@ -1,0 +1,36 @@
+.ui-selectbutton{
+    border: solid 1px $color-primary;
+    @include border-radius(4px);
+    overflow: hidden;
+    
+    .ui-button{
+        padding: 7px 10px;
+        background: #fff;
+
+        &:hover{
+            background-color: #fafafa;
+        }
+
+        &.ui-state-active{
+            @extend .btn-primary;
+        }
+
+        &.ui-state-active:first-child{
+            border-left: 0;
+        }
+
+        &.ui-state-active:last-child{
+            border-right: 0;
+        }
+
+        .ui-button-icon-left{
+            left: 20px;
+        }
+    }
+}
+
+.modal-input{
+    .ui-selectbutton{
+        padding-bottom: 1px;
+    }
+}

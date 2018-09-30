@@ -1,1 +1,84 @@
-/* You can add global styles to this file, and also import other style files */
+/*
+Utilities
+=========================== */ 
+@import 'assets/scss/css3-mixins';
+@import 'assets/scss/variable';
+
+/*
+Dependencies 
+=========================== */ 
+@import '~jvectormap-next/jquery-jvectormap.css';
+@import '~corenav/coreNavigation.css';
+@import '~quill/dist/quill.core.css';
+@import '~quill/dist/quill.snow.css';
+@import '~animate.css/animate.min.css';
+@import '~primeng/resources/primeng.min.css';
+@import '~primeicons/primeicons.css';
+@import '~@fortawesome/fontawesome-free/css/all.min.css';
+@import 'assets/scss/bootstrap';
+
+/*
+Assets
+=========================== */ 
+@import 'assets/scss/typography';
+@import 'assets/scss/general';
+
+/*
+Bootstrap & Custom
+=========================== */ 
+@import 'assets/scss/bootstrap-custom/breadcrumb';
+@import 'assets/scss/bootstrap-custom/utilities';
+@import 'assets/scss/bootstrap-custom/button';
+@import 'assets/scss/bootstrap-custom/card';
+@import 'assets/scss/bootstrap-custom/input';
+
+/*
+PrimeNG Custom
+=========================== */ 
+@import 'assets/scss/primeng-custom/accordion';
+@import 'assets/scss/primeng-custom/overlay-panel';
+@import 'assets/scss/primeng-custom/sidebar';
+@import 'assets/scss/primeng-custom/tab-view';
+@import 'assets/scss/primeng-custom/input-switch';
+@import 'assets/scss/primeng-custom/input-autocomplete';
+@import 'assets/scss/primeng-custom/growl';
+@import 'assets/scss/primeng-custom/toast';
+@import 'assets/scss/primeng-custom/progressbar';
+@import 'assets/scss/primeng-custom/messages';
+@import 'assets/scss/primeng-custom/dialog';
+@import 'assets/scss/primeng-custom/datepicker';
+@import 'assets/scss/primeng-custom/inputchip';
+@import 'assets/scss/primeng-custom/inputdropdown';
+@import 'assets/scss/primeng-custom/inputcheckbox';
+@import 'assets/scss/primeng-custom/inputlistbox';
+@import 'assets/scss/primeng-custom/inputmultiselect';
+@import 'assets/scss/primeng-custom/inputradiobutton';
+@import 'assets/scss/primeng-custom/inputslider';
+@import 'assets/scss/primeng-custom/inputselectbutton';
+@import 'assets/scss/primeng-custom/inputeditor';
+@import 'assets/scss/primeng-custom/inputmask';
+@import 'assets/scss/primeng-custom/inputpassword';
+@import 'assets/scss/primeng-custom/inputspinner';
+@import 'assets/scss/primeng-custom/steps';
+@import 'assets/scss/primeng-custom/table';
+@import 'assets/scss/primeng-custom/paginator';
+
+/*
+Core Navigation
+=========================== */ 
+@import 'assets/scss/custom-corenav';
+
+::-webkit-input-placeholder { /* Chrome */
+    color: #c0c0c0 !important;
+}
+:-ms-input-placeholder { /* IE 10+ */
+    color: #c0c0c0 !important;
+}
+::-moz-placeholder { /* Firefox 19+ */
+    color: #c0c0c0 !important;
+    opacity: 1;
+}
+:-moz-placeholder { /* Firefox 4 - 18 */
+    color: #c0c0c0 !important;
+    opacity: 1;
+}

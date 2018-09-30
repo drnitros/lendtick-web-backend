@@ -1,0 +1,20 @@
+<!-- Start Counter -->
+<div class="card counter1" [ngClass]="styleClass">
+	<div class="media">
+		<i class="icon-counter1" [ngClass]="icon"></i>
+		<div class="media-body">
+			<h4 class="title">
+				<small>{{title}}</small>
+				{{counter}}
+			</h4>
+		</div>
+	</div>
+	<div class="progress" [pTooltip]="percentage + '%'" tooltipPosition="top">
+		<div 
+			class="progress-bar" 
+			role="progressbar" 
+			[style.width]="percentage + '%'">
+		</div>
+	</div>
+</div>
+<!-- End Counter -->

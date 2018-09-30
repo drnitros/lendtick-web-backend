@@ -1,0 +1,333 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+/* Header
+/* ============================ */
+.wrap-header{
+    border-bottom: solid 1px #dfdfdf;
+    background: #fff;
+    @extend .panel-shadow;
+
+    .btn-header{
+        padding: 19px 20px 22px;
+        margin: 0;
+        background: transparent;
+        outline: 0;
+        border: 0;
+        cursor: pointer;
+        @include transition("all .5s ease-in-out");
+        position: relative;
+
+        &:hover,
+        &:focus{
+            background: transparent;
+        }
+
+        .icon{
+            width: 20px;
+            height: 20px;
+            margin-bottom: 0;
+            color: $color-content;
+        }
+        
+        &:hover{
+            background-color: #fafafa;
+
+            .icon{
+                color: $color-primary;
+            }
+        }
+
+        &.bg-gray{
+            background-color: #fafafa;
+        }
+
+        .badge{
+            position: absolute;
+            top: 12px;
+            right: 10px;
+        }
+    }
+}
+
+.wrap-search{
+    width: 230px;
+}
+
+@media(max-width:920px){
+    .wrap-search{
+        width: 125px;
+    }
+}
+
+/* Author
+/* ============================ */
+.author{
+    padding: 8px 20px;
+    cursor: pointer;
+    border-left: solid 1px #efefef;
+
+    &:hover{
+        background-color: #fafafa;
+    }
+
+    img{
+        width: 45px;
+        height: 45px;
+        @include border-radius(50%);
+    }
+
+    .name{
+        color: $color-primary;
+        text-transform: capitalize;
+        padding-top: 13px;
+        text-align: left;
+        margin-bottom: 0;
+
+        small{
+            font-weight: 400;
+            color: $color-content;
+        }
+    }
+}
+.auth-list{
+    padding: 10px 0 0;
+    margin: 0;
+    list-style: none;
+
+    li{
+        list-style: none;
+        display: block;
+
+        a{
+            display: block;
+            padding: 5px 20px;
+            color: $color-content;
+
+            .icon{
+                width: 14px;
+                height: 14px;
+                margin-right: 10px;
+            }
+
+            &:hover,
+            &:focus{
+                color: $color-primary;
+                text-decoration: none;
+            }
+        }
+
+        &.logout{
+            margin-top: 10px;
+            background-color: #fafafa;
+
+            a{
+                padding-top: 10px;
+                padding-bottom: 15px;
+                border-top: solid 1px #efefef;
+            }
+        }
+    }
+}
+
+/* Notification
+/* ============================ */
+ul.notif{
+    margin-top: -2px;
+    z-index: 0;
+
+    li.list-group-item{
+        padding: 10px 15px;
+        color: $color-content;
+        position: relative;
+        border-color: #efefef;
+
+        img{
+            @include border-radius(50%);
+        }
+
+        a{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;   
+        }
+
+        small{
+            color: #999;
+            font-style: italic;
+        }
+
+        .name{
+            color: $color-title;
+            font-weight: 500;
+        }
+
+        &:hover{
+            background-color: #fafafa;
+            color: $color-primary;
+        }
+
+        &.more{
+            padding: 0;
+
+            a{
+                position: relative;
+                display: block;
+                padding: 15px 20px;
+                background-color: #fafafa;
+                color: $color-content;
+                text-align: center;
+    
+                &:hover,
+                &:focus{
+                    text-decoration: none;
+                    color: $color-primary;
+                }
+            }
+            
+        }
+    }
+}
+
+/* Sidebar Content
+/* ============================ */
+.sidebar-item{
+    padding: 20px 0;
+
+    .sidebar-header{
+        padding: 0 25px 20px;
+    
+        h1, h2, h3, h4, h5, h6{
+            margin-bottom: 0;
+        }
+    }
+    .sidebar-body{
+        padding: 0 25px;
+    }
+}
+
+/* List Log
+/* ============================ */
+.list-log{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: block;
+
+    li{
+        display: block;
+        position: relative;
+        padding: 10px 0 10px 25px;
+
+        &::before{
+            content: "";
+            position: absolute;
+            width: 2px;
+            height: 100%;
+            top: 0;
+            left: 4px;
+            background-color: #efefef;
+        }
+
+        &::after{
+            content: "";
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            left: 0;
+            top: 50%;
+            margin-top: -5px;
+            background-color: $color-primary;
+            border: solid 2px #efefef;
+            @include border-radius(50%);
+        }
+
+        &.break{
+            &::before{
+                top: -50%;
+            }
+        }
+    }
+}
+
+/* Sidebar Author
+/* ============================ */
+.sidebar-author{
+    position: relative;
+    padding: 20px 25px;
+
+    .thumb{
+        display: block;
+        width: 100px;
+        height: 100px;
+        background: #fff;
+        border: solid 1px #efefef;
+        padding: 5px;
+        margin: auto;
+        @extend .panel-shadow;
+        @include border-radius(50%);
+
+        img{
+            width: 100%;
+            @include border-radius(50%);
+        }
+    }
+
+    .name{
+        display: block;
+        text-align: center;
+        margin-top: 15px;
+        margin-bottom: 0;
+        
+        small{
+            display: block;
+            color: $color-content;
+        }
+    }
+}
+
+.sidebar-list-auth{
+    border-top: solid 1px #efefef;
+    border-bottom: solid 1px #efefef;
+
+    li{
+        padding: 15px;
+        text-align: center;
+
+        .content{
+            margin-bottom: 0;
+
+            small{
+                display: block;
+                color: #9a9a9a;
+                font-size: 12px;
+            }
+        }
+    }
+}
+
+@media(max-width:767px){
+    .wrap-header{
+        .btn-header{
+            padding: 14px 15px 19px;
+
+            .badge{
+                top: 8px;
+                right: 8px;
+            }
+        }
+    }
+
+    .author{
+        padding: 4px 15px;
+
+        img{
+            margin-right: 0 !important;
+        }
+        .name{
+            display: none;
+        }
+    }
+}

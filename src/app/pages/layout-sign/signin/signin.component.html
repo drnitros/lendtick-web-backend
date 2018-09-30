@@ -1,0 +1,45 @@
+<!-- Start Form Login -->
+<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+	<div class="input-group mb-3">
+		<div class="input-group-prepend">
+			<span class="input-group-text">
+				<i-user class="icon"></i-user>
+			</span>
+		</div>
+		<input 
+			type="text" 
+			class="form-control"
+			[class.is-invalid]="emailRef.errors?.required && emailRef.touched || emailRef.errors?.email && emailRef.touched || errorUser" 
+			[(ngModel)]="email" 
+			name="username" 
+			required
+			email
+			#emailRef="ngModel"
+			placeholder="Enter your email">
+		<div *ngIf="errorUser" class="invalid-feedback">User not found</div>
+		<div *ngIf="emailRef.errors?.required && emailRef.touched" class="invalid-feedback">This field is required</div>
+		<div *ngIf="emailRef.errors?.email && emailRef.touched" class="invalid-feedback">Email not valid</div>
+	</div>
+	<div class="input-group mb-4">
+		<div class="input-group-prepend">
+			<span class="input-group-text">
+				<i-lock class="icon"></i-lock>
+			</span>
+		</div>
+		<input 
+			type="password" 
+			class="form-control" 
+			[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
+			[(ngModel)]="password" 
+			name="password" 
+			required
+			#passwordRef="ngModel"
+			placeholder="Enter your password">
+		<div *ngIf="passwordRef.errors?.required && passwordRef.touched" class="invalid-feedback">This field is required</div>
+	</div>
+	<button [disabled]="formRef.invalid || isLoading" type="submit" class="btn btn-primary btn-block btn-icon">
+		<span *ngIf="!isLoading">Sign In <i-chevron-right class="icon"></i-chevron-right></span>
+		<span *ngIf="isLoading"><i class="fas fa-spin fa-spinner"></i> <i-chevron-right class="icon"></i-chevron-right></span>
+	</button>
+</form>
+<!-- End Form Login -->

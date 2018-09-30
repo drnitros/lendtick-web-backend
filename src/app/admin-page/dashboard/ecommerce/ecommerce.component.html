@@ -1,0 +1,77 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+	<div class="media">
+		<i-home class="icon"></i-home> 
+		<div class="media-body">
+			<h5 class="title">Ecommerce</h5>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Ecommerce</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<!-- End Sub Header -->
+
+<!-- Start Main Content -->
+<div class="main-content pb-1">
+
+	<!-- Start Counter -->
+	<div class="row">
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter4 title="Customer" percentage="30" [data]="dataCounter1"></app-counter4>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter4 title="Users" percentage="25" [data]="dataCounter2"></app-counter4>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter4 title="Sales" percentage="75" [data]="dataCounter3"></app-counter4>
+		</div>
+		<div class="col-xl-3 col-md-6 mb-4">
+			<app-counter4 title="Orders" percentage="24" [data]="dataCounter4"></app-counter4>
+		</div>
+	</div>
+	<!-- End Counter -->
+	
+
+	<div class="row">
+		<div class="col-xl-8 col-sm-6">
+			<!-- Start Chart 2 -->
+			<div class="mb-4">
+				<app-chart2 
+					[data]="datachart1" 
+					height="250" 
+					[listItem]="listItem1"
+					[yAxes]="true"
+					styleClass="customChart1">
+				</app-chart2>
+			</div>
+			<!-- Start Chart 2 -->
+			<!-- Start List -->
+			<div class="mb-4">
+				<app-list [rows]="7" [columns]="columns"></app-list>
+			</div>
+			<!-- Eng List -->
+		</div>
+		<div class="col-xl-4 col-sm-6">
+			<!-- Start Chart -->
+			<div class="mb-4">
+				<app-chart5></app-chart5>
+			</div>
+			<!-- End Chart -->
+			<!-- Start Map Vector -->
+			<div class="mb-4">
+				<app-map-vector 
+					title="Region Reports" 
+					mapName="us_aea_en" 
+					[markers]="markers"
+					styleClass="map-dashboard">
+				</app-map-vector>
+			</div>
+			<!-- End Map Vector -->
+		</div>
+	</div>
+
+</div>
+<!-- End Main Content -->
+	

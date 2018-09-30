@@ -1,0 +1,5 @@
+.input-mask{
+    > input{
+        @extend .form-control;
+    }
+}

@@ -1,0 +1,29 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.counter3{
+    overflow: hidden;
+    position: relative;
+    height: 115px;
+    @include border-radius(0 0 4px 4px);
+
+    .title{
+        color: $color-primary;
+        padding: 20px 25px;
+        position: absolute;
+        left: 0;
+        top: 0;
+
+        small{
+            color: $color-title;
+            display: block;
+            line-height: 24px;
+            font-size: 14px;
+        }
+    }
+
+    .wrap-chart{
+        margin-top: 10px;
+        @include opacity(.5);
+    }
+}

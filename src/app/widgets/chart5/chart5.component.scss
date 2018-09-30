@@ -1,0 +1,11 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.badge-list{
+    display: inline-block;
+    height: 10px;
+    width: 20px;
+    border: solid 1px #efefef;
+    margin-right: 5px;
+    @include border-radius(4px);
+}

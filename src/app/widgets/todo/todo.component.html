@@ -1,0 +1,24 @@
+<!-- Start Card -->
+<div class="card todo">
+	<div class="card-header">
+		<h6 class="mb-0">Todos</h6>
+	</div>
+	<div class="card-body p-0">
+		<p-scrollPanel [style]="style">
+			<ul class="list-unstyled">
+				<li *ngFor="let item of listItem">
+					<p-checkbox [(ngModel)]="item.done" binary="true" [label]="item.label" [labelStyleClass]="item.done ? 'done' : null"></p-checkbox> 
+				</li>
+			</ul>
+		</p-scrollPanel>
+	</div>
+	<div class="card-body body-input">
+		<div class="input-group">
+			<input type="text" [(ngModel)]="textTodo" class="form-control" placeholder="Enter text">
+			<div class="input-group-prepend">
+				<button (click)="addTodo()" class="btn btn-primary" type="button">Add</button>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Card -->

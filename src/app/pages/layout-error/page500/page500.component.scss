@@ -1,0 +1,26 @@
+@import '../../../../assets/scss/css3-mixins';
+@import '../../../../assets/scss/variable';
+
+.content-error{
+    display: block;
+    position: relative;
+    text-align: center;
+
+    .sub-title{
+        color: $color-primary;
+        margin-bottom: 0;
+        margin-top: 20px;
+    }
+    
+    .img-error{
+        width: 100%;
+        max-width: 300px;
+        display: inline-block;
+        margin-bottom: 30px;
+    }
+
+    .icon-error{
+        width: 18px;
+        height: 18px;
+    }
+}

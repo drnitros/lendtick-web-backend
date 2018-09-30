@@ -1,0 +1,29 @@
+<!-- Start Card -->
+<div class="card chart4">
+	<div class="card-header">
+		<div class="card-input">
+			<small>Show Scheme</small>
+			<p-inputSwitch [(ngModel)]="checked"></p-inputSwitch>
+		</div>
+		<h6 class="mb-0">Statistic</h6>
+	</div>
+	<div class="card-body p-0">
+		<div class="row m-0">
+			<div class="col-sm-8 col-xl-9 p-4">
+				<p-chart type="line" [height]="height" [data]="data" [options]="options"></p-chart>
+			</div>
+			<div class="col-sm-4 col-xl-3 p-0 col-table">
+				<table class="table-chart4">
+					<tr *ngFor="let item of listItem">
+						<td>{{item.title}}</td>
+						<td class="text-right">
+							<strong>{{item.value}}</strong>
+							<sup [ngClass]="item.textSubValueClass">{{item.subValue}}</sup>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Card -->

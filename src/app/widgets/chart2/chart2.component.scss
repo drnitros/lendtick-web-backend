@@ -1,0 +1,33 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.chart{
+    .card-chart{
+        position: relative;
+        z-index: 1;
+        background-color: #ffffff;
+    }
+
+    .card-body{
+        margin: -1px;
+        background-color: rgba(0, 0, 0, 0.03);
+    }
+
+    small{
+        font-size: 12px;
+    }
+
+    .row{
+        margin: 0 -1px -1px 0;
+
+        > div{
+            padding: 0;
+            border-right: solid 1px #efefef;
+            border-bottom: solid 1px #efefef;
+
+            .media{
+                padding: 20px 25px;
+            }
+        }
+    }
+}

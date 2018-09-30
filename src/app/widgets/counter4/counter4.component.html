@@ -1,0 +1,26 @@
+<!-- Start Card -->
+<div class="card counter4">
+	<div class="card-body">
+		<div class="media">
+			<div class="count">
+				<h4 class="title">
+					<small>{{title}}</small>
+					{{percentage}}%
+				</h4>
+			</div>
+			<div class="media-body">
+				<div class="wrap-chart">
+					<p-chart type="line" height="70" [data]="data" [options]="options"></p-chart>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="progress" [pTooltip]="percentage + '%'" tooltipPosition="top">
+		<div 
+			class="progress-bar" 
+			role="progressbar" 
+			[style.width]="percentage + '%'">
+		</div>
+	</div>
+</div>
+<!-- End Card -->

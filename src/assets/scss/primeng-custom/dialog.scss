@@ -1,0 +1,65 @@
+.ui-widget-overlay.ui-dialog-mask{
+    background: #333;
+    background: rgba(0,0,0,0.5);
+}
+
+.ui-dialog{
+    background: #fff;
+    @extend .panel-shadow;
+    @include border-radius(2px);
+
+    .ui-dialog-titlebar{
+        padding: 15px 20px;
+        border-bottom: solid 1px #efefef !important;
+        @extend .panel-shadow;
+        position: relative;
+
+        .ui-dialog-title{
+            margin-bottom: 0;
+            text-transform: none;
+            letter-spacing: 0;
+            font-weight: 500;
+            color: $color-title;
+        }
+
+        .ui-dialog-titlebar-icon{
+            border: solid 1px #dfdfdf;
+            padding: 5px;
+            margin-left: -1px;
+            font-size: 14px;
+            color: $color-content;
+        }
+    }
+
+    .ui-dialog-content{
+        padding: 15px 20px;
+
+        p:last-child{
+            margin-bottom: 0;
+        }
+
+        mat-progress-bar{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+        }
+
+        label{
+            display: block;
+            margin-bottom: 5px;
+        }
+    }
+
+    .ui-dialog-footer{
+        padding: 15px 20px;
+        border-top: solid 1px #efefef !important;
+        @extend .panel-shadow;
+    }
+}
+
+@media(max-width:767px){
+    .ui-dialog{
+        width: 100% !important;
+    }
+}

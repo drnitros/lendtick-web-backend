@@ -1,0 +1,40 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.main{
+    font-weight: 400;
+
+    small{
+        display: block;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .icon{
+        color: #f1c40f;
+        width: 36px;
+        height: 36px;
+    }
+}
+
+.wrap-submain{
+    padding-top: 20px;
+    border-bottom: dashed 1px #dfdfdf;
+    border-top: dashed 1px #dfdfdf;
+    margin-bottom: 20px;
+
+    .submain{
+        font-weight: 400;
+    
+        small{
+            display: block;
+            font-size: 14px;
+            line-height: 20px;
+        }
+    }
+}
+
+.icon-daily{
+    color: $color-title;
+    margin: 10px 0;
+}

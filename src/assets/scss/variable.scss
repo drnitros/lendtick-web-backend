@@ -1,0 +1,40 @@
+/*
+Color
+=========================== */
+$color-title: #4f4f4f;
+$color-content: #7f7f7f;
+$color-primary: #b1d662;
+$color-primary2: #95a74b;
+$body-bg: #f5f7f8;
+$color-danger: #e74c3c;
+$color-secondary: #34495e;
+$color-warning: #f1c40f;
+$color-success: #2ecc71;
+$color-info: #3498db;
+
+
+/*
+Bootstrap Custom
+=========================== */
+$theme-colors: (
+    "primary": $color-primary,
+    "danger": $color-danger,
+    "secondary": $color-secondary,
+    "warning": $color-warning,
+    "success": $color-success,
+    "info": $color-info
+);
+
+/*
+Font Family
+=========================== */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,700');
+$font-family: 'Poppins', sans-serif;
+
+
+/*
+Extended
+=========================== */
+.panel-shadow{
+    @include box-shadow(0,0,20px,0,rgba(62,28,131,0.1));
+}

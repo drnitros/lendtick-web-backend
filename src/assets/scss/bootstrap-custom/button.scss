@@ -1,0 +1,253 @@
+/*
+Button
+=========================== */
+button{
+    outline: 0 !important;
+}
+
+.btn{
+    font-size: 14px;
+    letter-spacing: 1px;
+    font-weight: 400;
+    padding: 10px 15px;
+
+    &.btn-rounded{
+        @include border-radius(20px);
+    }
+
+    &.btn-icon{
+        position: relative;
+
+        &:after{
+            content: "";
+            width: 29px;
+            display: inline-block;
+        }
+
+        .icon{
+            position: absolute;
+            right: 0;
+            top: 0;
+            height: 100%;
+            width: 35px;
+            padding: 10px 10px;
+            background-color: rgba(0,0,0,.1);
+        }
+    }
+
+    &.btn-sm{
+        padding: 5px 10px;
+        font-size: 12px;
+
+        &.btn-icon .icon{
+            padding: 5px 12px;
+        }
+
+        &.btn-rounded{
+            @include border-radius(20px);
+        }
+    }
+
+    &.btn-lg{
+        padding: 15px 20px;
+        font-size: 18px;
+
+        &.btn-icon .icon{
+            padding: 15px 8px;
+        }
+
+        &.btn-rounded{
+            @include border-radius(30px);
+        }
+    }
+
+    &.btn-primary.btn-inverse{
+        color: $color-primary;
+        background-color: #f7f6fe;
+        border-color: #f7f6fe;
+
+        &:hover{
+            background-color: $color-primary;
+            color: #fff;
+        }
+    }
+
+    &.btn-secondary.btn-inverse{
+        color: $color-secondary;
+        background-color: #efefef;
+        border-color: #efefef;
+
+        &:hover{
+            background-color: $color-secondary;
+            color: #fff;
+        }
+    }
+
+    &.btn-success.btn-inverse{
+        color: $color-success;
+        background-color: #ebfaeb;
+        border-color: #ebfaeb;
+
+        &:hover{
+            background-color: $color-success;
+            color: #fff;
+        }
+    }
+
+    &.btn-info.btn-inverse{
+        color: $color-info;
+        background-color: #e5f4fd;
+        border-color: #e5f4fd;
+
+        &:hover{
+            background-color: $color-info;
+            color: #fff;
+        }
+    }
+
+    &.btn-warning.btn-inverse{
+        color: $color-warning;
+        background-color: #fffae6;
+        border-color: #fffae6;
+
+        &:hover{
+            background-color: $color-warning;
+            color: #fff;
+        }
+    }
+
+    &.btn-danger.btn-inverse{
+        color: $color-danger;
+        background-color: #ffeff4;
+        border-color: #ffeff4;
+
+        &:hover{
+            background-color: $color-danger;
+            color: #fff;
+        }
+    }
+}
+
+.btn-circle{
+    width: 43px;
+    height: 43px;
+    padding: 0;
+    margin: 0;
+    outline: 0;
+    cursor: pointer;
+    @include border-radius(50%);
+
+    &:focus{
+        outline: 0;
+        border: solid 1px #dfdfdf;
+    }
+
+    .icon{
+        width: 23px;
+        height: 23px;
+        position: relative;
+    }
+
+    &.btn-lg{
+        width: 53px;
+        height: 53px;
+
+        .icon{
+            width: 33px;
+            height: 33px;
+        }
+    }
+
+    &.btn-sm{
+        width: 33px;
+        height: 33px;
+
+        .icon{
+            width: 13px;
+            height: 13px;
+            position: relative;
+            top: -1px;
+        }
+    }
+
+    
+    &.btn-warning{
+        .icon{
+            color: $color-title;
+        }
+    }
+
+    &.btn-primary.btn-inverse{
+        color: $color-primary;
+        background-color: #f7f6fe;
+        border-color: #f7f6fe;
+
+        &:hover{
+            background-color: $color-primary;
+            color: #fff;
+        }
+    }
+
+    &.btn-secondary.btn-inverse{
+        color: $color-secondary;
+        background-color: #efefef;
+        border-color: #efefef;
+
+        &:hover{
+            background-color: $color-secondary;
+            color: #fff;
+        }
+    }
+
+    &.btn-success.btn-inverse{
+        color: $color-success;
+        background-color: #ebfaeb;
+        border-color: #ebfaeb;
+
+        &:hover{
+            background-color: $color-success;
+            color: #fff;
+        }
+    }
+
+    &.btn-info.btn-inverse{
+        color: $color-info;
+        background-color: #e5f4fd;
+        border-color: #e5f4fd;
+
+        &:hover{
+            background-color: $color-info;
+            color: #fff;
+        }
+    }
+
+    &.btn-warning.btn-inverse{
+        color: $color-warning;
+        background-color: #fffae6;
+        border-color: #fffae6;
+
+        &:hover{
+            background-color: $color-warning;
+            color: #fff;
+        }
+    }
+
+    &.btn-danger.btn-inverse{
+        color: $color-danger;
+        background-color: #ffeff4;
+        border-color: #ffeff4;
+
+        &:hover{
+            background-color: $color-danger;
+            color: #fff;
+        }
+    }
+
+    &:disabled{
+        background-color: #f0f0f0 !important;
+        color: #9a9a9a !important;
+        border-color: #dfdfdf !important;
+        overflow: hidden !important;
+        cursor: default !important;
+    }
+}

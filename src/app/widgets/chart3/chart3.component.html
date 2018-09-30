@@ -1,0 +1,35 @@
+<!-- Start Card -->
+<div class="card chart" [ngClass]="styleClass">
+	<div class="card-header">
+		<ul class="card-menu">
+			<li><a (click)="refresh()" href="javascript:;"><i-refresh-cw class="icon"></i-refresh-cw></a></li>
+		</ul>
+		<h6 class="mb-0">{{time}}</h6>
+	</div>
+	
+	<div class="card-chart ui-overflow-hidden">
+		<div class="wrap-chart">
+			<p-chart #chart type="line" [height]="height" [data]="data" [options]="options"></p-chart>
+		</div>
+	</div>
+	<div class="card-body p-0">
+		<div class="row">
+			<div class="col-4 border-right" *ngFor="let item of listItem">
+				<!-- Start Item -->
+				<div class="media">
+					<div class="media-body">
+						<h5 class="mb-0">
+							<small class="d-block">{{item.label}}</small>
+							{{item.percentage}}%
+						</h5>
+					</div>
+				</div>
+				<div class="progress">
+					<div class="progress-bar" role="progressbar" [style.width]="item.percentage + '%'" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+				</div>
+				<!-- End Item -->
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Card -->

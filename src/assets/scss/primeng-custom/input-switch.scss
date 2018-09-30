@@ -1,0 +1,23 @@
+/*
+General InputSwitch
+=========================== */
+.ui-inputswitch .ui-inputswitch-slider {
+    -webkit-transition: background-color .3s, box-shadow .2s;
+    transition: background-color .3s, box-shadow .2s;
+    background: #cccccc; 
+}
+.ui-inputswitch .ui-inputswitch-slider:before {
+    background-color: #ffffff; 
+}
+.ui-inputswitch.ui-inputswitch-focus .ui-inputswitch-slider {
+    @extend .panel-shadow;
+}
+.ui-inputswitch:not(.ui-state-disabled):hover .ui-inputswitch-slider {
+    background-color: #b7b7b7; 
+}
+.ui-inputswitch.ui-inputswitch-checked .ui-inputswitch-slider {
+    background-color: $color-primary; 
+}
+.ui-inputswitch.ui-inputswitch-checked:not(.ui-state-disabled):hover .ui-inputswitch-slider {
+    background-color: $color-primary2; 
+}

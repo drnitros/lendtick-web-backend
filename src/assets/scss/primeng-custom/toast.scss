@@ -1,0 +1,64 @@
+.ui-shadow{
+    @extend .panel-shadow;
+}
+
+.ui-toast {
+    position: fixed !important;
+    z-index: 999999999999999999999999999 !important;
+
+    p{
+        margin-bottom: 0;
+    }
+ }
+
+.ui-toast-message-content{
+    border: solid 1px #efefef;
+    background: #fff;
+    padding: 15px 20px !important;
+    @include border-radius(4px);
+
+    .ui-toast-close-icon{
+        top: 20px;
+        right: 15px;
+        color: $color-title;
+        @include opacity(.5);
+    }
+
+    .ui-toast-icon{
+        top: 15px;
+        left: 15px;
+        font-size: 24px;
+    }
+
+    .ui-toast-message{
+        margin-left: 25px;
+    }
+}
+
+.ui-toast-summary{
+    padding: 0;
+    font-weight: 500 !important;
+}
+
+/* toast */
+.ui-toast .ui-toast-message-success .ui-toast-message-content{
+    color: #3c763d;
+    background-color: #dff0d8;
+    border-color: #d6e9c6;
+}
+.ui-toast .ui-toast-message-info .ui-toast-message-content{
+    color: #31708f;
+    background-color: #d9edf7;
+    border-color: #bce8f1;
+}
+.ui-toast .ui-toast-message-warn .ui-toast-message-content{
+    color: #8a6d3b;
+    background-color: #fcf8e3;
+    border-color: #faebcc;
+}
+.ui-toast .ui-toast-message-error .ui-toast-message-content{
+    color: #a94442;
+    background-color: #f2dede;
+    border-color: #ebccd1;
+}
+

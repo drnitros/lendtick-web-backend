@@ -1,0 +1,96 @@
+/*
+Form Control
+=========================== */
+.form-control{
+    font-size: 14px;
+    padding: 15px 15px;
+    height: 43px;
+    border-color: #efefef;
+    width: 100%;
+    resize: none;
+
+    &.input-sm{
+        padding: 15px 15px;
+        height: 30px;
+        font-size: 12px;
+    }
+
+    &.input-lg{
+        padding: 15px 15px;
+        height: 48px;
+        font-size: 18px;
+    }
+
+    &.height-auto{
+        height: auto;
+    }
+
+    &:disabled{
+        background-color: #f5f5f5;
+    }
+}
+
+.input-group{
+    .input-group-text{
+        border-color: #efefef;
+        background-color: #ffffff;
+        font-size: 14px;
+        z-index: 2;
+
+        .icon{
+            color: $color-content;
+            width: 18px;
+            height: 18px;
+            position: relative;
+            top: -2px;
+        }
+    
+        &.file{
+            min-height: 43px;
+        }
+    }
+
+    &.input-group-sm{
+        .form-control,
+        .btn,
+        .input-group-text{
+            font-size: 12px;
+        }
+    }
+
+    &.input-group-lg{
+        .btn,
+        .input-group-text{
+            font-size: 18px;
+        }
+    }
+
+    .wrap-input{
+        z-index: 1;
+        margin: 0 -1px;
+        width: calc(100% - 44px);
+    }
+}
+
+
+.custom-file{
+    .custom-file-input,
+    .custom-file-label{
+        height: 43px;
+        padding-top: 10px;
+        color: $color-content;
+        font-weight: 400;
+        border-color: #dfdfdf;
+    }
+
+    .custom-file-input{
+        padding: 15px 15px;
+    }
+
+    .custom-file-label:after{
+        height: 41px;
+        padding: 10px 15px;
+        background-color: #efefef;
+    }
+    
+}

@@ -1,0 +1,247 @@
+/*
+Nav Menu
+=========================== */
+.core-nav.nav-core-fixed{
+    background: #fff;
+}
+
+nav .wrap-core-nav-list {
+    background: #fff;
+}
+
+nav .nav-header {
+    background: #fff;
+    padding: 0px 25px;
+}
+nav .nav-header .brand {
+    display: block;
+    position: relative;
+    width: 140px;
+    padding: 0 !important;
+}
+nav .nav-header .brand img {
+    width: 100%;
+}
+nav .menu{
+    display: block;
+}
+nav .menu li a {
+    display: block;
+    padding: 20px 30px 20px 60px;
+    text-decoration: none;
+    color: $color-content;
+    position: relative;
+}
+
+nav .menu li a.active{
+    color: $color-primary;
+}
+
+nav .menu li a:hover {
+    color: $color-primary;
+}
+
+nav .menu li a .icon{
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 18px;
+    left: 30px;
+}
+
+nav .attributes .feather{
+    width: 18px;
+    height: 18px;
+}
+
+/*
+DROPDOWN STYLE
+=========================== */
+nav .menu li.dropdown > a::before{
+    margin-left: 10px;
+    content: '';
+    border-top: solid 5px #a1aad1;
+    border-left: solid 5px transparent;
+    border-right: solid 5px transparent;
+    float: right;
+    position: relative;
+    top: 8px;
+}
+
+nav .menu li.dropdown.open > a::before{
+    border-top: 0;
+    border-bottom: solid 5px #a1aad1;
+}
+
+nav .menu li.dropdown > .dropdown-menu > li.dropdown > a::before{
+    left: -13px;
+}
+
+nav .menu li.dropdown.open > a{
+    color: $color-primary;
+    border: 0;
+}
+
+nav .menu > li.dropdown > .dropdown-menu{
+    border: 0 !important;
+    border-top: solid 1px #efefef !important;
+    border-bottom: solid 1px #efefef !important;
+    padding-left: 45px !important;
+}
+
+nav .menu li.dropdown .dropdown-menu{
+    background: #ffffff;
+}
+
+nav .menu li.dropdown .dropdown-menu a{
+    border: 0;
+}
+/* =========================== */
+
+.section{
+    padding: 100px 0;
+    border-top: solid 1px #efefef;
+}
+
+.container {
+    padding-right: 30px;
+    padding-left: 30px;
+    margin-right: auto;
+    margin-left: auto;
+}
+
+@media(min-width:992px){
+    .core-content{
+        transition: none !important;
+    }
+    
+    .core-nav.nav-core-fixed{
+        padding-bottom: 71px;
+        overflow: hidden;
+    }
+
+    nav{
+        @include box-shadow(0, 0, 20px, 0, rgba(62,28,131,0.1))
+    }
+
+    nav .nav-header{
+        padding: 10px 30px !important;
+        background: transparent;
+        border-bottom: solid 1px #efefef;
+    }
+
+    nav .menu > li > a{
+        border-bottom: solid 1px #efefef;
+    }
+
+    nav .menu > li:first-child > a{
+        border-top: solid 1px #efefef;
+    }
+
+    nav .attributes{
+        border-top: solid 1px #efefef;
+        border-right: solid 1px #efefef;
+        background: #fff;
+        padding: 5px 20px;
+        text-align: center;
+    }
+
+    nav .wrap-core-nav-list {
+        height: calc(100% - 62px);
+        width: 300px;
+        overflow-y: scroll;
+        display: block;
+        margin-top: 63px;
+        padding: 0 30px 0 0;
+
+        > li:first-child > a{
+            border-top: 0 !important;
+        }
+    }
+
+    nav .menu > li:first-child > a {
+        border-top: 0 !important;
+    }
+}
+
+@media (max-width: 992px) {
+    .core-content{
+        min-height: 0;
+    }
+
+    nav .nav-header {
+        padding: 0;
+        min-height: 60px;
+        margin-bottom: 0;
+        border-bottom: solid 1px #efefef;
+    }
+    nav .nav-header .brand {
+        margin: 0 auto 5px;
+        float: none;
+        display: block;
+        width: 110px;
+        position: relative;
+        top: 20px;
+    }
+    nav .nav-header .brand img {
+        width: 100%;
+    }
+    nav .nav-header .toggle-bar {
+        font-size: 18px;
+        position: absolute;
+        top: 17px;
+        left: 15px;
+    }
+    nav .menu {
+        border-bottom: solid 1px #efefef;
+    }
+        nav .menu > li > a{
+        border-bottom: solid 1px #efefef;
+    }
+
+    nav .attributes li a{
+        padding: 19px 4px !important;
+    }
+
+    nav .attributes .feather{
+        width: 16px;
+        height: 16px;
+    }
+
+    .container {
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+
+    nav .menu > li.dropdown.open > .dropdown-menu{
+        position: relative;
+        background-color: #fafafa;
+
+        &:before{
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #efefef;
+        }
+
+        &:after{
+            content: "";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 1px;
+            background-color: #efefef;
+        }
+    }
+
+}
+
+@media (max-width: 320px) {
+    nav .attributes li a{
+        padding: 19px 1px !important;
+    }
+}

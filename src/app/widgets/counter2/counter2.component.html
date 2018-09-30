@@ -1,0 +1,22 @@
+<!-- Start Counter -->
+<div class="card counter2" [ngClass]="styleClass">
+	<div class="media">
+		<div class="wrap-chart" [style.width]="height">
+			<p-chart type="pie" [height]="height" [width]="height" [data]="data" [options]="options"></p-chart>
+		</div>
+		<div class="media-body">
+			<h4 class="title">
+				<small>{{title}}</small>
+				{{counter}}
+			</h4>
+		</div>
+	</div>
+	<div class="progress" [pTooltip]="percentage + '%'" tooltipPosition="top">
+		<div 
+			class="progress-bar" 
+			role="progressbar" 
+			[style.width]="percentage + '%'">
+		</div>
+	</div>
+</div>
+<!-- End Counter -->

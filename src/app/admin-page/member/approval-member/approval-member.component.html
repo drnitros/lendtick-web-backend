@@ -1,0 +1,285 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+	<div class="media">
+		<i-user class="icon"></i-user> 
+		<div class="media-body">
+			<h5 class="title">Approval Member</h5>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+				<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Approval Member</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<!-- End Sub Header -->
+<!-- Start Main Content -->
+<div class="main-content">
+
+	<!-- Start Toggle Columns -->
+	<div *ngIf="!loading" class="row mb-4">
+		<div class="col-sm-4 col-lg-3 text-right">
+			<!-- Start Search Global -->
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text"><i class="fas fa-search"></i></span>
+				</div>
+				<input type="text" class="form-control" placeholder="Search global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+			</div>
+			<!-- End ISearch Global -->
+		</div>
+		<div class="col-sm-4 col-lg-3 text-left">
+			<p-multiSelect 
+				[showHeader]="false"
+				[options]="columns" 
+				[(ngModel)]="selectedColumns" 
+				(onChange)="changeColumn($event)"
+				optionLabel="header"
+				selectedItemsLabel="{0} selected" 
+				defaultLabel="Choose Columns">
+			</p-multiSelect>
+		</div>
+		<div class="col-sm-4 col-lg-6 text-right">
+			<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
+		</div>
+	</div>
+	<!-- End Toggle Columns -->
+
+	<div *ngIf="loading" class="wrap-loading">
+		<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+	</div>
+
+	<!-- Start Card -->
+	<div *ngIf="!loading" class="card">
+		<div class="card-body p-0">
+			<!-- Start Table -->
+			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+				<!-- Start Header -->
+				<ng-template pTemplate="header" let-columns>
+						<tr>
+							<th *ngFor="let col of columns">
+								{{col.header}}
+							</th>
+							<th class="text-right">
+								Options
+							</th>
+						</tr>
+					</ng-template>
+				<!-- End Header -->
+				<!-- Start Body -->
+				<ng-template pTemplate="body" let-rowData let-columns="columns">
+					<tr>
+						<td *ngFor="let col of columns">
+							{{rowData[col.field]}}
+						</td>
+						<td class="text-right">
+							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
+								<i-settings class="icon"></i-settings>
+							</button>
+						</td>
+					</tr>
+				</ng-template>
+				<!-- End Body -->
+			</p-table>
+			<!-- End Table -->
+		</div>
+	</div>
+	<!-- End Card -->
+</div>
+<!-- End Main Content -->
+
+<!-- Start Dialog Modal -->
+<p-dialog [(visible)]="displayForm" header="Pendaftaran Anggota" [modal]="true" [width]="500">
+	<form #formRef="ngForm">
+		<div class="mb-3">
+			<label>Nama Lengkap</label>
+			<input type="text" 
+				name="name" 
+				required 
+				class="form-control" 
+				[(ngModel)]="name"
+				placeholder="Enter First Name"/>
+		</div>
+		<div class="mb-3">
+			<label>Company Name</label>
+			<p-dropdown 
+				name="company"
+				[options]="companies" 
+				styleClass="form-control"
+				[required]="true" 
+				[(ngModel)]="company" 
+				placeholder="Pilih Perushaan">
+			</p-dropdown>
+		</div>
+		<div class="mb-3">
+			<label>Email</label>
+			<input 
+				type="text"  
+				name="email" 
+				required 
+				email
+				class="form-control" 
+				[(ngModel)]="email"
+				placeholder="Enter email address"/>
+		</div>
+		<div class="mb-3">
+			<label>Photo KTP</label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text file">Upload</span>
+				</div>
+				<div class="custom-file">
+					<input 
+						name="identity_photo" 
+						type="file" 
+						required 
+						class="custom-file-input" 
+						accept="image/x-png,image/gif,image/jpeg" 
+						(change)="handleInputChange($event,'ktp')">
+					<label *ngIf="imageKTP.imageName == undefined" class="custom-file-label">Choose file</label>
+					<label *ngIf="imageKTP.imageName != undefined" class="custom-file-label">{{imageKTP.imageName}}</label>
+				</div>
+			</div>
+			<img *ngIf="imageKTP.imageSrc != undefined" [src]="imageKTP.imageSrc" alt="" width="100" class="mt-2 img-thumbnail"/>
+		</div>
+		<div class="mb-3">
+			<label>Photo ID Card</label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text file">Upload</span>
+				</div>
+				<div class="custom-file">
+					<input 
+						name="company_identity_photo" 
+						required 
+						type="file" 
+						class="custom-file-input" 
+						accept="image/x-png,image/gif,image/jpeg" 
+						(change)="handleInputChange($event,'id')">
+					<label *ngIf="imageID.imageName == undefined" class="custom-file-label">Choose file</label>
+					<label *ngIf="imageID.imageName != undefined" class="custom-file-label">{{imageID.imageName}}</label>
+				</div>
+			</div>
+			<img *ngIf="imageID.imageSrc != undefined" [src]="imageID.imageSrc" alt="" width="100" class="mt-2 img-thumbnail"/>
+		</div>
+		<div class="mb-3">
+			<label>Photo Personal</label>
+			<div class="input-group">
+				<div class="input-group-prepend">
+					<span class="input-group-text file">Upload</span>
+				</div>
+				<div class="custom-file">
+					<input 
+						name="personal_photo" 
+						type="file" 
+						required 
+						class="custom-file-input" 
+						accept="image/x-png,image/gif,image/jpeg" 
+						(change)="handleInputChange($event,'personal')">
+					<label *ngIf="imagePersonal.imageName == undefined" class="custom-file-label">Choose file</label>
+					<label *ngIf="imagePersonal.imageName != undefined" class="custom-file-label">{{imagePersonal.imageName}}</label>
+				</div>
+			</div>
+			<img *ngIf="imagePersonal.imageSrc != undefined" [src]="imagePersonal.imageSrc" alt="" width="100" class="mt-2 img-thumbnail"/>
+		</div>
+		<div>
+			<label>Phone Number</label>
+			<input 
+				type="text" 
+				name="phone_number" 
+				class="form-control" 
+				required 
+				[(ngModel)]="phone_number"
+				number
+				placeholder="Enter First Name"/>
+		</div>
+	</form>
+	<p-footer>
+		<button 
+			[disabled]="formRef.invalid || imagePersonal.imageName == undefined || imageID.imageName == undefined || imageKTP.imageName == undefined || isSubmitRegis" 
+			class="btn btn-primary" (click)="save(formRef.value)"> 
+			<span *ngIf="!isSubmitRegis">Tambahkan Anggota</span>
+			<span *ngIf="isSubmitRegis"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
+
+<!-- Start Dialog Modal -->
+<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="500">
+	<div *ngIf="selectedItem != null" class="content">
+		<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+		<table class="table mt-4 border-bottom">
+			<tr>
+				<td class="label">Name</td>
+				<td>{{selectedItem.name}}</td>
+			</tr>
+			<tr>
+				<td class="label">Email</td>
+				<td>{{selectedItem.email}}</td>
+			</tr>
+			<tr>
+				<td class="label">Id Register</td>
+				<td>{{selectedItem.id_register_member_flow}}</td>
+			</tr>
+			<tr>
+				<td class="label">Id Role</td>
+				<td>{{selectedItem.id_role_master}}</td>
+			</tr>
+			<tr>
+				<td class="label">User</td>
+				<td>{{selectedItem.id_user}}</td>
+			</tr>
+			<tr>
+				<td class="label">Workflow Status</td>
+				<td>{{selectedItem.id_workflow_status}}</td>
+			</tr>
+			<tr>
+				<td class="label">Status Code</td>
+				<td>{{selectedItem.set_workflow_status_code}}</td>
+			</tr>
+			<tr>
+				<td class="label">Level</td>
+				<td>{{selectedItem.level}}</td>
+			</tr>
+			<tr>
+				<td class="label">NPWP</td>
+				<td>{{selectedItem.npwp}}</td>
+			</tr>
+			<tr>
+				<td class="label">Phone Number</td>
+				<td>{{selectedItem.phone_number}}</td>
+			</tr>
+		</table>
+		
+		<div class="mt-4">
+			<div class="mb-2">
+				<label>Select Date</label>
+				<p-calendar 
+					[minDate]="minDate"
+					dateFormat="dd-mm -yy"
+					[(ngModel)]="date" 
+					placeholder="Enter date">
+				</p-calendar>
+			</div>
+			<div>
+				<label>Select grade</label>
+				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+			</div>
+		</div>
+		
+	</div>
+	<p-footer>
+		<button [disabled]="isSubmitReject || isSubmitApprove" class="btn btn-danger mr-1" (click)="reject()">
+			<span *ngIf="!isSubmitReject">Reject</span>
+			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+		<button [disabled]="selectedGrade == null || isSubmitApprove || isSubmitReject" class="btn btn-primary" (click)="approve()">
+			<span *ngIf="!isSubmitApprove">Approve</span>
+			<span *ngIf="isSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
+
+<p-toast></p-toast>

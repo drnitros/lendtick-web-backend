@@ -1,0 +1,91 @@
+/*
+Card
+=========================== */
+.card{
+    border-color: rgba(0,0,0,0.01);
+    @extend .panel-shadow;
+    
+    ul.card-menu{
+        list-style: none;
+        display: inline-block;
+        margin: 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+
+        li{
+            float: left;
+            display: block;
+            position: relative;
+
+            a{
+                padding: 19px;
+                display: block;
+                border-left: solid 1px #dfdfdf;
+                color: $color-content;
+
+                .icon{
+                    width: 18px;
+                    height: 18px;
+                }
+
+                &:hover{
+                    color: $color-primary;
+                }
+            }
+
+            &:last-child a{
+                @include border-radius(0 4px 0 0);
+            }
+        }
+    }
+
+    .list-group-item,
+    .card-body,
+    .card-footer,
+    .card-header{
+        padding: 20px 25px;
+        border-color: #efefef;
+    }
+
+    .nav{
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .card-header .nav-tabs{
+        margin-bottom: -21px;
+
+        li a{
+            &:hover,
+            &:focus{
+                border-color: transparent;
+            }
+            
+            &.active{
+                background: #ffffff;
+                border-bottom: 0;
+                border-color: #efefef;
+
+                &:hover,
+                &:focus{
+                    border-color: #efefef;
+                }
+            }
+        }
+    }
+
+    &.bg-secondary,
+    &.bg-info,
+    &.bg-success,
+    &.bg-danger,
+    &.bg-warning,
+    &.bg-dark,
+    &.bg-light,
+    &.bg-primary{
+        .card-footer,
+        .card-header{
+            border-color: rgba(0,0,0,0.1);
+        }
+    }
+}

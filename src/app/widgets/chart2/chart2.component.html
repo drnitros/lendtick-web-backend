@@ -1,0 +1,31 @@
+<!-- Start Card -->
+<div class="card chart" [ngClass]="styleClass">
+	<div class="card-header">
+		<ul class="card-menu">
+			<li><a (click)="refresh()" href="javascript:;"><i-refresh-cw class="icon"></i-refresh-cw></a></li>
+		</ul>
+		<h6 class="mb-0">{{time}}</h6>
+	</div>
+	
+	<div class="card-chart ui-overflow-hidden">
+		<div class="wrap-chart">
+			<p-chart #chart type="bar" [height]="height" [data]="data" [options]="options"></p-chart>
+		</div>
+	</div>
+	<div class="card-body p-0 ui-overflow-hidden">
+		<div class="row">
+			<div class="col" *ngFor="let item of listItem">
+				<div class="media">
+					<span [innerHTML]="item.icon"></span>
+					<div class="media-body pl-3">
+						<h5 class="mb-0">
+							<small class="d-block">{{item.label}}</small>
+							{{item.value}}
+						</h5>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Card -->

@@ -1,0 +1,315 @@
+<!-- Start Wrap Header -->
+<div class="wrap-header">
+	<div class="row">
+		<div class="col-sm-6 col-4">
+			<ul class="nav">
+				<li class="nav-item">
+					<button class="btn-header border-right" (click)="onFullscreen()">
+						<i-maximize class="icon"></i-maximize>
+					</button>
+				</li>
+				<li class="nav-item d-none d-sm-block">
+					<div class="media">
+						<div class="wrap-search">
+							<p-autoComplete 
+								inputStyleClass="input-search"
+								placeholder="Search country"
+								[(ngModel)]="inputSearch" 
+								[suggestions]="results" 
+								(completeMethod)="search($event)">
+							</p-autoComplete>
+						</div>
+						<div class="media-body">
+							<button class="btn-header bg-gray border-right"><i-search class="icon"></i-search></button>
+						</div>
+					</div>
+				</li>
+			</ul>
+		</div>
+		<div class="col-sm-6 col-8 text-right">
+			<ul class="nav justify-content-end">
+				<li class="nav-item">
+					<!-- Start Media -->
+					<div class="media author" (click)="auth.toggle($event)">
+						<img class="mr-3" src="../../../assets/img/admin-page/header/user.jpg" alt="Adam Nurdin">
+						<div class="media-body">
+							<h6 class="name">
+								<small>Hi,</small> Adam
+							</h6>
+						</div>
+					</div>
+					<!-- End Media -->
+				</li>
+				<li class="nav-item">
+					<button class="btn-header border-left" (click)="notif.toggle($event)">
+						<i-bell class="icon animated tada slow infinite delay-2s"></i-bell>
+						<span class="badge badge-danger badge-pill ml-1">3</span>
+					</button>
+				</li>
+				<li class="nav-item">
+					<button class="btn-header border-left" (click)="displaySidebar = true">
+						<i-sliders class="icon"></i-sliders>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<!-- End Wrap Header -->
+
+<!-- Overlay Author -->
+<p-overlayPanel #auth appendTo="body" styleClass="auth-panel">
+	<ul class="auth-list">
+		<li><a href="javascript:;"><i-settings class="icon"></i-settings> Settings</a></li>
+		<li><a href="javascript:;"><i-user class="icon"></i-user> Profile</a></li>
+		<li>
+			<a href="javascript:;">
+				<span class="badge badge-danger badge-pill float-right">12</span>
+				<i-mail class="icon"></i-mail> Inbox
+			</a>
+		</li>
+		<li class="logout"><a href="javascript:;" (click)="logout()"><i-log-out class="icon"></i-log-out> Logout</a></li>
+	</ul>
+</p-overlayPanel>
+<!-- End Author -->
+
+
+<!-- Start Motification -->
+<p-overlayPanel #notif appendTo="body" styleClass="notif-panel">
+	<div class="card border-0">
+		<div class="card-header border-bottom pt-3 pb-3"><h6 class="mb-0">Notifications</h6></div>
+		<span class="border-bottom"></span>
+		<ul class="list-group border-0 notif">
+			<li class="list-group-item">
+				<div class="media">
+					<img class="mr-3 img-circle" src="../../../assets/img/admin-page/header/user2.jpg" width="40" alt="Adam Tea">
+					<div class="media-body">
+						<h6 class="mt-0 mb-1 name">Asep Sunandar</h6>
+						<p class="mb-1">Cras sit amet nibh libero....</p>
+						<small>27 Aug 2018</small>
+					</div>
+				</div>
+				<a href="javascript:;"></a>
+			</li>
+			<li class="list-group-item">
+				<div class="media">
+					<img class="mr-3 img-circle" src="../../../assets/img/admin-page/header/user3.jpg" width="40" alt="Adam Tea">
+					<div class="media-body">
+						<h6 class="mt-0 mb-1 name">Asep Sunandar</h6>
+						<p class="mb-1">Cras sit amet nibh libero....</p>
+						<small>27 Aug 2018</small>
+					</div>
+				</div>
+				<a href="javascript:;"></a>
+			</li>
+			<li class="list-group-item">
+				<div class="media">
+					<img class="mr-3 img-circle" src="../../../assets/img/admin-page/header/user4.jpg" width="40" alt="Adam Tea">
+					<div class="media-body">
+						<h6 class="mt-0 mb-1 name">Asep Sunandar</h6>
+						<p class="mb-1">Cras sit amet nibh libero....</p>
+						<small>27 Aug 2018</small>
+					</div>
+				</div>
+				<a href="javascript:;"></a>
+			</li>
+			<li class="list-group-item more"><a href="javascript:;">View more...</a></li>
+		</ul>
+	</div>
+	
+</p-overlayPanel>
+<!-- End Motification -->
+
+<!-- Start Slide Content Right -->
+<p-sidebar [(visible)]="displaySidebar" position="right" styleClass="sidebar-panel">
+	<div class="content-sidebar-header">
+		<p-tabView styleClass="tab-header">
+			<p-tabPanel header="Profile">
+				<!-- Start Wrap Author -->
+				<div class="sidebar-author">
+					<div class="thumb"><img class="mr-3" src="../../../assets/img/admin-page/header/user.jpg" alt="Adam Nurdin"></div>
+					<h5 class="name">
+						Jhon Doe
+						<small>Front Engineering</small>
+					</h5>
+				</div>
+				<ul class="nav nav-pills nav-fill sidebar-list-auth">
+					<li class="nav-item">
+						<h5 class="content">
+							23
+							<small>Projects</small>
+						</h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="content">
+							4
+							<small>Wifes</small>
+						</h5>
+					</li>
+					<li class="nav-item">
+						<h5 class="content">
+							1,023
+							<small>Photos</small>
+						</h5>
+					</li>
+				</ul>
+				<!-- End Wrap Author -->
+				<!-- Start Sidebar Item -->
+				<div class="sidebar-item">
+					<div class="sidebar-header">
+						<h6>Activities</h6>
+					</div>
+					<div class="sidebar-body">
+						<ul class="list-log">
+							<li>
+								<p class="mb-0">Lorem ipsum dolor sit amet, mea ad regione</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Ad per nonumy elaboraret neglegentur debet</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">In usu putant adipiscing, ne cum purto mutat</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Sit clita lobortis nominati cu, no persius</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Est ei tota possim, putant diceret veritus</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li class="break">
+								<a href="javascript:;" class="btn btn-outline-primary">More activites</a>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- End Sidebar Item -->
+			</p-tabPanel>
+			<p-tabPanel header="Settings">
+				<!-- Start Sidebar Item -->
+				<div class="sidebar-item">
+					<div class="sidebar-header">
+						<h6>System Setting</h6>
+					</div>
+					<div class="sidebar-body">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked"></p-inputSwitch></div>
+								<p class="mb-0">Lorem ipsum dolor</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked2"></p-inputSwitch></div>
+								<p class="mb-0">Cras justo odio</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked3"></p-inputSwitch></div>
+								<p class="mb-0">Mea ad regione</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked4"></p-inputSwitch></div>
+								<p class="mb-0">Vim ei etiam primis</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- End Sidebar Item -->
+				<!-- Start Sidebar Item -->
+				<div class="sidebar-item pt-0">
+					<div class="sidebar-header">
+						<h6>Admin Setting</h6>
+					</div>
+					<div class="sidebar-body">
+						<ul class="list-group list-group-flush">
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked5"></p-inputSwitch></div>
+								<p class="mb-0">Lorem ipsum dolor</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked6"></p-inputSwitch></div>
+								<p class="mb-0">Cras justo odio</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked7"></p-inputSwitch></div>
+								<p class="mb-0">Mea ad regione</p>
+							</li>
+							<li class="list-group-item pl-0 pr-0">
+								<div class="float-right"><p-inputSwitch [(ngModel)]="checked8"></p-inputSwitch></div>
+								<p class="mb-0">Vim ei etiam primis</p>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- End Sidebar Item -->
+			</p-tabPanel>
+			<p-tabPanel header="Logs">
+				<!-- Start Sidebar Item -->
+				<div class="sidebar-item pb-0">
+					<div class="sidebar-header">
+						<h6>Maintenance Log</h6>
+					</div>
+					<div class="sidebar-body">
+						<ul class="list-log">
+							<li>
+								<p class="mb-0">Lorem ipsum dolor sit amet, mea ad regione</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Ad per nonumy elaboraret neglegentur debet</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">In usu putant adipiscing, ne cum purto mutat</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Sit clita lobortis nominati cu, no persius</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Est ei tota possim, putant diceret veritus</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- End Sidebar Item -->
+				<!-- Start Sidebar Item -->
+				<div class="sidebar-item">
+					<div class="sidebar-header">
+						<h6>Applicatios Log</h6>
+					</div>
+					<div class="sidebar-body">
+						<ul class="list-log">
+							<li>
+								<p class="mb-0">Lorem ipsum dolor sit amet, mea ad regione</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Ad per nonumy elaboraret neglegentur debet</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">In usu putant adipiscing, ne cum purto mutat</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Sit clita lobortis nominati cu, no persius</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+							<li>
+								<p class="mb-0">Est ei tota possim, putant diceret veritus</p>
+								<small class="color-gray"><em>27 Aug 2018</em></small>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<!-- End Sidebar Item -->
+			</p-tabPanel>
+		</p-tabView>
+	</div>
+</p-sidebar>
+<!-- End Slide Content Right -->

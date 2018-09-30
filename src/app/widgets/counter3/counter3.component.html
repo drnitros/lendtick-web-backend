@@ -1,0 +1,13 @@
+<!-- Start Counter -->
+<div class="card" [ngClass]="styleClass">
+	<div class="counter3">
+		<h4 class="title">
+			<small>{{title}}</small>
+			{{counter}}
+		</h4>
+		<div class="wrap-chart">
+			<p-chart type="line" height="115" [data]="data" [options]="options"></p-chart>
+		</div>
+	</div>
+</div>
+<!-- End Counter -->

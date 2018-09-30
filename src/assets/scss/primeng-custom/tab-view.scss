@@ -1,0 +1,201 @@
+$paddingNavTabs: 15px 20px !important;
+$paddingNavTabsSmall: 10px 15px !important;
+
+/*
+General Tab View
+=========================== */
+.ui-tabview{
+    padding: 0 !important;
+
+    .ui-tabview-left-icon{
+        margin-right: 10px !important;
+    }
+
+    .ui-tabview-right-icon{
+        margin-left: 10px !important;
+    }
+
+    &.tab-nav-tabs{
+        .ui-tabview-nav{
+            padding: 0 !important;
+            @extend .nav;
+            @extend .nav-tabs;
+        
+            li{
+                @extend .nav-item;
+        
+                a{
+                    @extend .nav-link;
+                    margin-bottom: 1px;
+                    padding: $paddingNavTabs;
+                }
+        
+                &.ui-state-active a{
+                    background-color: #ffffff;
+                    border-bottom: solid 1px #ffffff;
+                    @extend .active;
+                }
+
+                &.ui-state-disabled a{
+                    background-color: #fafafa;
+                    border-color: #efefef;
+                    color: $color-content;
+                }
+
+            }
+        }
+    }
+
+    &.tab-nav-fill{
+        .ui-tabview-nav{
+            padding: 0 !important;
+            @extend .nav;
+            @extend .nav-pills;
+        
+            li{
+                @extend .nav-item;
+        
+                a{
+                    @extend .nav-link;
+                    margin-bottom: 1px;
+                    padding: $paddingNavTabs;
+                }
+        
+                &.ui-state-active a{
+                    @extend .active;
+                }
+
+                &.ui-state-disabled a{
+                    background-color: #fafafa;
+                    border-color: #efefef;
+                    color: $color-content;
+                }
+            }
+        }
+    }
+
+    &.tab-nav-fill-justified{
+        .ui-tabview-nav{
+            padding: 0 !important;
+            @extend .nav;
+            @extend .nav-pills;
+            @extend .nav-fill;
+        
+            li{
+                @extend .nav-item;
+        
+                a{
+                    @extend .nav-link;
+                    display: block;
+                    width: 100%;
+                    margin-bottom: 1px;
+                    padding: $paddingNavTabs;
+                }
+        
+                &.ui-state-active a{
+                    @extend .active;
+                }
+
+                &.ui-state-disabled a{
+                    background-color: #fafafa;
+                    border-color: #efefef;
+                    color: $color-content;
+                }
+            }
+        }
+    }
+
+    &.tab-nav-sidebar{
+        .ui-tabview-nav{
+            padding: 0 !important;
+            display: block;
+            @extend .nav;
+            @extend .nav-pills;
+        
+            li{
+                display: block;
+                margin-bottom: 0;
+                @extend .nav-item;
+        
+                a{
+                    @extend .nav-link;
+                    display: block;
+                    width: 100%;
+                    padding: $paddingNavTabs;
+                }
+        
+                &.ui-state-active a{
+                    @extend .active;
+                }
+
+                &.ui-state-disabled a{
+                    background-color: #fafafa;
+                    border-color: #efefef;
+                    color: $color-content;
+                }
+            }
+        }
+    }
+}
+
+.ui-tabview-panels{
+    padding: 0 !important;
+}
+
+.ui-tabview-panel{
+    padding: 0 !important;
+}
+
+/*
+Author Panel
+=========================== */
+.tab-header{
+    .ui-tabview-nav{
+        border-bottom: solid 1px #efefef;
+        
+        li{
+            margin: 0 !important;
+
+            a{
+                border: 0;
+                background-color: #fff;
+                color: $color-content;
+                padding: 20px 25px;
+
+                &:hover{
+                    color: $color-primary;
+                }
+            }
+
+            &.ui-tabview-selected{
+                a{
+                    background-color: #fff;
+                    color: $color-primary;
+                }
+            }
+        }
+    }
+
+    .ui-tabview-panels{
+        border-top: solid 1px #efefef;
+        height: calc(100vh - 59px);
+        overflow-y: auto;
+    }
+}
+
+@media(max-width:767px){
+    .ui-tabview{
+        &.tab-nav-sidebar,
+        &.tab-nav-fill-justified,
+        &.tab-nav-fill,
+        &.tab-nav-tabs{
+            .ui-tabview-nav{
+                li{
+                    a{
+                        padding: $paddingNavTabsSmall;
+                    }
+                }
+            }
+        }
+    }
+}

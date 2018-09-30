@@ -1,0 +1,40 @@
+/*
+Overlay Panel
+=========================== */
+.ui-overlaypanel{
+    background-color: #fff;
+    overflow: hidden;
+    @include border-radius(4px);
+    @extend .panel-shadow;
+
+    .ui-overlaypanel-content{
+        padding: 15px 20px;
+    }
+
+    &.p-0{
+        .ui-overlaypanel-content{
+            padding: 0;
+        }
+    }
+}
+
+/*
+Author Panel
+=========================== */
+.auth-panel{
+    .ui-overlaypanel-content{
+        width: 180px;
+        border: solid 1px #dfdfdf;
+        padding: 0;
+    }
+}
+
+/*
+Notification Panel
+=========================== */
+.notif-panel{
+    .ui-overlaypanel-content{
+        width: 300px;
+        padding: 0;
+    }
+}

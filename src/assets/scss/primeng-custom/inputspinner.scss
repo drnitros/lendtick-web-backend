@@ -1,0 +1,38 @@
+.ui-spinner{
+    width: 100%;
+}
+
+.ui-spinner-input{
+    @extend .form-control;
+}
+
+.ui-spinner-button{
+    height: 23px;
+    width: 23px;
+    border: solid 1px #efefef;
+    background: #fff;
+    @include border-radius(0);
+    outline: 0;
+    color: $color-content;
+
+    &:hover{
+        background-color: $color-primary;
+        border: solid 1px $color-primary;
+        color: #fff;
+    }
+
+    &:disabled:hover,
+    &:disabled{
+        background-color: #fff;
+        color: $color-content;
+        border: solid 1px #efefef;
+    }
+
+    &.ui-spinner-up{
+        @include border-radius( 0 4px 0 0);
+    }
+
+    &.ui-spinner-down{
+        @include border-radius( 0 0 4px 0);
+    }
+}

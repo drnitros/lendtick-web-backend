@@ -1,0 +1,110 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+		<div class="media">
+			<i-user class="icon"></i-user> 
+			<div class="media-body">
+				<h5 class="title">Approval Member</h5>
+				<ol class="breadcrumb">
+					<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+					<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
+					<li class="breadcrumb-item active" aria-current="page">Approval Member</li>
+				</ol>
+			</div>
+		</div>
+	</div>
+	<!-- End Sub Header -->
+	<!-- Start Main Content -->
+	<div class="main-content">
+	
+		<!-- Start Toggle Columns -->
+		<div *ngIf="!loading" class="row mb-4">
+			<div class="col-sm-4 col-lg-3 text-right">
+				<!-- Start Search Global -->
+				<div class="input-group">
+					<div class="input-group-prepend">
+						<span class="input-group-text"><i class="fas fa-search"></i></span>
+					</div>
+					<input type="text" class="form-control" placeholder="Search global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+				</div>
+				<!-- End ISearch Global -->
+			</div>
+			<div class="col-sm-4 col-lg-3 text-left">
+				<p-multiSelect 
+					[showHeader]="false"
+					[options]="columns" 
+					[(ngModel)]="selectedColumns" 
+					(onChange)="changeColumn($event)"
+					optionLabel="header"
+					selectedItemsLabel="{0} selected" 
+					defaultLabel="Choose Columns">
+				</p-multiSelect>
+			</div>
+			<div class="col-sm-4 col-lg-3"></div>
+		</div>
+		<!-- End Toggle Columns -->
+	
+		<div *ngIf="loading" class="wrap-loading">
+			<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+		</div>
+	
+		<!-- Start Card -->
+		<div *ngIf="!loading" class="card">
+			<div class="card-body p-0">
+				<!-- Start Table -->
+				<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+					<!-- Start Header -->
+					<ng-template pTemplate="header" let-columns>
+							<tr>
+								<th *ngFor="let col of columns">
+									{{col.header}}
+								</th>
+							</tr>
+						</ng-template>
+					<!-- End Header -->
+					<!-- Start Body -->
+					<ng-template pTemplate="body" let-rowData let-columns="columns">
+						<tr>
+							<td *ngFor="let col of columns">
+								{{rowData[col.field]}}
+							</td>
+						</tr>
+					</ng-template>
+					<!-- End Body -->
+				</p-table>
+				<!-- End Table -->
+			</div>
+		</div>
+		<!-- End Card -->
+	</div>
+	<!-- End Main Content -->
+	
+	<!-- Start Sidebar Modal -->
+	<p-sidebar [(visible)]="display" position="right" [showCloseIcon]="false" styleClass="sidebar-form">
+		<div class="header">
+			<h5 class="mb-0">Register New Member</h5>
+		</div>
+		<div class="content">
+			<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="150" />
+			<div class="mb-3 mt-4">
+				<label>First Name</label>
+				<input type="text" class="form-control" placeholder="Enter first name" />
+			</div>
+			<div class="mb-3">
+				<label>Last Name</label>
+				<input type="text" class="form-control" placeholder="Enter last name" />
+			</div>
+			<div class="mb-3">
+				<label>Company Name</label>
+				<input type="text" class="form-control" placeholder="Enter company name" />
+			</div>
+			<div class="mb-3">
+				<label>Email</label>
+				<input type="text" class="form-control" placeholder="Enter email address" />
+			</div>
+		</div>
+		<div class="footer">
+			<button class="btn btn-danger mr-1" (click)="display = false">Reject</button>
+			<button class="btn btn-primary" (click)="display = false">Approve</button>
+		</div>
+	</p-sidebar>
+	<!-- End Sidebar Modal -->

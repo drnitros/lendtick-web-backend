@@ -1,0 +1,35 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.counter4{
+    .count{
+        width: 90px;
+
+        .title{
+            font-weight: 400;
+            margin-bottom: 0;
+    
+            small{
+                font-size: 12px;
+                display: block;
+                line-height: 18px;
+                margin-bottom: 5px;
+            }
+        }
+    }
+
+    .wrap-chart{
+        overflow: hidden;
+    }
+
+    .media-body{
+        overflow: hidden;
+    }
+
+    .progress{
+        height: 3px;
+        border: #dfdfdf;
+        background-color: #eee;
+        @include border-radius(0 0 4px 4px);
+    }
+}

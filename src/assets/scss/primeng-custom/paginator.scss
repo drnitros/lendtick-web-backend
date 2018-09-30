@@ -1,0 +1,77 @@
+.ui-paginator{
+    padding: 15px 20px !important;
+    background: #f9f9f9;
+    border-top: solid 1px #efefef !important;
+
+    .ui-paginator-next,
+    .ui-paginator-last,
+    .ui-paginator-first,
+    .ui-paginator-prev,
+    .ui-paginator-page{
+        text-align: center;
+        color: $color-content;
+        border: solid 1px #fafafa;
+        padding: 7px 5px;
+        height: 35px;
+        min-width: 35px;
+        margin: 0 3px;
+        background: #fff;
+        @extend .panel-shadow;
+        @include border-radius(2px);
+
+        &:hover{
+            color: $color-primary;
+        }
+    }
+
+    .ui-paginator-page{
+        margin-top: -7.5px;
+    }
+
+    .ui-paginator-prev .fa:before{
+        content: '\f104';
+    }
+
+    .ui-paginator-first .fa:before{
+        content: '\f100';
+    }
+
+    .ui-paginator-next .fa:before{
+        content: '\f105';
+    }
+
+    .ui-paginator-last .fa:before{
+        content: '\f101';
+    }
+
+    .ui-state-active{
+        background: $color-primary;
+        border-color: $color-primary;
+        color: #fff !important;
+    }
+
+    .ui-state-disabled{
+        @include opacity(0.5);
+        color: $color-content !important;
+    }
+
+    select{
+        background: #fff;
+        border: solid 1px #fafafa;
+        outline: 0;
+    }
+
+    .ui-dropdown{
+
+        .ui-dropdown-trigger{
+            top: 0;
+            padding-top: 0;
+        }
+    }
+
+    &.hide-dropdown{
+        .ui-dropdown{
+            // display: none;
+        }
+    }
+}

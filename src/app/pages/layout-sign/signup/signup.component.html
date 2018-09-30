@@ -1,0 +1,39 @@
+<!-- Start Form Login -->
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text">
+			<i-user class="icon"></i-user>
+		</span>
+	</div>
+	<input type="text" class="form-control" placeholder="Enter your fullname">
+</div>
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text">
+			<i-mail class="icon"></i-mail>
+		</span>
+	</div>
+	<input type="text" class="form-control" placeholder="Enter your email">
+</div>
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text">
+			<i-lock class="icon"></i-lock>
+		</span>
+	</div>
+	<input type="password" class="form-control" placeholder="Enter your password">
+</div>
+<div class="input-group mb-3">
+	<div class="input-group-prepend">
+		<span class="input-group-text">
+			<i-map-pin class="icon"></i-map-pin>
+		</span>
+	</div>
+	<div class="wrap-input">
+		<p-dropdown [options]="cities" styleClass="form-control" [(ngModel)]="selectedCity" placeholder="Select a City" optionLabel="name" [showClear]="true"></p-dropdown>
+	</div>
+</div>
+<button type="button" class="btn btn-primary btn-block btn-icon" routerLink="/">
+	Sign Up <i-chevron-right class="icon"></i-chevron-right>
+</button>
+<!-- End Form Login -->

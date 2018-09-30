@@ -1,0 +1,23 @@
+<!-- Start Card -->
+<div class="card">
+	<div class="card-header">
+		<ul class="card-menu">
+			<li><a href="javascript:;"><i-refresh-cw class="icon"></i-refresh-cw></a></li>
+		</ul>
+		<h6 class="mb-0">Main Categories</h6>
+	</div>
+	<div class="card-body">
+		<div class="media">
+			<p-chart type="doughnut" [data]="data" [height]="size" [width]="size" [options]="options"></p-chart>
+			<div class="media-body pl-4">
+				<ul class="list-unstyled">
+					<li class="mb-2" *ngFor="let item of listItem">
+						<span class="badge-list" [style.background]="item.color"></span> {{item.label}}
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- End Card -->
+

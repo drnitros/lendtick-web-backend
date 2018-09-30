@@ -1,0 +1,190 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+/* Wrap Login
+/* ============================ */
+.wrap-login{
+    .row{
+        margin: 0;
+
+        .main{
+            padding: 0;
+            height: 100vh;
+            position: relative;
+            background-image: url('../../../assets/img/bg/img02.jpg');
+            background-size: cover;
+
+            .content{
+                position: absolute;
+                width: 100%;
+                padding: 80px;
+                color: rgba(255,255,255,0.6);
+                left: 0;
+                bottom: 0;
+                font-size: 18px;
+                line-height: 24px;
+                @include background-gradient(transparent,rgba(0,0,0,0.8));
+
+                .title{
+                    letter-spacing: 1px;
+                    color: rgba(255,255,255,0.8);
+                }
+
+                p{
+                    margin-bottom: 0;
+                }
+            }
+        }
+    
+        .side{
+            position: relative;
+            padding: 0 0 71px 0;
+            height: 100vh;
+            border-left: solid 1px #efefef;
+            background-color: #ffffff;
+            @extend .panel-shadow;
+
+            .side-header{
+                padding: 25px 15px;
+                border-bottom: solid 1px #dfdfdf;
+                @extend .panel-shadow;
+
+                img.brand{
+                    width: 120px;
+                }
+            }
+
+            .side-footer{
+                position: absolute;
+                bottom: 0;
+                left: 0;
+                width: 100%;
+                padding: 25px 30px;
+                text-align: center;
+                border-top: solid 1px #dfdfdf;
+                @extend .panel-shadow;
+            }
+
+            .content{
+                padding: 80px 0;
+
+                .nav{
+                    border-bottom: solid 2px #efefef;
+
+                    li{
+                        padding: 0;
+
+                        a{
+                            padding: 0 25px 20px 25px;
+                            position: relative;
+                            display: block;
+                            color: $color-content;
+                            @include opacity(.5);
+
+                            &:hover{
+                                @include opacity(1);
+                            }
+
+                            &.active{
+                                font-weight: 500;
+                                color: $color-title;
+                                @include opacity(1);
+                                
+                                &::before{
+                                    content: "";
+                                    position: absolute;
+                                    left: 0;
+                                    bottom: -3px;
+                                    height: 4px;
+                                    width: 100%;
+                                    background: $color-primary;
+                                    @include border-radius(4px);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            .line{
+                border-top: solid 1px #efefef;
+                position: relative;
+
+                span{
+                    text-align: center;
+                    width: 30px;
+                    height: 30px;
+                    display: block;
+                    top: -13px;
+                    left: 50%;
+                    margin-left: -15px;
+                    position: absolute;
+                    background: #ffffff;
+                }
+            }
+        }
+    }
+}
+
+@media(max-width:767px){
+    .wrap-login{
+        .row{
+            .main{
+                height: 300px;
+
+                .content{
+                    padding: 30px;
+                }
+            }
+
+            .side{
+                height: auto;
+
+                .content{
+                    padding: 60px 0;
+                }
+            }
+        }
+    }
+}
+
+@media(max-height:800px){
+    .wrap-login{
+        .row{
+            .main{
+                min-height: 100vh;
+                height: auto;
+
+                .content{
+                    padding: 30px;
+                }
+            }
+
+            .side{
+                min-height: 100vh;
+                height: auto;
+
+                .content{
+                    padding: 60px 0;
+                }
+            }
+        }
+    }
+}
+
+
+@media(max-width:568px){
+    .wrap-login{
+        .row{
+            .main{
+                min-height: 0;
+                height: 300px;
+            }
+
+            .side{
+                min-height: 0;
+            }
+
+        }
+    }
+}

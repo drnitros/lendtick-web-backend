@@ -1,0 +1,14 @@
+.ui-editor-container{
+    @extend .panel-shadow;
+
+    .ui-editor-toolbar{
+        background-color: #fafafa;
+        border-color: #efefef;
+        @include border-radius(4px 4px 0 0);
+    }
+
+    .ui-editor-content{
+        border-color: #efefef;
+        @include border-radius(0 0 4px 4px);
+    }
+}

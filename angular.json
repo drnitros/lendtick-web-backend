@@ -29,7 +29,15 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/jquery/dist/jquery.min.js",
+              "./node_modules/corenav/coreNavigation.js",
+              "./node_modules/chart.js/dist/Chart.js",
+              "./node_modules/quill/dist/quill.js",
+              "./node_modules/jvectormap-next/jquery-jvectormap.min.js",
+              "./src/assets/js/jquery-jvectormap-world-mill-en.js",
+              "./src/assets/js/jquery-jvectormap-us-aea-en.js"
+            ]
           },
           "configurations": {
             "production": {

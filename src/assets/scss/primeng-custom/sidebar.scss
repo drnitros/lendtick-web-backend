@@ -1,0 +1,83 @@
+/*
+General Sidebar
+=========================== */
+.ui-widget-overlay.ui-sidebar-mask{
+    background-color: #000;
+    @include opacity(.2);
+}
+
+.ui-sidebar{
+    padding: 0;
+    background: #ffffff;
+
+    .ui-sidebar-close{
+        width: 39px;
+        text-align: center;
+        height: 59px;
+        font-size: 18px;
+        color: $color-content;
+        padding: 15px 0;
+        position: absolute;
+        top: 0;
+        right: 0;
+        z-index: 3;
+        background-color: #ffffff;
+        border-color: #ffffff;
+    }
+}
+
+.ui-sidebar-right{
+    border-left: solid 1px #dfdfdf;
+}
+
+.ui-sidebar-left{
+    border-right: solid 1px #dfdfdf;
+}
+
+
+/*
+Author Panel
+=========================== */
+.sidebar-panel{
+    width: 325px;
+    
+    .ui-sidebar-close{
+        padding: 25px 0;
+    }
+}
+
+/*
+Sidebar Form
+=========================== */
+.sidebar-form{
+    width: 100%;
+
+    .content{
+        padding: 25px 30px;
+        height: calc(100vh - 169px);
+        overflow-y: auto;
+    }
+
+    .header{
+        padding: 25px 30px;
+        border-bottom: solid 1px #efefef;
+        @extend .panel-shadow;
+    }
+
+    .footer{
+        text-align: right;
+        padding: 25px 30px;
+        position: absolute;
+        width: 100%;
+        bottom: 0;
+        left: 0;
+        border-top: solid 1px #efefef;
+        @extend .panel-shadow;
+    }
+}
+
+@media (min-width:768px){
+    .sidebar-form{
+        width: 500px;
+    }   
+}

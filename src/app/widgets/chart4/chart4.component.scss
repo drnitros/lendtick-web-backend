@@ -1,0 +1,47 @@
+@import '../../../assets/scss/css3-mixins';
+@import '../../../assets/scss/variable';
+
+.chart4{
+    .card-input{
+        margin-bottom: -10px;
+        float: right;
+
+        small{
+            margin-right: 10px;
+            position: relative;
+            top: -10px;
+        }
+    }
+
+    .table-chart4{
+        width: 100%;
+
+        tr{
+            td{
+                padding: 15px;
+                border-bottom: solid 1px #efefef;
+
+                sup{
+                    margin-left: 5px;
+                }
+
+                strong{
+                    font-weight: 500;
+                }
+            }
+        }
+    }
+
+    .col-table{
+        border-left: solid 1px #efefef;
+    }
+}
+
+@media(max-width:767px){
+    .chart4{
+        .col-table{
+            border-left: 0;
+            border-top: solid 1px #efefef;
+        }
+    }
+}
