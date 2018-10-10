@@ -18,7 +18,7 @@
 	
 	<div class="row">
 		<div class="col-sm-4 col-xl-3 mb-4">
-			<p-multiSelect [options]="products" [(ngModel)]="selectedProduct"></p-multiSelect>
+			<p-dropdown [options]="products" styleClass="form-control" [(ngModel)]="selectedProduct"></p-dropdown>
 		</div>
 		<div class="col-sm-8 col-xl-9 mb-4 text-right">
 			<button type="button" class="btn btn-primary btn-icon mr-1">Sync Product <i-refresh-cw class="icon"></i-refresh-cw></button>

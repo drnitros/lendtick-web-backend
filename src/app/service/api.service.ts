@@ -12,8 +12,8 @@ import { Angular2Csv } from 'angular2-csv/Angular2-csv';
 })
 export class APIService {
 	// Rest API 
-	public hostAuth: string = "https://lentick-api-user-management-dev.azurewebsites.net";
-	// public hostAuth: string = "http://192.168.43.49";
+	public hostAuth: string = "https://lentick-api-user-dev.azurewebsites.net";
+	public hostProduct: string = "https://lentick-api-product-dev.azurewebsites.net";
 	
 	// Token
 	// =================== //

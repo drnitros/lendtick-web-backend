@@ -6,7 +6,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconsModule } from '../../icons/icons.module';
-import { MultiSelectModule } from 'primeng/multiselect';
+import { DropdownModule } from 'primeng/dropdown';
 
 import { ProductService } from './product.service';
 
@@ -23,7 +23,7 @@ import { SettingProductComponent } from './setting-product/setting-product.compo
 		HttpClientModule,
 
 		IconsModule,
-		MultiSelectModule
+		DropdownModule
 	],
 	providers: [ProductService],
 	declarations: [MainProductComponent, SyncProductComponent, SettingProductComponent]

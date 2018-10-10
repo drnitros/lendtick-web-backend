@@ -71,6 +71,7 @@ export class ApprovalMemberComponent implements OnInit {
 		e['identity_photo'] = this.imageID.imageSrc;
 		e['company_identity_photo'] = this.imageKTP.imageSrc;
 		e['personal_photo'] = this.imagePersonal.imageSrc;
+		e['role'] = 'ROLE001';
 		console.log(e);
 
 		this.memberService.postUser(e).subscribe(res =>{
@@ -103,7 +104,6 @@ export class ApprovalMemberComponent implements OnInit {
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
-
 	// Fetching User
 	// ========================= //
 	fetchUser(){
@@ -112,7 +112,8 @@ export class ApprovalMemberComponent implements OnInit {
 			this.data = res['data'].data;
 			this.loading = false;
 		}, err=>{
-			this.fetchUser();
+			console.log(err);
+			// this.fetchUser();
 			this.loading = false;
 		});
 	}
@@ -135,7 +136,8 @@ export class ApprovalMemberComponent implements OnInit {
 				this.grades.push(obj);
 			});
 		}, err =>{
-			this.fetchGrade();
+			// this.fetchGrade();
+			console.log(err);
 		});
 	}
 
@@ -148,7 +150,8 @@ export class ApprovalMemberComponent implements OnInit {
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
-			this.fetchCompany();
+			console.log(err);
+			// this.fetchCompany();
 		});
 	}
 

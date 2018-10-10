@@ -59,7 +59,9 @@ export class PendaftaranAnggotaComponent implements OnInit {
 			this.data = res['data'].data;
 			this.loading = false;
 		}, err=>{
-			this.fetchUser();
+			// this.fetchUser();
+			console.log(err);
+			console.log(err.status);
 			this.loading = false;
 		});
 	}

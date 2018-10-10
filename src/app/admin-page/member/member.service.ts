@@ -17,11 +17,10 @@ export class MemberService {
 		private APIService: APIService,
 		private http: HttpClient
 	){}
-	
 	postUser(obj){
 		const options = {
 			headers: new HttpHeaders({
-			  'accept':  'application/json'
+			  'accept':  'application/json',
 			})
 		};
 		let body = JSON.stringify(obj);
@@ -34,7 +33,7 @@ export class MemberService {
 			  'Authorization' : this.APIService['token']
 			})
 		};
-		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=10&sort=asc',options);
+		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=10&sort=["name","asc"]',options);
 	}
 	putApproveUser(obj){
 		const options = {
@@ -56,7 +55,6 @@ export class MemberService {
 		return this.http.get(this.urlGetGrade,options);
 	}
 	getCompany(){
-		console.log(this.APIService['token']);
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
