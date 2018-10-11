@@ -33,7 +33,7 @@ export class MemberService {
 			  'Authorization' : this.APIService['token']
 			})
 		};
-		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=10&sort=["name","asc"]',options);
+		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=10&sort=name,asc',options);
 	}
 	putApproveUser(obj){
 		const options = {
