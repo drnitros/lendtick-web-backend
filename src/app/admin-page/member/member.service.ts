@@ -72,67 +72,11 @@ export class MemberService {
 				'Authorization' : this.APIService['token']
 			})
 		};
-		let body = JSON.stringify({
-			"desc": [
-			  {
-				"lang": "string",
-				"val": "string"
-			  }
-			],
-			"fname": "string",
-			"lname": "string",
-			"category": "string",
-			"brand": {
-			  "id": "string",
-			  "img": {
-				"src": "string"
-			  },
-			  "name": "string"
-			},
-			"assets": {
-			  "imgs": [
-				{
-				  "img": {
-					"height": "string",
-					"src": "string",
-					"width": "string"
-				  }
-				}
-			  ]
-			},
-			"shipping": {
-			  "dimensions": {
-				"height": "string",
-				"length": "string",
-				"width": "string"
-			  },
-			  "weight": "string"
-			},
-			"specs": [
-			  {
-				"name": "string",
-				"val": "string"
-			  }
-			],
-			"attrs": [
-			  {
-				"name": "string",
-				"value": "string"
-			  }
-			],
-			"variants": {
-			  "cnt": 0,
-			  "attrs": [
-				{
-				  "dispType": "string",
-				  "name": "string"
-				}
-			  ]
-			},
-			"lastupdated": 0
-		});
+		let body = {
+			nama: "Adam"
+		};
 		console.log(body);
-		return this.http.post("https://lentick-api-product-dev.azurewebsites.net/master/party", body, options);
+		return this.http.post("https://lentick-api-product-dev.azurewebsites.net/master/product", body, options);
 	}
 	
 }
