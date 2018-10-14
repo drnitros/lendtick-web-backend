@@ -65,4 +65,12 @@ export class PendaftaranAnggotaComponent implements OnInit {
 			this.loading = false;
 		});
 	}
+
+	coba(){
+		this.memberService.postCoba().subscribe(res =>{
+			console.log(res);
+		}, err =>{
+			console.log(err);
+		})
+	}
 }

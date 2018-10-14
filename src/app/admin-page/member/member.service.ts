@@ -24,6 +24,7 @@ export class MemberService {
 			})
 		};
 		let body = JSON.stringify(obj);
+		console.log(body);
 		return this.http.post(this.urlPostUser, body, options);
 	}
 	getAprrovalUser(start){
@@ -62,6 +63,76 @@ export class MemberService {
 			})
 		};
 		return this.http.get(this.urlGetCompany,options);
+	}
+
+	postCoba(){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : this.APIService['token']
+			})
+		};
+		let body = JSON.stringify({
+			"desc": [
+			  {
+				"lang": "string",
+				"val": "string"
+			  }
+			],
+			"fname": "string",
+			"lname": "string",
+			"category": "string",
+			"brand": {
+			  "id": "string",
+			  "img": {
+				"src": "string"
+			  },
+			  "name": "string"
+			},
+			"assets": {
+			  "imgs": [
+				{
+				  "img": {
+					"height": "string",
+					"src": "string",
+					"width": "string"
+				  }
+				}
+			  ]
+			},
+			"shipping": {
+			  "dimensions": {
+				"height": "string",
+				"length": "string",
+				"width": "string"
+			  },
+			  "weight": "string"
+			},
+			"specs": [
+			  {
+				"name": "string",
+				"val": "string"
+			  }
+			],
+			"attrs": [
+			  {
+				"name": "string",
+				"value": "string"
+			  }
+			],
+			"variants": {
+			  "cnt": 0,
+			  "attrs": [
+				{
+				  "dispType": "string",
+				  "name": "string"
+				}
+			  ]
+			},
+			"lastupdated": 0
+		});
+		console.log(body);
+		return this.http.post("https://lentick-api-product-dev.azurewebsites.net/master/party", body, options);
 	}
 	
 }
