@@ -108,7 +108,7 @@ export class ApprovalMemberComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(1).subscribe(res =>{
+		this.memberService.getAprrovalUser(0).subscribe(res =>{
 			this.data = res['data'].data;
 			this.loading = false;
 		}, err=>{
@@ -123,6 +123,9 @@ export class ApprovalMemberComponent implements OnInit {
 	selectItem(e){
 		this.display = true;
 		this.selectedItem = e;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 500);
 	}
 
 	// Fetch Grade 
@@ -164,15 +167,12 @@ export class ApprovalMemberComponent implements OnInit {
 			grade: this.selectedGrade,
 			date_in: moment(this.date).format('YYYY-MM-DD hh:mm:ss'),
 		};
-		console.log(body);
 		this.memberService.putApproveUser(body).subscribe(res =>{
-			console.log(res);
 			this.display = false;
 			this.isSubmitApprove = false;
 			this.fetchUser();
 			this.messageService.add({severity:'success', summary: 'Success', detail:'User ha been approved'});
 		}, err =>{
-			console.log(err);
 			this.isSubmitApprove = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Please try again'});
 		});
@@ -182,12 +182,24 @@ export class ApprovalMemberComponent implements OnInit {
 	// ========================= //
 	reject(){
 		this.isSubmitReject = true;
+		this.memberService.putRejectUser({id: Number(this.selectedItem['id_user'])}).subscribe(res =>{
+			this.display = false;
+			this.isSubmitReject = false;
+			this.fetchUser();
+			this.messageService.add({severity:'success', summary: 'Success', detail:'User ha been rejected'});
+		}, err =>{
+			this.isSubmitReject = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Please try again'});
+		});
 	}
 
 	// Add New Member
 	// ========================= //
 	openDialogForm(){
 		this.displayForm = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 500);
 	}
 
 	public imageKTP: any = {};
@@ -226,11 +238,7 @@ export class ApprovalMemberComponent implements OnInit {
 
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
-		}, 50);
-
-		this.imageKTP['kam'] = 'asd';
-		console.log(this.uploadType);
-		console.log(reader.result);
+		}, 500);
 	}
 
 }

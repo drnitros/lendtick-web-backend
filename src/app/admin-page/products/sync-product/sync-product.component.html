@@ -25,273 +25,28 @@
 		</div>
 	</div>
 
-	<div class="row">
+	<div *ngIf="loading" class="wrap-loading">
+		<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+	</div>
 
-		<div class="col-sm-4 col-xl-3 mb-4">
+	<div *ngIf="!loading" class="row">
+
+		<div class="col-sm-4 col-xl-3 mb-4" *ngFor="let item of data">
 			<!-- Start Item Product -->
 			<div class="card item-product">
-				<img src="./assets/img/product/img01.jpg" alt="" />
+				<img [src]="item.mainImage" alt="" />
 				<ul class="list-group list-group-flush">
 					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
+						<h5 class="mb-2">
+							{{item.name}}
+							<small class="d-block mt-1">{{item.category}}</small>
+						</h5>
+						{{item.description}}
 					</li>
 					<li class="list-group-item">
 						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img02.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img03.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img04.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img05.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img06.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img07.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<button class="btn btn-primary btn-block">Add to party</button>
-			</div>
-			<!-- End Item Product -->
-		</div>
-		<div class="col-sm-4 col-xl-3 mb-4">
-			<!-- Start Item Product -->
-			<div class="card item-product">
-				<img src="./assets/img/product/img08.jpg" alt="" />
-				<ul class="list-group list-group-flush">
-					<li class="list-group-item">
-						<h6 class="mb-0">
-							Lutfi Wijanarko
-							<small class="d-block mt-1">Tempoyak Udang</small>
-						</h6>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Original Price</strong></div>
-							<div class="col text-right">Rp 1,700,00</div>
-						</div>
-						<div class="row mt-2">
-							<div class="col"><strong>Sale Price</strong></div>
-							<div class="col text-right">Rp 2,200,00</div>
-						</div>
-					</li>
-					<li class="list-group-item">
-						<div class="row">
-							<div class="col"><strong>Distributor</strong></div>
-							<div class="col text-right">
-								<a href="javascript:;">www.tokopedia.com</a>
-							</div>
+							<div class="col"><strong>Base Price</strong></div>
+							<div class="col text-right">Rp {{item.basicPrice}}</div>
 						</div>
 					</li>
 				</ul>

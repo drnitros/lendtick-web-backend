@@ -208,7 +208,10 @@
 <!-- Start Dialog Modal -->
 <p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="500">
 	<div *ngIf="selectedItem != null" class="content">
-		<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+		<div class="row">
+			<div class="col-sm-4"><img [src]="selectedItem.personal_photo" class="img-user" style="width:100%"/></div>
+			<div class="col-sm-8"><img [src]="selectedItem.personal_identity_path" class="img-user" style="width:100%" /></div>
+		</div>
 		<table class="table mt-4 border-bottom">
 			<tr>
 				<td class="label">Name</td>
@@ -264,7 +267,7 @@
 			</div>
 			<div>
 				<label>Select grade</label>
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+				<p-dropdown [options]="grades" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
 			</div>
 		</div>
 		

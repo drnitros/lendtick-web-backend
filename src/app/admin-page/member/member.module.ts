@@ -23,6 +23,7 @@ import { MemberService } from './member.service';
 import { PendaftaranAnggotaComponent } from './pendaftaran-anggota/pendaftaran-anggota.component';
 import { ApprovalMemberComponent } from './approval-member/approval-member.component';
 import { MainMemberComponent } from './main-member/main-member.component';
+import { ListMemberComponent } from './list-member/list-member.component';
 
 @NgModule({
 	imports: [
@@ -45,6 +46,6 @@ import { MainMemberComponent } from './main-member/main-member.component';
 		FileUploadModule
 	],
 	providers:[MemberService],
-	declarations: [PendaftaranAnggotaComponent, ApprovalMemberComponent, MainMemberComponent],
+	declarations: [PendaftaranAnggotaComponent, ApprovalMemberComponent, MainMemberComponent, ListMemberComponent],
 })
 export class MemberModule { }

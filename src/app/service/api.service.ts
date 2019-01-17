@@ -34,6 +34,8 @@ export class APIService {
 		store.subscribe(() => {
 			this.store = store.getState();
 			localStorage.setItem("token", this.store.auth.token);
+			localStorage.setItem("id_role_master", this.store.auth.id_role_master);
+			localStorage.setItem("is_new", this.store.auth.is_new);
 			this.token = localStorage.getItem("token");
 		});
 	}

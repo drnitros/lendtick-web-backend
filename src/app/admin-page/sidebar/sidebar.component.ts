@@ -7,7 +7,7 @@ declare var $: any;
 	styleUrls: ['./sidebar.component.scss']
 })
 export class SidebarComponent implements OnInit {
-
+	public roleId;
 	constructor() { }
 
 	ngOnInit() {
@@ -23,6 +23,10 @@ export class SidebarComponent implements OnInit {
 				$('a.active', this).closest('li.dropdown').addClass('open');
 			},500);
 		});
-  	}
+	}
+	  
+	ngAfterViewInit(){
+		this.roleId = localStorage.getItem('id_role_master');
+	}
 
 }

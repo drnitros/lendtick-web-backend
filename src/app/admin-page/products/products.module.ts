@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import { IconsModule } from '../../icons/icons.module';
 import { DropdownModule } from 'primeng/dropdown';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 
 import { ProductService } from './product.service';
 
@@ -23,7 +24,8 @@ import { SettingProductComponent } from './setting-product/setting-product.compo
 		HttpClientModule,
 
 		IconsModule,
-		DropdownModule
+		DropdownModule,
+		ProgressSpinnerModule
 	],
 	providers: [ProductService],
 	declarations: [MainProductComponent, SyncProductComponent, SettingProductComponent]

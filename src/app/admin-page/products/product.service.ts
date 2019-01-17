@@ -7,20 +7,30 @@ import { APIService } from "../../service/api.service";
   providedIn: 'root'
 })
 export class ProductService {
-	private urlGetProduct = this.APIService['hostProduct'] + '/master/product/all';
+	private urlGetMasterProduct = this.APIService['hostProduct'] + '/master/product/all';
+	private urlGetChanel = "https://lentick-api-channel-dev.azurewebsites.net/data-sync";
 
   	constructor(
 		private APIService: APIService,
 		private http: HttpClient
 	){}
-		
-	getProductAll(){
+	getMasterAll(){
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
 			  'Authorization' : this.APIService['token']
 			})
 		};
-		return this.http.get('https://lentick-api-product-dev.azurewebsites.net/master/product/all',options);
+		return this.http.get(this.urlGetMasterProduct,options);
+	}
+
+	getChanelProduct(limit,offset){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : this.APIService['token']
+			})
+		};
+		return this.http.get(this.urlGetChanel + '?limit=' + limit + '&offset=' + offset,options);
 	}
 }

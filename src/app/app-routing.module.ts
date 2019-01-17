@@ -13,6 +13,7 @@ import { EcommerceComponent } from './admin-page/dashboard/ecommerce/ecommerce.c
 import { PendaftaranAnggotaComponent } from './admin-page/member/pendaftaran-anggota/pendaftaran-anggota.component';
 import { ApprovalMemberComponent } from './admin-page/member/approval-member/approval-member.component';
 import { MainMemberComponent } from './admin-page/member/main-member/main-member.component';
+import { ListMemberComponent } from './admin-page/member/list-member/list-member.component';
 
 // Products
 // ========================== //
@@ -44,6 +45,7 @@ const routes: Routes = [
 					{ path: '', redirectTo: 'anggota', pathMatch: 'full' },
 					{ path: 'anggota', component: PendaftaranAnggotaComponent },
 					{ path: 'approval', component: ApprovalMemberComponent },
+					{ path: 'list-member', component: ListMemberComponent },
 				]
 			},
 			{ path: 'product', component: MainProductComponent,

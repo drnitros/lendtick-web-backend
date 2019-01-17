@@ -19,8 +19,9 @@
 		<li class="dropdown">
 			<a href="javascript:;"><i-user class="icon"></i-user> User Management</a>
 			<ul class="dropdown-menu">
-				<li><a routerLink="/main/member/anggota" routerLinkActive="active">Pendaftaran Anggota</a></li>
-				<li><a routerLink="/main/member/approval" routerLinkActive="active">Approval Member</a></li>
+				<li *ngIf="roleId != 'ROLE003'"><a routerLink="/main/member/anggota" routerLinkActive="active">Pendaftaran Anggota</a></li>
+				<li *ngIf="roleId == 'ROLE003'"><a routerLink="/main/member/approval" routerLinkActive="active">Approval Member</a></li>
+				<li><a routerLink="/main/member/list-member" routerLinkActive="active">List Member</a></li>
 			</ul>
 		</li>
 		<li><a href="javascript:;"><i-dollar-sign class="icon"></i-dollar-sign> Loan Management</a></li>
@@ -37,113 +38,6 @@
 		<li><a href="javascript:;"><i-pie-chart class="icon"></i-pie-chart> Reports</a></li>
 		<li><a href="javascript:;"><i-grid class="icon"></i-grid> Master</a></li>
 	</ul>							
-	<!-- <ul class="menu">
-		<li class="dropdown">
-			<a  routerLinkActive="active"><i-home class="icon"></i-home> Dashboard</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/dashboard" routerLinkActive="active">Main</a></li>
-				<li><a routerLink="/main/ecommerce-dahsboard" routerLinkActive="active">Ecommerce</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-package class="icon"></i-package> Apps</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/apps/schedule" routerLinkActive="active">Scheduler</a></li>
-				<li><a routerLink="/main/apps/email" routerLinkActive="active">Email</a></li>
-				<li><a routerLink="/main/apps/product" routerLinkActive="active">Products</a></li>
-				<li><a routerLink="/main/apps/gallery" routerLinkActive="active">Gallery</a></li>
-				<li><a routerLink="/main/apps/invoice" routerLinkActive="active">Invoice</a></li>
-				<li><a routerLink="/main/apps/board" routerLinkActive="active">Boards Activity</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-type class="icon"></i-type> UI ELements</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/uielement/card" routerLinkActive="active">Cards</a></li>
-				<li><a routerLink="/main/uielement/widget" routerLinkActive="active">Widgets</a></li>
-				<li><a routerLink="/main/uielement/button" routerLinkActive="active">Buttons</a></li>
-				<li><a routerLink="/main/uielement/tab" routerLinkActive="active">Tabs</a></li>
-				<li><a routerLink="/main/uielement/accordion" routerLinkActive="active">Accordions</a></li>
-				<li><a routerLink="/main/uielement/modal" routerLinkActive="active">Dialog & Dropdown</a></li>
-				<li><a routerLink="/main/uielement/progressbar" routerLinkActive="active">Progress & Spinner</a></li>
-				<li><a routerLink="/main/uielement/notification" routerLinkActive="active">Notification</a></li>
-				<li><a routerLink="/main/uielement/typography" routerLinkActive="active">Typography</a></li>
-				<li><a routerLink="/main/uielement/icon" routerLinkActive="active">Icons</a></li>
-				<li><a href="https://getbootstrap.com/docs/4.0/layout/grid/" target="_BLANK">Grids System</a></li>
-				<li><a href="https://getbootstrap.com/docs/4.0/utilities/" target="_BLANK">Utilities</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-pie-chart class="icon"></i-pie-chart> Charts JS</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/chart/chart1" routerLinkActive="active">Basic</a></li>
-				<li><a routerLink="/main/chart/chart2" routerLinkActive="active">Sparkline</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-edit class="icon"></i-edit> Forms</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/form/form-element" routerLinkActive="active">Form Elements</a></li>
-				<li><a routerLink="/main/form/form-layout" routerLinkActive="active">Form Layouts</a></li>
-				<li><a routerLink="/main/form/form-wizard" routerLinkActive="active">Form Wizard</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-map class="icon"></i-map> Map</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/map/map-1" routerLinkActive="active">Google Map</a></li>
-				<li><a routerLink="/main/map/map-2" routerLinkActive="active">Vector Map</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-grid class="icon"></i-grid> Tables</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/main/table/basic-table" routerLinkActive="active">Basic Table</a></li>
-				<li><a routerLink="/main/table/filter" routerLinkActive="active">Filter</a></li>
-				<li><a routerLink="/main/table/row-expend" routerLinkActive="active">Raw Expand</a></li>
-				<li><a routerLink="/main/table/section" routerLinkActive="active">Section</a></li>
-				<li><a routerLink="/main/table/column-group" routerLinkActive="active">Column Group</a></li>
-				<li><a routerLink="/main/table/export" routerLinkActive="active">Export</a></li>
-				<li><a routerLink="/main/table/resize" routerLinkActive="active">Resize</a></li>
-				<li><a routerLink="/main/table/sort" routerLinkActive="active">Sort</a></li>
-				<li><a routerLink="/main/table/edit-inline" routerLinkActive="active">Edit Inline</a></li>
-				<li><a routerLink="/main/table/reorder" routerLinkActive="active">Reorder</a></li>
-				<li><a routerLink="/main/table/selection" routerLinkActive="active">Selection</a></li>
-				<li><a routerLink="/main/table/scroll" routerLinkActive="active">Scroll</a></li>
-				<li><a routerLink="/main/table/toggle-column" routerLinkActive="active">Toggle Column</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="#"><i-sidebar class="icon"></i-sidebar> Pages</a>
-			<ul class="dropdown-menu">
-				<li><a routerLink="/page/setting" routerLinkActive="active">Setting</a></li>
-				<li><a routerLink="/page/faq" routerLinkActive="active">FAQ</a></li>
-				<li><a routerLink="/sign/signin" routerLinkActive="active">Sign In</a></li>
-				<li><a routerLink="/sign/signup" routerLinkActive="active">Sign Up</a></li>
-				<li><a routerLink="/page/404" routerLinkActive="active">404</a></li>
-				<li><a routerLink="/page/500" routerLinkActive="active">500</a></li>
-			</ul>
-		</li>
-		<li class="dropdown">
-			<a href="javascript:;"><i-corner-down-right class="icon"></i-corner-down-right> Multi Level</a>
-			<ul class="dropdown-menu">
-				<li><a href="javascript:;">Level 1</a></li>
-				<li><a href="javascript:;">Level 1</a></li>
-				<li class="dropdown">
-					<a href="javascript:;">Dropdown 2</a>
-					<ul class="dropdown-menu">
-						<li><a href="javascript:;">Level 2</a></li>
-						<li class="dropdown">
-							<a href="javascript:;">Dropdown 3</a>
-							<ul class="dropdown-menu">
-								<li><a href="javascript:;">Level 3</a></li>   
-							</ul>                                 
-						</li>
-					</ul>
-				</li>
-			</ul>
-		</li>
-	</ul> -->
 
 	<ul class="attributes">
 		<li><a href="#"><i-facebook class="icon"></i-facebook></a></li>

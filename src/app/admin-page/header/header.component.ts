@@ -58,7 +58,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	logout(){
-		store.dispatch({ type: 'LOGOUT' });
+		localStorage.removeItem("token");
 		this.router.navigate(['/sign/']);  
 	}
 

@@ -28,10 +28,13 @@ export class SigninComponent implements OnInit {
 		this.isLoading = true;
 		this.errorUser = false;
 		this.signService.postLogin(e).subscribe(res =>{
+			console.log(res);
 			if(res['status']){
 				store.dispatch({ 
 					type: 'LOGIN', 
-					token: res['data'].token
+					token: res['data'].token,
+					id_role_master: res['data'].id_role_master,
+					is_new: res['data'].is_new,
 				});
 			}
 			this.isLoading = false;

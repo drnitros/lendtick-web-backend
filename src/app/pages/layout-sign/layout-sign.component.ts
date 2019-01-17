@@ -16,7 +16,9 @@ export class LayoutSignComponent implements OnInit {
 	ngOnInit() {
 		$('.core-content').removeClass('core-sidebar');
 		let token = localStorage.getItem("token");
-		if(token != ''){
+
+		console.log(token);
+		if(token != null){
 			this.router.navigate(['/main/']);  
 		}
 	}

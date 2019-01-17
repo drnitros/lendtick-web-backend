@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ProductService } from '../product.service';
+import * as _ from 'lodash';
 
 @Component({
   selector: 'app-sync-product',
@@ -9,6 +10,8 @@ import { ProductService } from '../product.service';
 export class SyncProductComponent implements OnInit {
 	// Properties
 	// ====================== //
+	public data = [];
+	public loading: boolean = true;
 	public products = [];
 	public selectedProduct: string;
 
@@ -17,7 +20,7 @@ export class SyncProductComponent implements OnInit {
 	) { }
 
 	ngOnInit() {
-		this.fetchProduct();
+		this.fetchProduct(0,1);
 		
 		this.products = [
             {label: 'Bukalapak', value: 'Bukalapak'},
@@ -27,12 +30,26 @@ export class SyncProductComponent implements OnInit {
         ];
 	}
 
-	fetchProduct(){
-		this.productService.getProductAll().subscribe(res =>{
-			console.log(res);
+	fetchProduct(limit,offset){
+		this.productService.getChanelProduct(limit,offset).subscribe(res =>{
+			this.customProduct(res['data']);
+			this.data = res['data'];
+			this.loading = false;
+			console.log(this.data);
 		}, err => {
 			console.log(err);
 		})
+	}
+
+	customProduct(data){
+		_.map(data, (x)=>{
+			x.basicPrice = Number(x.price.base_price).toLocaleString();
+			x.description = x.desc.val;
+			_.map(x.assets.imgs, (y)=>{
+				y.img.src = y.img.src.replace(' =>',':');
+				x.mainImage = y.img.src;
+			});
+		});
 	}
 
 }
