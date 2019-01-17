@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { HeaderService } from './header.service';
 
 import * as _ from 'lodash';
 import * as screenfull from 'screenfull';
-import { store } from '../../service/store.service';
+
 
 @Component({
 	selector: 'app-header',
@@ -12,6 +13,8 @@ import { store } from '../../service/store.service';
 })
 export class HeaderComponent implements OnInit {
 	public displaySidebar: boolean = false;
+	public name: string;
+	public photo: string;
 	public checked: boolean = false;
 	public checked2: boolean = false;
 	public checked3: boolean = true;
@@ -22,14 +25,27 @@ export class HeaderComponent implements OnInit {
 	public checked8: boolean = true;
 
 	constructor(
-		private router: Router
+		private router: Router,
+		private headerService: HeaderService
 	) { }
 
 	ngOnInit() {
+		this.fetchUserProfile();
 	}
 	
 	onFullscreen(){
 		screenfull.toggle();
+	}
+
+	fetchUserProfile(){
+		this.headerService.getProfilelUser().subscribe(res =>{
+			console.log(res);
+			this.name = _.truncate(res['data'][0].name, {
+				'length': 10,
+				'separator': '...'
+			});
+			this.photo = res['data'][0].personal_photo;
+		});
 	}
 
 	// Search
@@ -54,7 +70,7 @@ export class HeaderComponent implements OnInit {
 	search(e){
 		this.results =  _.filter(this.countries, function(item) {
 			return item.toLowerCase().indexOf(e.query.toLowerCase()) >= 0;
-		});;
+		});
 	}
 
 	logout(){

@@ -31,10 +31,10 @@
 				<li class="nav-item">
 					<!-- Start Media -->
 					<div class="media author" (click)="auth.toggle($event)">
-						<img class="mr-3" src="../../../assets/img/admin-page/header/user.jpg" alt="Adam Nurdin">
+						<img class="mr-3" [src]="photo" [alt]="name" style="object-fit: cover;">
 						<div class="media-body">
 							<h6 class="name">
-								<small>Hi,</small> Adam
+								<small>Hi,</small> {{name}}
 							</h6>
 						</div>
 					</div>
