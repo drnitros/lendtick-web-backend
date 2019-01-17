@@ -17,8 +17,7 @@ export class LayoutSignComponent implements OnInit {
 		$('.core-content').removeClass('core-sidebar');
 		let token = localStorage.getItem("token");
 
-		console.log(token);
-		if(token != null){
+		if(token){
 			this.router.navigate(['/main/']);  
 		}
 	}

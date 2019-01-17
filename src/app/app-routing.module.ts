@@ -34,7 +34,14 @@ import { LayoutSignComponent } from './pages/layout-sign/layout-sign.component';
 import { LayoutErrorComponent } from './pages/layout-error/layout-error.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: 'main', pathMatch: 'full' },
+	{ path: '', redirectTo: 'sign', pathMatch: 'full' },
+	{ path: 'sign', component: LayoutSignComponent, 
+		children: [
+			{ path: '', redirectTo: 'signin', pathMatch: 'full' },
+			{ path: 'signin', component: SigninComponent },
+			{ path: 'signup', component: SignupComponent },
+		]
+	},
 	{ path: 'main', component: MainComponent, 
 		children:[
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -62,13 +69,6 @@ const routes: Routes = [
 			{ path: '', redirectTo: '404', pathMatch: 'full' },
 			{ path: '404', component: Page404Component },
 			{ path: '500', component: Page500Component },
-		]
-	},
-	{ path: 'sign', component: LayoutSignComponent, 
-		children: [
-			{ path: '', redirectTo: 'signin', pathMatch: 'full' },
-			{ path: 'signin', component: SigninComponent },
-			{ path: 'signup', component: SignupComponent },
 		]
 	},
 	{ path: '**', redirectTo: '/error/404', pathMatch: 'full' },
