@@ -24,17 +24,27 @@ export class ListMemberComponent implements OnInit {
 		this.fetchUser();
 
 		this.columns = [
-			{field: 'approve_at', header: 'Approve At', show:true},
-			{field: 'approve_by', header: 'Approve By', show:true},
-			{field: 'authorization_company', header: 'Authorization Company', show:true},
-			{field: 'id_master_register_member_flow', header: 'ID Master Register Member Flow', show:false},
-			{field: 'id_register_member_flow', header: 'ID Register Member Flow', show:true},
-			{field: 'id_role_master', header: 'ID Role Master', show:true},
-			{field: 'id_user', header: 'ID User', show:true},
-			{field: 'level', header: 'Level', show:false},
-			{field: 'send_email_to_member', header: 'Send Email to Member', show:false},
-			{field: 'send_email_to_role', header: 'Send Email to Role', show:false},
-			{field: 'set_workflow_status_code', header: 'Set Workflow Status Code', show:false}
+			{field: 'name', header: 'Nama Lengkap', show:true},
+			{field: 'name_company', header: 'Company', show:true},
+			{field: 'email', header: 'Email', show:true},
+			{field: 'phone_number', header: 'No Telpon', show:true},
+			{field: 'id_register_member_flow', header: 'NRP Karyawan', show:true},
+			{field: 'name_grade', header: 'Golongan', show:true},
+			{field: 'id_workflow_status', header: 'Status Request', show:true},
+			{field: 'employee_starting_date', header: 'Join Date', show:true},
+			{field: 'approve_at', header: 'Request Date', show:true},
+
+			// {field: 'approve_at', header: 'Approve At', show:true},
+			// {field: 'approve_by', header: 'Approve By', show:true},
+			// {field: 'authorization_company', header: 'Authorization Company', show:true},
+			// {field: 'id_master_register_member_flow', header: 'ID Master Register Member Flow', show:false},
+			// {field: 'id_register_member_flow', header: 'ID Register Member Flow', show:true},
+			// {field: 'id_role_master', header: 'ID Role Master', show:true},
+			// {field: 'id_user', header: 'ID User', show:true},
+			// {field: 'level', header: 'Level', show:false},
+			// {field: 'send_email_to_member', header: 'Send Email to Member', show:false},
+			// {field: 'send_email_to_role', header: 'Send Email to Role', show:false},
+			// {field: 'set_workflow_status_code', header: 'Set Workflow Status Code', show:false}
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
