@@ -3,7 +3,7 @@
 	<div class="media">
 		<i-user class="icon"></i-user> 
 		<div class="media-body">
-			<h5 class="title">Pendaftaran Anggota</h5>
+			<h5 class="title">Approve by Anggota</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
 				<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
@@ -17,29 +17,49 @@
 <div class="main-content">
 
 	<!-- Start Toggle Columns -->
-	<div *ngIf="!loading" class="row mb-4">
-		<div class="col-sm-4 col-lg-3 text-right">
-			<!-- Start Search Global -->
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fas fa-search"></i></span>
-				</div>
-				<input type="text" class="form-control" placeholder="Search global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+	<ng-container *ngIf="!loading">
+		<div class="row mb-4">
+			<div class="col-sm-4 col-lg-3 text-left">
+				<p-multiSelect 
+					[showHeader]="false"
+					[options]="columns" 
+					[(ngModel)]="selectedColumns" 
+					(onChange)="changeColumn($event)"
+					optionLabel="header"
+					selectedItemsLabel="{0} selected" 
+					defaultLabel="Choose Columns">
+				</p-multiSelect>
 			</div>
-			<!-- End ISearch Global -->
+			<!-- <div class="col-sm-4 col-lg-6"></div>
+			<div class="col-sm-4 col-lg-3 text-right">
+				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
+			</div> -->
 		</div>
-		<div class="col-sm-4 col-lg-3 text-left">
-			<p-multiSelect 
-				[showHeader]="false"
-				[options]="columns" 
-				[(ngModel)]="selectedColumns" 
-				(onChange)="changeColumn($event)"
-				optionLabel="header"
-				selectedItemsLabel="{0} selected" 
-				defaultLabel="Choose Columns">
-			</p-multiSelect>
+		<div class="row">
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<input type="text" class="form-control" placeholder="filter by nama">
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<input type="text" class="form-control" placeholder="filter by NIK">
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengajuan start"></p-calendar>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
+			</div>
 		</div>
-	</div>
+		
+	</ng-container>
 	<!-- End Toggle Columns -->
 
 	<div *ngIf="loading" class="wrap-loading">
@@ -53,15 +73,15 @@
 			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
-						<tr>
-							<th *ngFor="let col of columns">
-								{{col.header}}
-							</th>
-							<th class="text-right">
-								Options
-							</th>
-						</tr>
-					</ng-template>
+					<tr>
+						<th *ngFor="let col of columns">
+							{{col.header}}
+						</th>
+						<th class="text-right">
+							Options
+						</th>
+					</tr>
+				</ng-template>
 				<!-- End Header -->
 				<!-- Start Body -->
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -86,68 +106,61 @@
 <!-- End Main Content -->
 
 <!-- Start Dialog Modal -->
-<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="500">
+<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="1000">
 	<div *ngIf="selectedItem != null" class="content">
-		<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
-		<table class="table mt-4 border-bottom">
-			<tr>
-				<td class="label">Name</td>
-				<td>{{selectedItem.name}}</td>
-			</tr>
-			<tr>
-				<td class="label">Email</td>
-				<td>{{selectedItem.email}}</td>
-			</tr>
-			<tr>
-				<td class="label">Id Register</td>
-				<td>{{selectedItem.id_register_member_flow}}</td>
-			</tr>
-			<tr>
-				<td class="label">Id Role</td>
-				<td>{{selectedItem.id_role_master}}</td>
-			</tr>
-			<tr>
-				<td class="label">User</td>
-				<td>{{selectedItem.id_user}}</td>
-			</tr>
-			<tr>
-				<td class="label">Workflow Status</td>
-				<td>{{selectedItem.id_workflow_status}}</td>
-			</tr>
-			<tr>
-				<td class="label">Status Code</td>
-				<td>{{selectedItem.set_workflow_status_code}}</td>
-			</tr>
-			<tr>
-				<td class="label">Level</td>
-				<td>{{selectedItem.level}}</td>
-			</tr>
-			<tr>
-				<td class="label">NPWP</td>
-				<td>{{selectedItem.npwp}}</td>
-			</tr>
-			<tr>
-				<td class="label">Phone Number</td>
-				<td>{{selectedItem.phone_number}}</td>
-			</tr>
-		</table>
-		
-		<div class="mt-4">
-			<div class="mb-2">
-				<label>Select Date</label>
-				<p-calendar 
-					[minDate]="minDate"
-					dateFormat="dd-mm -yy"
-					[(ngModel)]="date" 
-					placeholder="Enter date">
-				</p-calendar>
+		<div class="row">
+			<div class="col-md-7">
+				<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+				<table class="table mt-4 border-bottom">
+					<tr>
+						<td class="label">Name</td>
+						<td>{{selectedItem.name}}</td>
+					</tr>
+					<tr>
+						<td class="label">NIK</td>
+						<td>{{selectedItem.id_register_member_flow}}</td>
+					</tr>
+					<tr>
+						<td class="label">No HP</td>
+						<td>{{selectedItem.phone_number}}</td>
+					</tr>
+					<tr>
+						<td class="label">Email</td>
+						<td>{{selectedItem.email}}</td>
+					</tr>
+					<tr>
+						<td class="label">No KTP</td>
+						<td>4234123423323</td>
+					</tr>
+					<tr>
+						<td class="label">Nama Perusahaan</td>
+						<td>{{selectedItem.name_company}}</td>
+					</tr>
+					<tr>
+						<td class="label">Tanggal Pengajuan</td>
+						<td>{{selectedItem.approve_at}}</td>
+					</tr>
+					<tr>
+						<td class="label">Golongan</td>
+						<td>{{selectedItem.name_grade}}</td>
+					</tr>
+					<tr>
+						<td class="label">Tanggal Masuk</td>
+						<td>{{selectedItem.employee_starting_date}}</td>
+					</tr>
+				</table>
 			</div>
-			<div>
-				<label>Select grade</label>
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+			<div class="col-md-5">
+				<div class="wrap-photo mb-3">
+					<img src="./assets/img/ktp.jpg" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
+				<div class="wrap-photo mb-3">
+					<img src="./assets/img/idcard.jpg" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
 			</div>
 		</div>
-		
 	</div>
 	<p-footer>
 		<button [disabled]="isSubmitReject || isSubmitApprove" class="btn btn-danger mr-1" (click)="reject()">

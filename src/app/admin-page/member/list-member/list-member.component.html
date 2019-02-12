@@ -17,30 +17,35 @@
 <div class="main-content">
 	
 	<!-- Start Toggle Columns -->
-	<div *ngIf="!loading" class="row mb-4">
-		<div class="col-sm-4 col-lg-3 text-right">
-			<!-- Start Search Global -->
-			<div class="input-group">
-				<div class="input-group-prepend">
-					<span class="input-group-text"><i class="fas fa-search"></i></span>
-				</div>
-				<input type="text" class="form-control" placeholder="Search global" (input)="dt.filterGlobal($event.target.value, 'contains')">
+	<ng-container *ngIf="!loading">
+		<div class="row mb-4">
+			<div class="col-sm-4 col-lg-3">
+				<input type="text" class="form-control" placeholder="filter by nama">
 			</div>
-			<!-- End ISearch Global -->
+			<div class="col-sm-4 col-lg-3">
+				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3">
+				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
+			</div>
 		</div>
-		<div class="col-sm-4 col-lg-3 text-left">
-			<p-multiSelect 
-				[showHeader]="false"
-				[options]="columns" 
-				[(ngModel)]="selectedColumns" 
-				(onChange)="changeColumn($event)"
-				optionLabel="header"
-				selectedItemsLabel="{0} selected" 
-				defaultLabel="Choose Columns">
-			</p-multiSelect>
+		<div class="row mb-4">
+			<div class="col-sm-8 col-lg-3 text-left">
+				<p-multiSelect 
+					[showHeader]="false"
+					[options]="columns" 
+					[(ngModel)]="selectedColumns" 
+					(onChange)="changeColumn($event)"
+					optionLabel="header"
+					selectedItemsLabel="{0} selected" 
+					defaultLabel="Choose Columns">
+				</p-multiSelect>
+			</div>
+			<div class="col-sm-4 col-lg-6 text-right">
+				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
+			</div>
 		</div>
-		<div class="col-sm-4 col-lg-3"></div>
-	</div>
+	</ng-container>
 	<!-- End Toggle Columns -->
 
 	<div *ngIf="loading" class="wrap-loading">

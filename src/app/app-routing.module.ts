@@ -15,6 +15,12 @@ import { ApprovalMemberComponent } from './admin-page/member/approval-member/app
 import { MainMemberComponent } from './admin-page/member/main-member/main-member.component';
 import { ListMemberComponent } from './admin-page/member/list-member/list-member.component';
 
+// Loan
+// ========================== //
+import { MicroloanComponent } from './admin-page/loan/microloan/microloan.component';
+import { JangkaPanjangComponent } from './admin-page/loan/jangka-panjang/jangka-panjang.component';
+import { MainLoanComponent } from './admin-page/loan/main-loan/main-loan.component';
+
 // Products
 // ========================== //
 import { MainProductComponent } from './admin-page/products/main-product/main-product.component';
@@ -34,14 +40,7 @@ import { LayoutSignComponent } from './pages/layout-sign/layout-sign.component';
 import { LayoutErrorComponent } from './pages/layout-error/layout-error.component';
 
 const routes: Routes = [
-	{ path: '', redirectTo: 'sign', pathMatch: 'full' },
-	{ path: 'sign', component: LayoutSignComponent, 
-		children: [
-			{ path: '', redirectTo: 'signin', pathMatch: 'full' },
-			{ path: 'signin', component: SigninComponent },
-			{ path: 'signup', component: SignupComponent },
-		]
-	},
+	{ path: '', redirectTo: 'main', pathMatch: 'full' },
 	{ path: 'main', component: MainComponent, 
 		children:[
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
@@ -50,8 +49,8 @@ const routes: Routes = [
 			{ path: 'member', component: MainMemberComponent,
 				children: [
 					{ path: '', redirectTo: 'anggota', pathMatch: 'full' },
-					{ path: 'anggota', component: PendaftaranAnggotaComponent },
-					{ path: 'approval', component: ApprovalMemberComponent },
+					{ path: 'approve-by-anggota', component: PendaftaranAnggotaComponent },
+					{ path: 'approve-by-hr', component: ApprovalMemberComponent },
 					{ path: 'list-member', component: ListMemberComponent },
 				]
 			},
@@ -61,6 +60,13 @@ const routes: Routes = [
 					{ path: 'sync', component: SyncProductComponent },
 					{ path: 'setting', component: SettingProductComponent },
 				]
+            },
+            { path: 'loan', component: MainLoanComponent,
+				children: [
+					{ path: '', redirectTo: 'microloan', pathMatch: 'full' },
+					{ path: 'microloan', component: MicroloanComponent },
+					{ path: 'jangka-panjang', component: JangkaPanjangComponent },
+				]
 			}
 		]
 	},
@@ -69,6 +75,13 @@ const routes: Routes = [
 			{ path: '', redirectTo: '404', pathMatch: 'full' },
 			{ path: '404', component: Page404Component },
 			{ path: '500', component: Page500Component },
+		]
+	},
+	{ path: 'sign', component: LayoutSignComponent, 
+		children: [
+			{ path: '', redirectTo: 'signin', pathMatch: 'full' },
+			{ path: 'signin', component: SigninComponent },
+			{ path: 'signup', component: SignupComponent },
 		]
 	},
 	{ path: '**', redirectTo: '/error/404', pathMatch: 'full' },

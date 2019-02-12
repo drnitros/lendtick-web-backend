@@ -7,6 +7,7 @@ import { FormsModule,  } from '@angular/forms';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { MemberModule } from './member/member.module';
 import { ProductsModule } from './products/products.module';
+import { LoanModule } from './loan/loan.module';
 import { IconsModule } from '../icons/icons.module';
 
 import { HeaderComponent } from './header/header.component';
@@ -27,6 +28,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 		IconsModule,
 		MemberModule,
 		ProductsModule,
+		LoanModule,
 
 		FormsModule,
 		CommonModule,

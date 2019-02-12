@@ -17,26 +17,21 @@
 			</ul>
 		</li>
 		<li class="dropdown">
-			<a href="javascript:;"><i-user class="icon"></i-user> User Management</a>
+			<a href="javascript:;"><i-user class="icon"></i-user>Keanggotaan</a>
 			<ul class="dropdown-menu">
-				<li *ngIf="roleId != 'ROLE003'"><a routerLink="/main/member/anggota" routerLinkActive="active">Pendaftaran Anggota</a></li>
-				<li *ngIf="roleId == 'ROLE003'"><a routerLink="/main/member/approval" routerLinkActive="active">Approval Member</a></li>
-				<li><a routerLink="/main/member/list-member" routerLinkActive="active">List Member</a></li>
+				<li *ngIf="roleId != 'ROLE003'"><a routerLink="/main/member/approve-by-anggota" routerLinkActive="active">Calon Anggota</a></li>
+				<li *ngIf="roleId == 'ROLE003'"><a routerLink="/main/member/approve-by-hr" routerLinkActive="active">Calon Anggota</a></li>
+				<li><a href="javascript:;">Anggota</a></li>
+				<li><a href="javascript:;">Pengajuan Perubahan Golongan dan Gaji</a></li>
 			</ul>
 		</li>
-		<li><a href="javascript:;"><i-dollar-sign class="icon"></i-dollar-sign> Loan Management</a></li>
 		<li class="dropdown">
-			<a href="javascript:;"><i-shopping-cart class="icon"></i-shopping-cart> Products Management</a>
+			<a href="javascript:;"><i-dollar-sign class="icon"></i-dollar-sign>Pinjaman</a>
 			<ul class="dropdown-menu">
-				<li><a routerLink="/main/product/sync" routerLinkActive="active">Sync Products</a></li>
-				<li><a routerLink="/main/product/setting" routerLinkActive="active">Setting Products</a></li>
+				<li><a routerLink="/main/loan/microloan" routerLinkActive="active">Microloan</a></li>
+				<li><a routerLink="/main/loan/jangka-panjang" routerLinkActive="active">Jangka Panjang</a></li>
 			</ul>
 		</li>
-		<li><a href="javascript:;"><i-message-square class="icon"></i-message-square> Content Management</a></li>
-		<li><a href="javascript:;"><i-bell class="icon"></i-bell> Notifications</a></li>
-		<li><a href="javascript:;"><i-settings class="icon"></i-settings> Settings</a></li>
-		<li><a href="javascript:;"><i-pie-chart class="icon"></i-pie-chart> Reports</a></li>
-		<li><a href="javascript:;"><i-grid class="icon"></i-grid> Master</a></li>
 	</ul>							
 
 	<ul class="attributes">

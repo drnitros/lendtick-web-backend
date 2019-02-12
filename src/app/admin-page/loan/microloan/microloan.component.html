@@ -3,11 +3,11 @@
 	<div class="media">
 		<i-user class="icon"></i-user> 
 		<div class="media-body">
-			<h5 class="title">Approve by HR</h5>
+			<h5 class="title">Loan Approval by Credit 1</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
-				<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Pendaftaran Anggota</li>
+				<li class="breadcrumb-item"><a routerLink="/main/loan/">Loan</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Microloan</li>
 			</ol>
 		</div>
 	</div>
@@ -57,6 +57,9 @@
 			<div class="col-sm-4 col-lg-3 mb-3">
 				<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
 			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="loanTypes" styleClass="form-control" [(ngModel)]="selectedLoan"></p-dropdown>
+			</div>
 		</div>
 		
 	</ng-container>
@@ -104,75 +107,3 @@
 	<!-- End Card -->
 </div>
 <!-- End Main Content -->
-
-<!-- Start Dialog Modal -->
-<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="500">
-	<div *ngIf="selectedItem != null" class="content">
-		<div class="row">
-			<div class="col-md-7">
-				<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
-				<table class="table mt-4 border-bottom">
-					<tr>
-						<td class="label">Name</td>
-						<td>{{selectedItem.name}}</td>
-					</tr>
-					<tr>
-						<td class="label">NIK</td>
-						<td>{{selectedItem.id_register_member_flow}}</td>
-					</tr>
-					<tr>
-						<td class="label">No HP</td>
-						<td>{{selectedItem.phone_number}}</td>
-					</tr>
-					<tr>
-						<td class="label">Email</td>
-						<td>{{selectedItem.email}}</td>
-					</tr>
-					<tr>
-						<td class="label">No KTP</td>
-						<td>4234123423323</td>
-					</tr>
-					<tr>
-						<td class="label">Nama Perusahaan</td>
-						<td>{{selectedItem.name_company}}</td>
-					</tr>
-					<tr>
-						<td class="label">Tanggal Pengajuan</td>
-						<td>{{selectedItem.approve_at}}</td>
-					</tr>
-					<tr>
-						<td class="label">Golongan</td>
-						<td>{{selectedItem.name_grade}}</td>
-					</tr>
-					<tr>
-						<td class="label">Tanggal Masuk</td>
-						<td>{{selectedItem.employee_starting_date}}</td>
-					</tr>
-				</table>
-			</div>
-			<div class="col-md-5">
-				<div class="wrap-photo mb-3">
-					<img src="./assets/img/ktp.jpg" class="w-100">
-					<a href="javascript:;" class="link"></a>
-				</div>
-				<div class="wrap-photo mb-3">
-					<img src="./assets/img/idcard.jpg" class="w-100">
-					<a href="javascript:;" class="link"></a>
-				</div>
-			</div>
-		</div>
-	</div>
-	<p-footer>
-		<button [disabled]="isSubmitReject || isSubmitApprove" class="btn btn-danger mr-1" (click)="reject()">
-			<span *ngIf="!isSubmitReject">Reject</span>
-			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
-		</button>
-		<button [disabled]="isSubmitApprove || isSubmitReject" class="btn btn-primary" (click)="approve()">
-			<span *ngIf="!isSubmitApprove">Approve</span>
-			<span *ngIf="isSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
-		</button>
-	</p-footer>
-</p-dialog>
-<!-- End Dialog Modal -->
-
-<p-toast></p-toast>
