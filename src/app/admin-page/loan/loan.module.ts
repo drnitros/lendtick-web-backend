@@ -16,6 +16,7 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { SpinnerModule } from 'primeng/spinner';
 import { CustomFormsModule } from 'ng2-validation';
 
 import { JangkaPanjangComponent } from './jangka-panjang/jangka-panjang.component';
@@ -41,6 +42,7 @@ import { DetailLoanComponent } from './detail-loan/detail-loan.component';
 		DropdownModule,
 		CalendarModule,
 		DialogModule,
+		SpinnerModule,
 		FileUploadModule
 	],
 	declarations: [

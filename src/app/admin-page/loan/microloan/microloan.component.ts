@@ -14,7 +14,43 @@ import * as moment from 'moment';
   providers: [MessageService]
 })
 export class MicroloanComponent implements OnInit {
-	public data:any = [];
+	public data:any = [{
+		id: 1,
+		name: "Adam Jordan",
+		nik: 32342323,
+		name_company: "Toyota",
+		name_grade: "IV",
+		loan_type: "Multiguna",
+		loan_value: "Rp 75.000.000",
+		tenor: 60,
+		bunga: 7,
+		date: "27 Januari 2018",
+		approval_by: 1,
+	},{
+		id: 2,
+		name: "Asep Sumarna",
+		nik: 42342343,
+		name_company: "Toyota",
+		name_grade: "IV",
+		loan_type: "Middle Loan",
+		loan_value: "Rp 5.000.000",
+		tenor: 12,
+		bunga: 8,
+		date: "20 Januari 2018",
+		approval_by: 2
+	},{
+		id: 2,
+		name: "Wawan Gunawan",
+		nik: 423423,
+		name_company: "Toyota",
+		name_grade: "IV",
+		loan_type: "Middle Loan",
+		loan_value: "Rp 6.000.000",
+		tenor: 11,
+		bunga: 4,
+		date: "21 Januari 2018",
+		approval_by: 3
+	}];
 	public columns:any = [];
 	public selectedColumns: any[];
 	public loading: boolean;
@@ -95,44 +131,6 @@ export class MicroloanComponent implements OnInit {
 		this.memberService.getAprrovalUser(0).subscribe(res =>{
 			console.log(res);
 			// this.data = res['data'].data;
-
-			this.data = [{
-				id: 1,
-				name: "Adam Jordan",
-				nik: 32342323,
-				name_company: "Toyota",
-				name_grade: "IV",
-				loan_type: "Multiguna",
-				loan_value: "Rp 75.000.000",
-				tenor: 60,
-				bunga: 7,
-				date: "27 Januari 2018",
-				approval_by: 1,
-			},{
-				id: 2,
-				name: "Asep Sumarna",
-				nik: 42342343,
-				name_company: "Toyota",
-				name_grade: "IV",
-				loan_type: "Middle Loan",
-				loan_value: "Rp 5.000.000",
-				tenor: 12,
-				bunga: 8,
-				date: "20 Januari 2018",
-				approval_by: 2
-			},{
-				id: 2,
-				name: "Wawan Gunawan",
-				nik: 423423,
-				name_company: "Toyota",
-				name_grade: "IV",
-				loan_type: "Middle Loan",
-				loan_value: "Rp 6.000.000",
-				tenor: 11,
-				bunga: 4,
-				date: "21 Januari 2018",
-				approval_by: 3
-			}];
 			this.loading = false;
 		}, err=>{
 			console.log(err);

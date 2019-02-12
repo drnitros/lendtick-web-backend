@@ -1,7 +1,7 @@
 <!-- Start Sub Header -->
 <div class="sub-header">
 	<div class="media">
-		<i-user class="icon"></i-user> 
+		<i-dollar-sign class="icon"></i-dollar-sign> 
 		<div class="media-body">
 			<h5 class="title">Approval Loan</h5>
 			<ol class="breadcrumb">
@@ -15,6 +15,179 @@
 <!-- End Sub Header -->
 <!-- Start Main Content -->
 <div class="main-content">
-	asdas
+	<div class="row">
+		<div class="col-md-4 col-lg-3">
+			<div class="user-info">
+				<div class="user-info__header">
+					<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+				</div>
+				<div class="user-info__body">
+					<table class="table-content">
+						<tr>
+							<td style="width:100px"><strong>Nama</strong></td>
+							<td style="width:10px">:</td>
+							<td>Rendi Wijanarko</td>
+						</tr>
+						<tr>
+							<td><strong>NIK</strong></td>
+							<td>:</td>
+							<td>4123234234</td>
+						</tr>
+						<tr>
+							<td><strong>Golongan</strong></td>
+							<td>:</td>
+							<td>IV</td>
+						</tr>
+						<tr>
+							<td><strong>Perusahaan</strong></td>
+							<td>:</td>
+							<td>PT.TMMIN</td>
+						</tr>
+						<tr>
+							<td><strong>Gaji</strong></td>
+							<td>:</td>
+							<td>Rp 4.500.000</td>
+						</tr>
+					</table>
+					<div class="mt-3 text-right">
+						<button class="btn btn-primary btn-icon" type="button">Lihat detail <i-eye class="icon"></i-eye></button>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-8 col-lg-9">asdas</div>
+	</div>
+
+	<div class="mt-5">
+		<div class="card" style="overflow:hidden;">
+			<div class="card-header">
+				<h6 class="mb-0">Summary</h6>
+			</div>
+			<div class="card-body p-0">
+				<div class="row">
+					<div class="col-lg-6 p-4">
+						<table class="table-content">
+							<tr>
+								<td style="width:200px"><strong>Total pinjaman Perbulan</strong></td>
+								<td style="width:10px">:</td>
+								<td>Rp 1.500.000</td>
+							</tr>
+							<tr>
+								<td><strong>Total Gaji</strong></td>
+								<td>:</td>
+								<td>Rp 10.000.000</td>
+							</tr>
+							<tr>
+								<td><strong>Kekuatan Pinajaman</strong></td>
+								<td>:</td>
+								<td>Rp 3.000.000</td>
+							</tr>
+						</table>
+					</div>
+					<div class="col-lg-6 p-0">
+						<div class="content-summary">
+							<p>prosesentase kekeuatan pinjam setelah pinjaman</p>
+							<h3>24%</h3>
+							<hr/>
+							<p>Total Pinjaman perbulan setelah pinjaman ini </p>
+							<h3 class="mb-0">Rp 2.000.000</h3>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-5">
+		<div class="card">
+			<div class="card-header">
+				<button class="btn btn-sm btn-info btn-inverse float-right">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
+				<h6 class="mb-0">Pinjaman Aktif</h6>
+			</div>
+			<div class="card-body p-0">
+				<table class="table-list">
+					<tr>
+						<th>No</th>
+						<th>Tipe Pinjaman</th>
+						<th>Jumlah Pinjaman</th>
+						<th>Lama Pinjaman(Bulan)</th>
+						<th>Cicilan Perbulan</th>
+						<th>Dibayar(Bulan)</th>
+						<th>Mulai Cicilan</th>
+						<th>Akhir Cicilan</th>
+					</tr>
+					<tr>
+						<td>1</td>
+						<td>Multi Guna</td>
+						<td>10.000.000</td>
+						<td>60</td>
+						<td>1.000.000</td>
+						<td>12</td>
+						<td>01 Januari 2019</td>
+						<td>01 Januari 2023</td>
+					</tr>
+					<tr>
+						<td>2</td>
+						<td>Pendidikan</td>
+						<td>30.000.000</td>
+						<td>60</td>
+						<td>800.000</td>
+						<td>1</td>
+						<td>21 Oktober 2019</td>
+						<td>22 Oktober 2023</td>
+					</tr>
+					<tr>
+						<td>3</td>
+						<td>Cicilan HRD-1</td>
+						<td>20.000.000</td>
+						<td>60</td>
+						<td>500.000</td>
+						<td>5</td>
+						<td>11 Desember 2019</td>
+						<td>22 Desember 2023</td>
+					</tr>
+				</table>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="type == 2" class="row mt-5">
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					<h6 class="mb-0">Informasi Tambahan</h6>
+				</div>
+				<div class="card-body">
+					<label>Tanggal pencarian</label>
+					<p-calendar [(ngModel)]="date" placeholder="Tanggal Pencairan"></p-calendar>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div *ngIf="type == 3" class="row mt-5">
+		<div class="col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					<h6 class="mb-0">Informasi Tambahan</h6>
+				</div>
+				<div class="card-body">
+					<div class="mb-3">
+						<label>Tanggal pencarian</label>
+						<p-calendar [(ngModel)]="date" placeholder="Tanggal Pencairan"></p-calendar>
+					</div>
+					<div>
+						<label>Diskon bunga(%)</label>
+						<p-spinner [min]="1" [max]="100" [(ngModel)]="bunga" [formatInput]="false"></p-spinner>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-5 mb-2 text-right">
+		<button class="btn btn-danger btn-lg btn-icon mr-3" type="button">Tolak <i-x class="icon"></i-x></button>
+		<button class="btn btn-primary btn-lg btn-icon" type="button">Setuju <i-check class="icon"></i-check></button>
+	</div>
 </div>
 <!--End Main Content -->
