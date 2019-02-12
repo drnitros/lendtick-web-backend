@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import {Router, NavigationExtras} from "@angular/router";
+
 import { MemberService } from '../../member/member.service';
 
 import { MessageService } from 'primeng/components/common/messageservice';
@@ -14,7 +16,6 @@ import * as moment from 'moment';
 export class MicroloanComponent implements OnInit {
 	public data:any = [];
 	public columns:any = [];
-	public display: boolean = false;
 	public selectedColumns: any[];
 	public loading: boolean;
 	public selectedItem = null;
@@ -45,8 +46,8 @@ export class MicroloanComponent implements OnInit {
 	public selectedStatus = null;
 
 	constructor(
-		private messageService: MessageService,
-		private memberService: MemberService
+		private memberService: MemberService,
+		private router: Router
 	) { }
 
 
@@ -105,7 +106,8 @@ export class MicroloanComponent implements OnInit {
 				loan_value: "Rp 75.000.000",
 				tenor: 60,
 				bunga: 7,
-				date: "27 Januari 2018"
+				date: "27 Januari 2018",
+				approval_by: 1,
 			},{
 				id: 2,
 				name: "Asep Sumarna",
@@ -116,7 +118,20 @@ export class MicroloanComponent implements OnInit {
 				loan_value: "Rp 5.000.000",
 				tenor: 12,
 				bunga: 8,
-				date: "20 Januari 2018"
+				date: "20 Januari 2018",
+				approval_by: 2
+			},{
+				id: 2,
+				name: "Wawan Gunawan",
+				nik: 423423,
+				name_company: "Toyota",
+				name_grade: "IV",
+				loan_type: "Middle Loan",
+				loan_value: "Rp 6.000.000",
+				tenor: 11,
+				bunga: 4,
+				date: "21 Januari 2018",
+				approval_by: 3
 			}];
 			this.loading = false;
 		}, err=>{
@@ -129,8 +144,7 @@ export class MicroloanComponent implements OnInit {
 	// Select Item / User
 	// ======================== //
 	selectItem(e){
-		this.display = true;
-		this.selectedItem = e;
+		this.router.navigate(['/main/loan/detail'], { queryParams: { type: e.approval_by } });
 	}
 
 	// Fetch Grade 

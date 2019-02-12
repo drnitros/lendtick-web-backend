@@ -20,6 +20,7 @@ import { ListMemberComponent } from './admin-page/member/list-member/list-member
 import { MicroloanComponent } from './admin-page/loan/microloan/microloan.component';
 import { JangkaPanjangComponent } from './admin-page/loan/jangka-panjang/jangka-panjang.component';
 import { MainLoanComponent } from './admin-page/loan/main-loan/main-loan.component';
+import { DetailLoanComponent } from './admin-page/loan/detail-loan/detail-loan.component';
 
 // Products
 // ========================== //
@@ -66,6 +67,7 @@ const routes: Routes = [
 					{ path: '', redirectTo: 'microloan', pathMatch: 'full' },
 					{ path: 'microloan', component: MicroloanComponent },
 					{ path: 'jangka-panjang', component: JangkaPanjangComponent },
+					{ path: 'detail', component: DetailLoanComponent },
 				]
 			}
 		]

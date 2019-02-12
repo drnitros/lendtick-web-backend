@@ -5,10 +5,6 @@ import { FormsModule,  } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { JangkaPanjangComponent } from './jangka-panjang/jangka-panjang.component';
-import { MainLoanComponent } from './main-loan/main-loan.component';
-import { MicroloanComponent } from './microloan/microloan.component';
-
 import { IconsModule } from '../../icons/icons.module';
 
 import { TableModule } from 'primeng/table';
@@ -21,6 +17,11 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { CustomFormsModule } from 'ng2-validation';
+
+import { JangkaPanjangComponent } from './jangka-panjang/jangka-panjang.component';
+import { MainLoanComponent } from './main-loan/main-loan.component';
+import { MicroloanComponent } from './microloan/microloan.component';
+import { DetailLoanComponent } from './detail-loan/detail-loan.component';
 
 @NgModule({
 	imports: [
@@ -45,7 +46,7 @@ import { CustomFormsModule } from 'ng2-validation';
 	declarations: [
 		JangkaPanjangComponent, 
 		MainLoanComponent, 
-		MicroloanComponent
+		MicroloanComponent, DetailLoanComponent
 	]
 })
 export class LoanModule { }
