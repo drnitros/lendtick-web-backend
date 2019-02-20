@@ -110,7 +110,7 @@
 	<div *ngIf="selectedItem != null" class="content">
 		<div class="row">
 			<div class="col-md-7">
-				<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+				<img [src]="selectedItem.personal_photo" class="img-user" width="125" />
 				<table class="table mt-4 border-bottom">
 					<tr>
 						<td class="label">Name</td>
@@ -152,11 +152,11 @@
 			</div>
 			<div class="col-md-5">
 				<div class="wrap-photo mb-3">
-					<img src="./assets/img/ktp.jpg" class="w-100">
+					<img [src]="selectedItem.personal_identity_path" class="w-100">
 					<a href="javascript:;" class="link"></a>
 				</div>
 				<div class="wrap-photo mb-3">
-					<img src="./assets/img/idcard.jpg" class="w-100">
+					<img [src]="selectedItem.company_identity_path" class="w-100">
 					<a href="javascript:;" class="link"></a>
 				</div>
 			</div>
