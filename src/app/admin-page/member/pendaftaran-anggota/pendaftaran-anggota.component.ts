@@ -50,28 +50,16 @@ export class PendaftaranAnggotaComponent implements OnInit {
 		this.fetchCompany();
 
 		this.columns = [
-			{field: 'id', header: 'No', show:true},
+			{field: 'number', header: 'No', show:true},
 			{field: 'name', header: 'Nama Anggota', show:true},
 			{field: 'name_company', header: 'Company', show:true},
-			{field: 'id_register_member_flow', header: 'NRP Karyawan', show:true},
+			{field: 'id_register_member_flow', header: 'NIK', show:true},
 			{field: 'email', header: 'Email', show:false},
 			{field: 'phone_number', header: 'No Telpon', show:false},
 			{field: 'employee_starting_date', header: 'Tanggal Masuk', show:true},
 			{field: 'name_grade', header: 'Golongan', show:false},
 			{field: 'id_workflow_status', header: 'Status Request', show:true},
 			{field: 'approve_at', header: 'Request Date', show:false},
-
-			// {field: 'approve_at', header: 'Approve At', show:true},
-			// {field: 'approve_by', header: 'Approve By', show:true},
-			// {field: 'authorization_company', header: 'Authorization Company', show:true},
-			// {field: 'id_master_register_member_flow', header: 'ID Master Register Member Flow', show:false},
-			// {field: 'id_register_member_flow', header: 'ID Register Member Flow', show:true},
-			// {field: 'id_role_master', header: 'ID Role Master', show:true},
-			// {field: 'id_user', header: 'ID User', show:true},
-			// {field: 'level', header: 'Level', show:false},
-			// {field: 'send_email_to_member', header: 'Send Email to Member', show:false},
-			// {field: 'send_email_to_role', header: 'Send Email to Role', show:false},
-			// {field: 'set_workflow_status_code', header: 'Set Workflow Status Code', show:false}
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
@@ -99,7 +87,11 @@ export class PendaftaranAnggotaComponent implements OnInit {
 		this.loading = true;
 		this.memberService.getAprrovalUser(0).subscribe(res =>{
 			console.log(res);
+			_.map(res['data'].data, (x,i)=>{
+				x['number'] = i + 1;
+			});
 			this.data = res['data'].data;
+			console.log(this.data);
 			this.loading = false;
 		}, err=>{
 			console.log(err);

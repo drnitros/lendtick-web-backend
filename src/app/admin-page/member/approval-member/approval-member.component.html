@@ -138,7 +138,7 @@
 					</tr>
 					<tr>
 						<td class="label">Tanggal Pengajuan</td>
-						<td>{{selectedItem.approve_at}}</td>
+						<td>{{selectedItem.requested_date}}</td>
 					</tr>
 					<tr>
 						<td class="label">Golongan</td>
@@ -149,6 +149,21 @@
 						<td>{{selectedItem.employee_starting_date}}</td>
 					</tr>
 				</table>
+
+				<div class="mt-4">
+					<div class="mb-2">
+						<label>Select Date</label>
+						<p-calendar 
+							dateFormat="dd-mm -yy"
+							[(ngModel)]="date" 
+							placeholder="Enter date">
+						</p-calendar>
+					</div>
+					<div>
+						<label>Select grade</label>
+						<p-dropdown [options]="grades" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+					</div>
+				</div>
 			</div>
 			<div class="col-md-5">
 				<div class="wrap-photo mb-3">
