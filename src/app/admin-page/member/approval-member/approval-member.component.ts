@@ -28,6 +28,7 @@ export class ApprovalMemberComponent implements OnInit {
 	public minDate = moment().add('days',-1)['_d'];
 	public isSubmitApprove: boolean = false;
 	public isSubmitReject: boolean = false;
+	private objFilter = {};
 
 	public arrStatus = [
 		{label:"All",value: null},
@@ -115,7 +116,7 @@ export class ApprovalMemberComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0).subscribe(res =>{
+		this.memberService.getAprrovalUser(0, this.objFilter).subscribe(res =>{
 			console.log(res);
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;

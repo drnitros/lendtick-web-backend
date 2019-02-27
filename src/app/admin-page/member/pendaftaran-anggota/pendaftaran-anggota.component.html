@@ -17,49 +17,46 @@
 <div class="main-content">
 
 	<!-- Start Toggle Columns -->
-	<ng-container *ngIf="!loading">
-		<div class="row mb-4">
-			<div class="col-sm-4 col-lg-3 text-left">
-				<p-multiSelect 
-					[showHeader]="false"
-					[options]="columns" 
-					[(ngModel)]="selectedColumns" 
-					(onChange)="changeColumn($event)"
-					optionLabel="header"
-					selectedItemsLabel="{0} selected" 
-					defaultLabel="Choose Columns">
-				</p-multiSelect>
-			</div>
-			<!-- <div class="col-sm-4 col-lg-6"></div>
-			<div class="col-sm-4 col-lg-3 text-right">
-				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
-			</div> -->
+	<div class="row mb-4">
+		<div class="col-sm-4 col-lg-3 text-left">
+			<p-multiSelect 
+				[showHeader]="false"
+				[options]="columns" 
+				[(ngModel)]="selectedColumns" 
+				(onChange)="changeColumn($event)"
+				optionLabel="header"
+				selectedItemsLabel="{0} selected" 
+				defaultLabel="Choose Columns">
+			</p-multiSelect>
 		</div>
-		<div class="row">
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by nama">
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by NIK">
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengajuan start"></p-calendar>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
-			</div>
+		<!-- <div class="col-sm-4 col-lg-6"></div>
+		<div class="col-sm-4 col-lg-3 text-right">
+			<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
+		</div> -->
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchName($event.target.value)" placeholder="filter by nama">
 		</div>
-		
-	</ng-container>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchNik($event.target.value)" placeholder="filter by NIK">
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengajuan start"></p-calendar>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
+		</div>
+	</div>
 	<!-- End Toggle Columns -->
 
 	<div *ngIf="loading" class="wrap-loading">

@@ -28,10 +28,11 @@ export class PendaftaranAnggotaComponent implements OnInit {
 	public minDate = moment().add('days',-1)['_d'];
 	public isSubmitApprove: boolean = false;
 	public isSubmitReject: boolean = false;
+	private objFilter = {};
 
 	
 	public arrStatus = [
-		{label:"All",value: null},
+		{label:"Semua Status",value: null},
 		{label:"Menunggu pembayaran",value:"a"},
 		{label:"Menunggu Approval HR",value:"b"},
 		{label:"Menunggu Approval Keanggotaan",value:"c"},
@@ -85,7 +86,7 @@ export class PendaftaranAnggotaComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0).subscribe(res =>{
+		this.memberService.getAprrovalUser(0,this.objFilter).subscribe(res =>{
 			console.log(res);
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
@@ -115,8 +116,9 @@ export class PendaftaranAnggotaComponent implements OnInit {
 	// ========================= //
 	fetchGrade(){
 		this.memberService.getGrade().subscribe(res =>{
+			console.log(res);
 			this.originGrades = res['data'];
-			this.grades = [];
+			this.grades = [{label:"Semua Golongan",value:null}];
 			_.map(res['data'], (x)=>{
 				let obj = {label:x.name_grade,value:x.id_grade};
 				this.grades.push(obj);
@@ -131,7 +133,7 @@ export class PendaftaranAnggotaComponent implements OnInit {
 	// ========================= //
 	fetchCompany(){
 		this.memberService.getCompany().subscribe(res =>{
-			this.companies = [];
+			this.companies = [{label:"Semua Perusahaan",value: null}];
 			_.map(res['data'],(x)=>{
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
@@ -174,5 +176,32 @@ export class PendaftaranAnggotaComponent implements OnInit {
 			this.isSubmitReject = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Please try again'});
 		});
+	}
+
+	// Filter List
+	// ========================== //
+	private typingTimer;
+	private doneTypingInterval = 1000;
+	onSearchName(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['nama'] = searchValue;
+			}else{
+				delete this.objFilter['nama'];
+			}
+			this.fetchUser();
+		}, this.doneTypingInterval);
+	}
+	onSearchNik(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['nik'] = searchValue;
+			}else{
+				delete this.objFilter['nik'];
+			}
+			this.fetchUser();
+		}, this.doneTypingInterval);
 	}
 }

@@ -26,17 +26,17 @@ export class MemberService {
 			})
 		};
 		let body = obj;
-		console.log(body);
 		return this.http.post(this.urlPostUser, body, options);
 	}
-	getAprrovalUser(start){
+	getAprrovalUser(start,objFilter){
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
 			  'Authorization' : this.APIService['token']
 			})
 		};
-		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=1000&sort=name,asc',options);
+		let filter = escape(JSON.stringify(objFilter));
+		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length=1000&sort=name,asc&manual_filter=' + filter,options);
 	}
 	getListUser(start){
 		const options = {

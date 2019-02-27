@@ -14,6 +14,7 @@ import * as moment from 'moment';
   providers: [MessageService]
 })
 export class MicroloanComponent implements OnInit {
+	private objFilter = {};
 	public data:any = [{
 		id: 1,
 		name: "Adam Jordan",
@@ -128,7 +129,7 @@ export class MicroloanComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0).subscribe(res =>{
+		this.memberService.getAprrovalUser(0, this.objFilter).subscribe(res =>{
 			console.log(res);
 			// this.data = res['data'].data;
 			this.loading = false;
