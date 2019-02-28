@@ -30,6 +30,15 @@ export class PendaftaranAnggotaComponent implements OnInit {
 	public isSubmitReject: boolean = false;
 	private objFilter = {};
 
+	// private filter = {
+	// 	"nama":"rendhy wijaya",
+	// 	"no_anggota":"2",
+	// 	"golongan":"GRD004",
+	// 	"tgl_masuk":"2019-02-01 - 2019-02-01",
+	// 	"tgl_pengajuan":"2019-02-01 - 2019-02-01",
+	// 	"status":"MBRSTS05",
+	// 	"company":"COMP001"
+	// };
 	
 	public arrStatus = [
 		{label:"Semua Status",value: null},
@@ -203,5 +212,43 @@ export class PendaftaranAnggotaComponent implements OnInit {
 			}
 			this.fetchUser();
 		}, this.doneTypingInterval);
+	}
+	changeCompany(e){
+		if(e.value){
+			this.objFilter['company'] = e.value;
+		}else{
+			delete this.objFilter['company'];
+		}
+		this.fetchUser();
+	}
+	changeGrade(e){
+		if(e.value){
+			this.objFilter['golongan'] = e.value;
+		}else{
+			delete this.objFilter['golongan'];
+		}
+		this.fetchUser();
+	}
+	changeStatus(e){
+		if(e.value){
+			this.objFilter['status'] = e.value;
+		}else{
+			delete this.objFilter['status'];
+		}
+		this.fetchUser();
+	}
+	onSelectTglMasuk(e){
+		console.log(this.date1[1]);
+		if(this.date1[1]){
+			let date1 = moment(this.date1[0]).format("YYYY-MM-DD");
+			let date2 = moment(this.date1[1]).format("YYYY-MM-DD");
+			this.objFilter['tgl_masuk'] = "2019-02-01 - 2019-02-15";		
+		}else{
+			delete this.objFilter['tgl_masuk'];
+		}
+		this.fetchUser();
+	}
+	onSelectTglPengajuan(e){
+		console.log(this.date2);
 	}
 }

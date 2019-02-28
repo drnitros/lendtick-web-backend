@@ -39,22 +39,22 @@
 			<input type="text" class="form-control" (input)="onSearchName($event.target.value)" placeholder="filter by nama">
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
+			<p-dropdown [options]="companies" styleClass="form-control" (onChange)="changeCompany($event)"></p-dropdown>
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
+			<p-dropdown [options]="grades" styleClass="form-control" (onChange)="changeGrade($event)"></p-dropdown>
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
+			<p-dropdown [options]="arrStatus" styleClass="form-control" (onChange)="changeStatus($event)"></p-dropdown>
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
 			<input type="text" class="form-control" (input)="onSearchNik($event.target.value)" placeholder="filter by NIK">
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengajuan start"></p-calendar>
+			<p-calendar [(ngModel)]="date1" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglMasuk($event)" placeholder="filter by Tanggal pengajuan start"></p-calendar>
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
+			<p-calendar [(ngModel)]="date2" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglPengajuan($event)" placeholder="filter by Tanggal pengjuan To"></p-calendar>
 		</div>
 	</div>
 	<!-- End Toggle Columns -->
