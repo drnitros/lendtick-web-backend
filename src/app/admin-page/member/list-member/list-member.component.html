@@ -51,15 +51,19 @@
 	</div>
 	<!-- End Toggle Columns -->
 
-	<div *ngIf="loading" class="wrap-loading">
-		<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
-	</div>
-
 	<!-- Start Card -->
-	<div *ngIf="!loading" class="card">
+	<div class="card">
 		<div class="card-body p-0">
 			<!-- Start Table -->
-			<p-table [columns]="selectedColumns" [value]="data" [paginator]="false" [responsive]="true">
+			<p-table 
+				[columns]="selectedColumns" 
+				[value]="data" 
+				[paginator]="false" 
+				[rows]="10" 
+				[responsive]="true"
+				[lazy]="true" 
+				(onLazyLoad)="fetchUser($event)" 
+				[loading]="loading">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
@@ -73,7 +77,6 @@
 					</tr>
 				</ng-template>
 				<!-- End Header -->
-				<!-- Start Body -->
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
 						<td *ngFor="let col of columns">
@@ -89,7 +92,7 @@
 				<!-- End Body -->
 			</p-table>
 			<!-- End Table -->
-			<p-paginator [rows]="10" [totalRecords]="100" pageLinkSize="3" (onPageChange)="paginate($event)"></p-paginator>
+			<p-paginator [rows]="pageLength" [totalRecords]="totalCount" pageLinkSize="3" (onPageChange)="paginate($event)"></p-paginator>
 		</div>
 	</div>
 	<!-- End Card -->

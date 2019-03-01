@@ -31,7 +31,10 @@ export class ListMemberComponent implements OnInit {
 	public minDate = moment().add('days',-1)['_d'];
 	public isSubmitApprove: boolean = false;
 	public isSubmitReject: boolean = false;
-	public totalRecords = 0;
+	public totalCount: number = 0;
+	public start = 0;
+	public pageLength = 10;
+	public availabelColumn: Number;
 	private objFilter = {};
 
 	public displayForm: boolean = false;
@@ -56,16 +59,17 @@ export class ListMemberComponent implements OnInit {
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
-			{field: 'name', header: 'Nama Anggota', show:true},
-			{field: 'name_company', header: 'Nama Perusahaan', show:true},
+			{field: 'name', header: 'Nama', show:true},
+			{field: 'name_company', header: 'Perusahaan', show:true},
 			{field: 'id_employee', header: 'NIK', show:true},
 			{field: 'email', header: 'Email', show:false},
 			{field: 'phone_number', header: 'No Telpon', show:false},
-			{field: 'employee_starting_date', header: 'Tanggal Masuk', show:true},
-			{field: 'requested_date', header: 'Tanggal Pengajuan', show:true},
+			{field: 'employee_starting_date', header: 'Tgl Masuk', show:true},
+			{field: 'requested_date', header: 'Tgl Pengajuan', show:true},
 			{field: 'name_grade', header: 'Golongan', show:false},
-			{field: 'status_name', header: 'Status Request', show:true},
-		]
+			{field: 'status_name', header: 'Status', show:true},
+		];
+		this.availabelColumn = _.filter(this.columns, {show: true}).length + 1;
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
@@ -99,10 +103,8 @@ export class ListMemberComponent implements OnInit {
 			}else{
 				find.show = true;
 			}
-		}else{
-			
 		}
-		
+		this.availabelColumn = _.filter(this.columns, {show: true}).length + 1;
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
@@ -110,15 +112,15 @@ export class ListMemberComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getListUser(0, this.objFilter).subscribe(res =>{
+		this.memberService.getListUser(this.start, this.pageLength, this.objFilter).subscribe(res =>{
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
 				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
 				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
 			});
 			this.data = res['data'].data;
+			this.totalCount = Number(res['data'].count_filter);
 			this.loading = false;
-			this.totalRecords = Number(res['data'].count_all);
 			this.fetchGrade();
 			this.fetchCompany();
 			this.fetchStatus();
@@ -128,7 +130,8 @@ export class ListMemberComponent implements OnInit {
 		});
 	}
 	paginate(e){
-		console.log(e);
+		this.start = e.page * this.pageLength;
+		this.fetchUser();
 	}
 
 	// Select Item / User
@@ -284,6 +287,7 @@ export class ListMemberComponent implements OnInit {
 			}else{
 				delete this.objFilter['nama'];
 			}
+			this.start = 0;
 			this.fetchUser();
 		}, this.doneTypingInterval);
 	}
@@ -295,6 +299,7 @@ export class ListMemberComponent implements OnInit {
 			}else{
 				delete this.objFilter['no_anggota'];
 			}
+			this.start = 0;
 			this.fetchUser();
 		}, this.doneTypingInterval);
 	}
@@ -304,6 +309,7 @@ export class ListMemberComponent implements OnInit {
 		}else{
 			delete this.objFilter['company'];
 		}
+		this.start = 0;
 		this.fetchUser();
 	}
 	changeGrade(e){
@@ -312,6 +318,16 @@ export class ListMemberComponent implements OnInit {
 		}else{
 			delete this.objFilter['golongan'];
 		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	changeStatus(e){
+		if(e.value){
+			this.objFilter['status'] = e.value;
+		}else{
+			delete this.objFilter['status'];
+		}
+		this.start = 0;
 		this.fetchUser();
 	}
 	onSelectTglMasuk(e){
@@ -322,6 +338,7 @@ export class ListMemberComponent implements OnInit {
 		}else{
 			delete this.objFilter['tgl_masuk'];
 		}
+		this.start = 0;
 		this.fetchUser();
 	}
 	onSelectTglPengajuan(e){
@@ -332,6 +349,7 @@ export class ListMemberComponent implements OnInit {
 		}else{
 			delete this.objFilter['tgl_pengajuan'];
 		}
+		this.start = 0;
 		this.fetchUser();
 	}
 }

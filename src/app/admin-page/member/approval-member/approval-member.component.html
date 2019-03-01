@@ -179,7 +179,7 @@
 			<span *ngIf="!isSubmitReject">Reject</span>
 			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="isSubmitApprove || isSubmitReject" class="btn btn-primary" (click)="approve()">
+		<button [disabled]="isSubmitApprove || isSubmitReject || selectedGrade == null || date == null" class="btn btn-primary" (click)="approve()">
 			<span *ngIf="!isSubmitApprove">Approve</span>
 			<span *ngIf="isSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>

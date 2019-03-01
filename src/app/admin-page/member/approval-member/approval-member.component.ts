@@ -4,6 +4,7 @@ import { MemberService } from '../member.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+import { store } from '../../../service/store.service';
 
 @Component({
   selector: 'app-approval-member',
@@ -33,7 +34,7 @@ export class ApprovalMemberComponent implements OnInit {
 	public isSubmitReject: boolean = false;
 	public totalCount: number = 0;
 	public start = 0;
-	public pageLength = 4;
+	public pageLength = 10;
 	public availabelColumn: Number;
 	private objFilter = {};
 
@@ -120,6 +121,7 @@ export class ApprovalMemberComponent implements OnInit {
 			});
 			this.data = res['data'].data;
 			this.totalCount = Number(res['data'].count_filter);
+			store.dispatch({ type: 'COUNTER', jmlCalongAnggota: Number(res['data'].count_all) })
 			this.loading = false;
 			this.fetchGrade();
 			this.fetchCompany();

@@ -19,7 +19,11 @@
 		<li class="dropdown">
 			<a href="javascript:;"><i-user class="icon"></i-user>Keanggotaan</a>
 			<ul class="dropdown-menu">
-				<li><a routerLink="/main/member/calon-anggota" routerLinkActive="active">Calon Anggota</a></li>
+				<li>
+					<a routerLink="/main/member/calon-anggota" routerLinkActive="active">
+						<span class="badge badge-info float-right mr-2">{{counter}}</span>Calon Anggota
+					</a>
+				</li>
 				<li><a routerLink="/main/member/anggota" routerLinkActive="active">Anggota</a></li>
 				<li><a href="javascript:;">Pengajuan Perubahan Golongan dan Gaji</a></li>
 			</ul>

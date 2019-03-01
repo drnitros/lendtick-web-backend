@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { store } from '../../service/store.service';
+import { MemberService } from '../member/member.service';
 declare var $: any;
 
 @Component({
@@ -8,7 +10,14 @@ declare var $: any;
 })
 export class SidebarComponent implements OnInit {
 	public roleId;
-	constructor() { }
+	public counter: Number;
+	constructor(
+		private memberService: MemberService
+	) { 
+		store.subscribe(() => {
+			this.counter = store.getState().member.jmlCalongAnggota;
+		});
+	}
 
 	ngOnInit() {
 		$('nav').coreNavigation({
@@ -22,6 +31,10 @@ export class SidebarComponent implements OnInit {
 			setTimeout(()=>{
 				$('a.active', this).closest('li.dropdown').addClass('open');
 			},500);
+		});
+
+		this.memberService.getAprrovalUser(0, 1000, null).subscribe(res =>{
+			this.counter = res['data'].count_filter;
 		});
 	}
 	  

@@ -39,7 +39,7 @@ export class MemberService {
 		let filter = escape(JSON.stringify(objFilter));
 		return this.http.get(this.urlGetApprovalUser + '?start=' + start +  '&length='+ length +'&sort=name,asc&manual_filter=' + filter,options);
 	}
-	getListUser(start,objFilter){
+	getListUser(start,length,objFilter){
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
@@ -47,7 +47,7 @@ export class MemberService {
 			})
 		};
 		let filter = escape(JSON.stringify(objFilter));
-		return this.http.get(this.urlGetUserList + '?start=' + start +  '&length=1000&sort=name,asc&manual_filter=' + filter,options);
+		return this.http.get(this.urlGetUserList + '?start=' + start +  '&length='+ length +'&sort=name,asc&manual_filter=' + filter,options);
 	}
 	putApproveUser(obj){
 		const options = {

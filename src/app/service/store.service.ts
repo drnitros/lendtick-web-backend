@@ -1,4 +1,5 @@
 import { createStore,combineReducers } from 'redux';
+declare var window: any;
 
 export const authReducer = (state = {
     isLogin: false,
@@ -29,9 +30,26 @@ export const authReducer = (state = {
     return state;
 }
 
+export const memberReducer = (state = {
+    jmlCalongAnggota: 0,
+}, action) =>{
+	switch (action.type) {
+		case "COUNTER" :
+			state = {
+				...state,
+                jmlCalongAnggota: action.jmlCalongAnggota
+			}
+        break;
+    }
+    return state;
+}
 
 const reducers = combineReducers({
-	auth: authReducer,
+    auth: authReducer,
+    member: memberReducer
 });
-const store = createStore(reducers);
+const store = createStore(
+    reducers,
+    window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+);
 export { store };
