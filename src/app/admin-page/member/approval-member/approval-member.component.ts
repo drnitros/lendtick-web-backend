@@ -12,31 +12,30 @@ import * as moment from 'moment';
   providers: [MessageService]
 })
 export class ApprovalMemberComponent implements OnInit {
-	public data:any = [];
+	public data:any = this.data = [];
 	public columns:any = [];
 	public display: boolean = false;
 	public selectedColumns: any[];
 	public loading: boolean;
 	public selectedItem = null;
 	public grades = [];
+	public grades2 = [];
+	public selectedGrade = null;
 	public companies = [];
 	public originGrades = [];
-	public selectedGrade = null;
+	public arrStatus = [];
+	public selectedStatus = null;
 	public date: Date = null;
 	public date1: Date = null;
 	public date2: Date = null;
 	public minDate = moment().add('days',-1)['_d'];
 	public isSubmitApprove: boolean = false;
 	public isSubmitReject: boolean = false;
+	public totalCount: number = 0;
+	public start = 0;
+	public pageLength = 4;
+	public availabelColumn: Number;
 	private objFilter = {};
-
-	public arrStatus = [
-		{label:"All",value: null},
-		{label:"Menunggu pembayaran",value:"a"},
-		{label:"Menunggu Approval HR",value:"b"},
-		{label:"Menunggu Approval Keanggotaan",value:"c"},
-	];
-	public selectedStatus = null;
 
 	public displayForm: boolean = false;
 	public isSubmitRegis: boolean = false;
@@ -57,21 +56,20 @@ export class ApprovalMemberComponent implements OnInit {
 
 	ngOnInit() {
 		this.fetchUser();
-		this.fetchGrade();
-		this.fetchCompany();
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
-			{field: 'name', header: 'Nama Anggota', show:true},
-			{field: 'name_company', header: 'Company', show:true},
-			{field: 'id_register_member_flow', header: 'NIK', show:true},
+			{field: 'name', header: 'Nama', show:true},
+			{field: 'name_company', header: 'Perusahaan', show:true},
+			{field: 'id_employee', header: 'NIK', show:true},
 			{field: 'email', header: 'Email', show:false},
 			{field: 'phone_number', header: 'No Telpon', show:false},
-			{field: 'employee_starting_date', header: 'Tanggal Masuk', show:true},
+			{field: 'employee_starting_date', header: 'Tgl Masuk', show:true},
+			{field: 'requested_date', header: 'Tgl Pengajuan', show:true},
 			{field: 'name_grade', header: 'Golongan', show:false},
-			{field: 'id_workflow_status', header: 'Status Request', show:true},
-			{field: 'approve_at', header: 'Request Date', show:false},
-		]
+			{field: 'status_name', header: 'Status', show:true},
+		];
+		this.availabelColumn = _.filter(this.columns, {show: true}).length + 1;
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
@@ -105,10 +103,8 @@ export class ApprovalMemberComponent implements OnInit {
 			}else{
 				find.show = true;
 			}
-		}else{
-			
 		}
-		
+		this.availabelColumn = _.filter(this.columns, {show: true}).length + 1;
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
@@ -116,19 +112,26 @@ export class ApprovalMemberComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0, this.objFilter).subscribe(res =>{
-			console.log(res);
+		this.memberService.getAprrovalUser(this.start, this.pageLength, this.objFilter).subscribe(res =>{
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
+				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
+				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
 			});
 			this.data = res['data'].data;
-			console.log(this.data);
+			this.totalCount = Number(res['data'].count_filter);
 			this.loading = false;
+			this.fetchGrade();
+			this.fetchCompany();
+			this.fetchStatus();
 		}, err=>{
-			console.log(err);
-			// this.fetchUser();
+			this.fetchUser();
 			this.loading = false;
 		});
+	}
+	paginate(e){
+		this.start = e.page * this.pageLength;
+		this.fetchUser();
 	}
 
 	// Select Item / User
@@ -136,7 +139,6 @@ export class ApprovalMemberComponent implements OnInit {
 	selectItem(e){
 		this.display = true;
 		this.selectedItem = e;
-		console.log(e);
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
 		}, 500);
@@ -147,14 +149,33 @@ export class ApprovalMemberComponent implements OnInit {
 	fetchGrade(){
 		this.memberService.getGrade().subscribe(res =>{
 			this.originGrades = res['data'];
-			this.grades = [];
+			this.grades = [{label:"Semua Golongan",value:null}];
+			this.grades2 = [];
 			_.map(res['data'], (x)=>{
 				let obj = {label:x.name_grade,value:x.id_grade};
 				this.grades.push(obj);
+				this.grades2.push(obj);
 			});
 		}, err =>{
-			// this.fetchGrade();
-			console.log(err);
+			this.fetchGrade();
+		});
+	}
+
+	// Fetch Status 
+	// ========================= // 
+	fetchStatus(){
+		this.memberService.getStatus().subscribe(res =>{
+			this.arrStatus = [{label:"Semua Status",value:null}];
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.workflow_status_name,value:x.id_workflow_status};
+				this.arrStatus.push(obj);
+			});
+
+			_.map(this.data, (x)=>{
+				x['status_name'] = _.find(this.arrStatus, {value: x.id_workflow_status}).label;
+			});
+		}, err =>{
+			this.fetchStatus();
 		});
 	}
 
@@ -162,13 +183,12 @@ export class ApprovalMemberComponent implements OnInit {
 	// ========================= //
 	fetchCompany(){
 		this.memberService.getCompany().subscribe(res =>{
-			this.companies = [];
+			this.companies = [{label:"Semua Perusahaan",value: null}];
 			_.map(res['data'],(x)=>{
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
-			console.log(err);
-			// this.fetchCompany();
+			this.fetchCompany();
 		});
 	}
 
@@ -255,4 +275,81 @@ export class ApprovalMemberComponent implements OnInit {
 		}, 500);
 	}
 
+	// Filter List
+	// ========================== //
+	private typingTimer;
+	private doneTypingInterval = 1000;
+	onSearchName(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['nama'] = searchValue;
+			}else{
+				delete this.objFilter['nama'];
+			}
+			this.start = 0;
+			this.fetchUser();
+		}, this.doneTypingInterval);
+	}
+	onSearchNik(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['no_anggota'] = searchValue;
+			}else{
+				delete this.objFilter['no_anggota'];
+			}
+			this.start = 0;
+			this.fetchUser();
+		}, this.doneTypingInterval);
+	}
+	changeCompany(e){
+		if(e.value){
+			this.objFilter['company'] = e.value;
+		}else{
+			delete this.objFilter['company'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	changeGrade(e){
+		if(e.value){
+			this.objFilter['golongan'] = e.value;
+		}else{
+			delete this.objFilter['golongan'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	changeStatus(e){
+		if(e.value){
+			this.objFilter['status'] = e.value;
+		}else{
+			delete this.objFilter['status'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	onSelectTglMasuk(e){
+		if(this.date1[1]){
+			let date1 = moment(this.date1[0]).format("YYYY-MM-DD");
+			let date2 = moment(this.date1[1]).format("YYYY-MM-DD");
+			this.objFilter['tgl_masuk'] = "2019-02-01 - 2019-02-15";		
+		}else{
+			delete this.objFilter['tgl_masuk'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	onSelectTglPengajuan(e){
+		if(this.date2[1]){
+			let date1 = moment(this.date2[0]).format("YYYY-MM-DD");
+			let date2 = moment(this.date2[1]).format("YYYY-MM-DD");
+			this.objFilter['tgl_pengajuan'] = "2019-02-01 - 2019-02-15";		
+		}else{
+			delete this.objFilter['tgl_pengajuan'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
 }

@@ -16,11 +16,11 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { PaginatorModule } from 'primeng/paginator';
 import { CustomFormsModule } from 'ng2-validation';
 
 import { MemberService } from './member.service';
 
-import { PendaftaranAnggotaComponent } from './pendaftaran-anggota/pendaftaran-anggota.component';
 import { ApprovalMemberComponent } from './approval-member/approval-member.component';
 import { MainMemberComponent } from './main-member/main-member.component';
 import { ListMemberComponent } from './list-member/list-member.component';
@@ -34,6 +34,7 @@ import { ListMemberComponent } from './list-member/list-member.component';
 		IconsModule,
 		HttpClientModule,
 		CustomFormsModule,
+		PaginatorModule,
 		
 		TableModule,
 		ToastModule,
@@ -46,6 +47,6 @@ import { ListMemberComponent } from './list-member/list-member.component';
 		FileUploadModule
 	],
 	providers:[MemberService],
-	declarations: [PendaftaranAnggotaComponent, ApprovalMemberComponent, MainMemberComponent, ListMemberComponent],
+	declarations: [ApprovalMemberComponent, MainMemberComponent, ListMemberComponent],
 })
 export class MemberModule { }

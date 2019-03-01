@@ -129,7 +129,7 @@ export class MicroloanComponent implements OnInit {
 	// ========================= //
 	fetchUser(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0, this.objFilter).subscribe(res =>{
+		this.memberService.getAprrovalUser(0,10, this.objFilter).subscribe(res =>{
 			console.log(res);
 			// this.data = res['data'].data;
 			this.loading = false;

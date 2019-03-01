@@ -10,7 +10,6 @@ import { EcommerceComponent } from './admin-page/dashboard/ecommerce/ecommerce.c
 
 // Member
 // ========================== //
-import { PendaftaranAnggotaComponent } from './admin-page/member/pendaftaran-anggota/pendaftaran-anggota.component';
 import { ApprovalMemberComponent } from './admin-page/member/approval-member/approval-member.component';
 import { MainMemberComponent } from './admin-page/member/main-member/main-member.component';
 import { ListMemberComponent } from './admin-page/member/list-member/list-member.component';
@@ -50,9 +49,8 @@ const routes: Routes = [
 			{ path: 'member', component: MainMemberComponent,
 				children: [
 					{ path: '', redirectTo: 'anggota', pathMatch: 'full' },
-					{ path: 'approve-by-anggota', component: PendaftaranAnggotaComponent },
-					{ path: 'approve-by-hr', component: ApprovalMemberComponent },
-					{ path: 'list-member', component: ListMemberComponent },
+					{ path: 'calon-anggota', component: ApprovalMemberComponent },
+					{ path: 'anggota', component: ListMemberComponent },
 				]
 			},
 			{ path: 'product', component: MainProductComponent,

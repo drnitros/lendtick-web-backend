@@ -38,6 +38,7 @@ export class HeaderComponent implements OnInit {
 	}
 
 	fetchUserProfile(){
+		console.log("asdasd");
 		this.headerService.getProfilelUser().subscribe(res =>{
 			console.log(res);
 			this.name = _.truncate(res['data'][0].name, {
@@ -45,6 +46,8 @@ export class HeaderComponent implements OnInit {
 				'separator': '...'
 			});
 			this.photo = res['data'][0].personal_photo;
+		}, err =>{
+			if(err.status == 401) this.logout();
 		});
 	}
 

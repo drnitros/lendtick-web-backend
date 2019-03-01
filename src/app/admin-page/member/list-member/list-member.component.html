@@ -3,11 +3,10 @@
 	<div class="media">
 		<i-user class="icon"></i-user> 
 		<div class="media-body">
-			<h5 class="title">Approval Member</h5>
+			<h5 class="title">List Anggota</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
-				<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Approval Member</li>
+				<li class="breadcrumb-item"><a routerLink="/main/member/">List Member</a></li>
 			</ol>
 		</div>
 	</div>
@@ -15,37 +14,41 @@
 <!-- End Sub Header -->
 <!-- Start Main Content -->
 <div class="main-content">
-	
+
 	<!-- Start Toggle Columns -->
-	<ng-container *ngIf="!loading">
-		<div class="row mb-4">
-			<div class="col-sm-4 col-lg-3">
-				<input type="text" class="form-control" placeholder="filter by nama">
-			</div>
-			<div class="col-sm-4 col-lg-3">
-				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3">
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
-			</div>
+	<div class="row mb-4">
+		<div class="col-sm-4 col-lg-3 text-left">
+			<p-multiSelect 
+				[showHeader]="false"
+				[options]="columns" 
+				[(ngModel)]="selectedColumns" 
+				(onChange)="changeColumn($event)"
+				optionLabel="header"
+				selectedItemsLabel="{0} selected" 
+				defaultLabel="Choose Columns">
+			</p-multiSelect>
 		</div>
-		<div class="row mb-4">
-			<div class="col-sm-8 col-lg-3 text-left">
-				<p-multiSelect 
-					[showHeader]="false"
-					[options]="columns" 
-					[(ngModel)]="selectedColumns" 
-					(onChange)="changeColumn($event)"
-					optionLabel="header"
-					selectedItemsLabel="{0} selected" 
-					defaultLabel="Choose Columns">
-				</p-multiSelect>
-			</div>
-			<div class="col-sm-4 col-lg-6 text-right">
-				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
-			</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchName($event.target.value)" placeholder="filter by nama">
 		</div>
-	</ng-container>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="companies" styleClass="form-control" (onChange)="changeCompany($event)"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="grades" styleClass="form-control" (onChange)="changeGrade($event)"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchNik($event.target.value)" placeholder="filter by NIK">
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date1" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglMasuk($event)" placeholder="filter by Tanggal pengajuan start"></p-calendar>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date2" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglPengajuan($event)" placeholder="filter by Tanggal pengjuan To"></p-calendar>
+		</div>
+	</div>
 	<!-- End Toggle Columns -->
 
 	<div *ngIf="loading" class="wrap-loading">
@@ -56,18 +59,19 @@
 	<div *ngIf="!loading" class="card">
 		<div class="card-body p-0">
 			<!-- Start Table -->
-			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+			<p-table [columns]="selectedColumns" [value]="data" [paginator]="false" [responsive]="true">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
-						<tr>
-							<th *ngFor="let col of columns">
-								{{col.header}}
-							</th>
-							<th class="text-right">
-								Options
-							</th>
-						</tr>
-					</ng-template>
+					<tr>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
+						<th class="text-right">
+							Options
+						</th>
+					</tr>
+				</ng-template>
 				<!-- End Header -->
 				<!-- Start Body -->
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
@@ -85,6 +89,7 @@
 				<!-- End Body -->
 			</p-table>
 			<!-- End Table -->
+			<p-paginator [rows]="10" [totalRecords]="100" pageLinkSize="3" (onPageChange)="paginate($event)"></p-paginator>
 		</div>
 	</div>
 	<!-- End Card -->
@@ -92,57 +97,66 @@
 <!-- End Main Content -->
 
 <!-- Start Dialog Modal -->
-<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="500">
+<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="1200">
 	<div *ngIf="selectedItem != null" class="content">
 		<div class="row">
-			<div class="col-sm-4"><img [src]="selectedItem.personal_photo" class="img-user" style="width:100%"/></div>
-			<div class="col-sm-8"><img [src]="selectedItem.personal_identity_path" class="img-user" style="width:100%" /></div>
+			<div class="col-md-7">
+				<img [src]="selectedItem.personal_photo" class="img-user" width="250" />
+				<table class="table mt-4 border-bottom">
+					<tr>
+						<td class="label">Name</td>
+						<td>{{selectedItem.name}}</td>
+					</tr>
+					<tr>
+						<td class="label">NIK</td>
+						<td>{{selectedItem.id_register_member_flow}}</td>
+					</tr>
+					<tr>
+						<td class="label">No HP</td>
+						<td>{{selectedItem.phone_number}}</td>
+					</tr>
+					<tr>
+						<td class="label">Email</td>
+						<td>{{selectedItem.email}}</td>
+					</tr>
+					<tr>
+						<td class="label">No KTP</td>
+						<td>4234123423323</td>
+					</tr>
+					<tr>
+						<td class="label">Nama Perusahaan</td>
+						<td>{{selectedItem.name_company}}</td>
+					</tr>
+					<tr>
+						<td class="label">Tanggal Pengajuan</td>
+						<td>{{selectedItem.requested_date}}</td>
+					</tr>
+					<tr>
+						<td class="label">Golongan</td>
+						<td>{{selectedItem.name_grade}}</td>
+					</tr>
+					<tr>
+						<td class="label">Tanggal Masuk</td>
+						<td>{{selectedItem.employee_starting_date}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-md-5">
+				<div class="wrap-photo mb-3">
+					<img [src]="selectedItem.personal_identity_path" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
+				<div class="wrap-photo mb-3">
+					<img [src]="selectedItem.company_identity_path" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
+			</div>
 		</div>
-		<table class="table mt-4 border-bottom">
-			<tr>
-				<td class="label">Name</td>
-				<td>{{selectedItem.name}}</td>
-			</tr>
-			<tr>
-				<td class="label">Email</td>
-				<td>{{selectedItem.email}}</td>
-			</tr>
-			<tr>
-				<td class="label">Id Register</td>
-				<td>{{selectedItem.id_register_member_flow}}</td>
-			</tr>
-			<tr>
-				<td class="label">Id Role</td>
-				<td>{{selectedItem.id_role_master}}</td>
-			</tr>
-			<tr>
-				<td class="label">User</td>
-				<td>{{selectedItem.id_user}}</td>
-			</tr>
-			<tr>
-				<td class="label">Workflow Status</td>
-				<td>{{selectedItem.id_workflow_status}}</td>
-			</tr>
-			<tr>
-				<td class="label">Status Code</td>
-				<td>{{selectedItem.set_workflow_status_code}}</td>
-			</tr>
-			<tr>
-				<td class="label">Level</td>
-				<td>{{selectedItem.level}}</td>
-			</tr>
-			<tr>
-				<td class="label">NPWP</td>
-				<td>{{selectedItem.npwp}}</td>
-			</tr>
-			<tr>
-				<td class="label">Phone Number</td>
-				<td>{{selectedItem.phone_number}}</td>
-			</tr>
-		</table>
 	</div>
 	<p-footer>
-		<button class="btn btn-secondary" (click)="display = false">Close</button>
+		<button class="btn btn-default" (click)="display = false">
+			Close
+		</button>
 	</p-footer>
 </p-dialog>
 <!-- End Dialog Modal -->

@@ -18,6 +18,12 @@ nav .nav-header .brand {
     position: relative;
     width: 140px;
     padding: 0 !important;
+
+    @media (max-width:920px){
+        width: 100px;
+        position: relative;
+        top: 6px !important;
+    }
 }
 nav .nav-header .brand img {
     width: 100%;

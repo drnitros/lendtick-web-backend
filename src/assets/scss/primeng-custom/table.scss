@@ -7,12 +7,12 @@
             tr{
                 th{
                     background-color: rgba(0, 0, 0, 0.03);
-                    word-break: break-all;
                     font-weight: 500;
                     color: $color-title;
                     border: 0;
                     padding: 20px 25px !important;
                     position: relative;
+                    white-space: nowrap;
                 }
             }
     
@@ -36,6 +36,12 @@
                         background-color: $color-primary;
                         display: none;
                     }
+
+                    // &.loading{
+                    //     background: red;
+                    //     text-align: center;
+                    //     padding: 100px;
+                    // }
                 }
 
                 &:hover{
@@ -109,6 +115,11 @@
     padding: 20px 25px !important;
     border-top: solid 1px #efefef;
     @include border-radius(0 0 4px 4px);
+}
+
+.ui-table-loading{
+    background-color: #fff;
+    opacity: 0.8;
 }
 
 @media(max-width:767px){

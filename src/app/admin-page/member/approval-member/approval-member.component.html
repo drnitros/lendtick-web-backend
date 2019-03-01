@@ -3,11 +3,10 @@
 	<div class="media">
 		<i-user class="icon"></i-user> 
 		<div class="media-body">
-			<h5 class="title">Approve by HR</h5>
+			<h5 class="title">Calon Anggota</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
-				<li class="breadcrumb-item"><a routerLink="/main/member/">Member</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Pendaftaran Anggota</li>
+				<li class="breadcrumb-item"><a routerLink="/main/member/">List Member</a></li>
 			</ol>
 		</div>
 	</div>
@@ -17,73 +16,70 @@
 <div class="main-content">
 
 	<!-- Start Toggle Columns -->
-	<ng-container *ngIf="!loading">
-		<div class="row mb-4">
-			<div class="col-sm-4 col-lg-3 text-left">
-				<p-multiSelect 
-					[showHeader]="false"
-					[options]="columns" 
-					[(ngModel)]="selectedColumns" 
-					(onChange)="changeColumn($event)"
-					optionLabel="header"
-					selectedItemsLabel="{0} selected" 
-					defaultLabel="Choose Columns">
-				</p-multiSelect>
-			</div>
-			<!-- <div class="col-sm-4 col-lg-6"></div>
-			<div class="col-sm-4 col-lg-3 text-right">
-				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
-			</div> -->
+	<div class="row mb-4">
+		<div class="col-sm-4 col-lg-3 text-left">
+			<p-multiSelect 
+				[showHeader]="false"
+				[options]="columns" 
+				[(ngModel)]="selectedColumns" 
+				(onChange)="changeColumn($event)"
+				optionLabel="header"
+				selectedItemsLabel="{0} selected" 
+				defaultLabel="Choose Columns">
+			</p-multiSelect>
 		</div>
-		<div class="row">
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by nama">
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by NIK">
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengjuan start"></p-calendar>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
-			</div>
-		</div>
-		
-	</ng-container>
-	<!-- End Toggle Columns -->
-
-	<div *ngIf="loading" class="wrap-loading">
-		<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
 	</div>
-
+	<div class="row">
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchName($event.target.value)" placeholder="filter by nama">
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="companies" styleClass="form-control" (onChange)="changeCompany($event)"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="grades" styleClass="form-control" (onChange)="changeGrade($event)"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-dropdown [options]="arrStatus" styleClass="form-control" (onChange)="changeStatus($event)"></p-dropdown>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<input type="text" class="form-control" (input)="onSearchNik($event.target.value)" placeholder="filter by NIK">
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date1" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglMasuk($event)" placeholder="filter by Tanggal pengajuan start"></p-calendar>
+		</div>
+		<div class="col-sm-4 col-lg-3 mb-3">
+			<p-calendar [(ngModel)]="date2" dateFormat="yy-mm-dd" selectionMode="range" (onSelect)="onSelectTglPengajuan($event)" placeholder="filter by Tanggal pengjuan To"></p-calendar>
+		</div>
+	</div>
+	<!-- End Toggle Columns -->
+	
 	<!-- Start Card -->
-	<div *ngIf="!loading" class="card">
+	<div class="card">
 		<div class="card-body p-0">
 			<!-- Start Table -->
-			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+			<p-table 
+				[columns]="selectedColumns" 
+				[value]="data" 
+				[paginator]="false" 
+				[rows]="10" 
+				[responsive]="true"
+				[lazy]="true" 
+				(onLazyLoad)="fetchUser($event)" 
+				[loading]="loading">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<th *ngFor="let col of columns">
-							{{col.header}}
-						</th>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
 						<th class="text-right">
 							Options
 						</th>
 					</tr>
 				</ng-template>
 				<!-- End Header -->
-				<!-- Start Body -->
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
 						<td *ngFor="let col of columns">
@@ -99,6 +95,7 @@
 				<!-- End Body -->
 			</p-table>
 			<!-- End Table -->
+			<p-paginator [rows]="pageLength" [totalRecords]="totalCount" pageLinkSize="3" (onPageChange)="paginate($event)"></p-paginator>
 		</div>
 	</div>
 	<!-- End Card -->
@@ -110,7 +107,7 @@
 	<div *ngIf="selectedItem != null" class="content">
 		<div class="row">
 			<div class="col-md-7">
-				<img [src]="selectedItem.personal_photo" class="img-user" width="125" />
+				<img [src]="selectedItem.personal_photo" class="img-user" width="250" />
 				<table class="table mt-4 border-bottom">
 					<tr>
 						<td class="label">Name</td>
@@ -150,7 +147,7 @@
 					</tr>
 				</table>
 
-				<div class="mt-4">
+				<div class="mt-4 mb-2">
 					<div class="mb-2">
 						<label>Select Date</label>
 						<p-calendar 
@@ -161,7 +158,7 @@
 					</div>
 					<div>
 						<label>Select grade</label>
-						<p-dropdown [options]="grades" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+						<p-dropdown [options]="grades2" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
 					</div>
 				</div>
 			</div>

@@ -19,9 +19,8 @@
 		<li class="dropdown">
 			<a href="javascript:;"><i-user class="icon"></i-user>Keanggotaan</a>
 			<ul class="dropdown-menu">
-				<li *ngIf="roleId != 'ROLE003'"><a routerLink="/main/member/approve-by-anggota" routerLinkActive="active">Calon Anggota</a></li>
-				<li *ngIf="roleId == 'ROLE003'"><a routerLink="/main/member/approve-by-hr" routerLinkActive="active">Calon Anggota</a></li>
-				<li><a href="javascript:;">Anggota</a></li>
+				<li><a routerLink="/main/member/calon-anggota" routerLinkActive="active">Calon Anggota</a></li>
+				<li><a routerLink="/main/member/anggota" routerLinkActive="active">Anggota</a></li>
 				<li><a href="javascript:;">Pengajuan Perubahan Golongan dan Gaji</a></li>
 			</ul>
 		</li>
@@ -34,10 +33,10 @@
 		</li>
 	</ul>							
 
-	<ul class="attributes">
+	<!-- <ul class="attributes">
 		<li><a href="#"><i-facebook class="icon"></i-facebook></a></li>
 		<li><a href="#"><i-twitter class="icon"></i-twitter></a></li>
 		<li><a href="#"><i-instagram class="icon"></i-instagram></a></li>
-	</ul>
+	</ul> -->
 </nav>
 <!-- End Nav -->
