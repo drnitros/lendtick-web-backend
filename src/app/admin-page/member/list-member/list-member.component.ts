@@ -127,6 +127,7 @@ export class ListMemberComponent implements OnInit {
 		}, err=>{
 			this.fetchUser();
 			this.loading = false;
+			if(err.status == 401) this.memberService.updateToken(this.fetchUser());
 		});
 	}
 	paginate(e){
@@ -157,7 +158,7 @@ export class ListMemberComponent implements OnInit {
 				this.grades2.push(obj);
 			});
 		}, err =>{
-			this.fetchGrade();
+			if(err.status == 401) this.memberService.updateToken(this.fetchGrade());
 		});
 	}
 
@@ -175,7 +176,7 @@ export class ListMemberComponent implements OnInit {
 				x['status_name'] = _.find(this.arrStatus, {value: x.id_workflow_status}).label;
 			});
 		}, err =>{
-			this.fetchStatus();
+			if(err.status == 401) this.memberService.updateToken(this.fetchStatus());
 		});
 	}
 
@@ -188,7 +189,7 @@ export class ListMemberComponent implements OnInit {
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
-			this.fetchCompany();
+			if(err.status == 401) this.memberService.updateToken(this.fetchCompany());
 		});
 	}
 

@@ -6,7 +6,7 @@
 			<h5 class="title">Calon Anggota</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
-				<li class="breadcrumb-item"><a routerLink="/main/member/">List Member</a></li>
+				<li class="breadcrumb-item"><a routerLink="/main/member/">List Calon Anggota</a></li>
 			</ol>
 		</div>
 	</div>
@@ -137,17 +137,9 @@
 						<td class="label">Tanggal Pengajuan</td>
 						<td>{{selectedItem.requested_date}}</td>
 					</tr>
-					<tr>
-						<td class="label">Golongan</td>
-						<td>{{selectedItem.name_grade}}</td>
-					</tr>
-					<tr>
-						<td class="label">Tanggal Masuk</td>
-						<td>{{selectedItem.employee_starting_date}}</td>
-					</tr>
 				</table>
 
-				<div *ngIf="selectedItem.id_workflow_status != 'MBRSTS03' && selectedItem.id_workflow_status != 'MBRSTS07'  && selectedItem.id_workflow_status != 'MBRSTS08'" class="mt-4 mb-2">
+				<div *ngIf="selectedItem.show_input" class="mt-4 mb-2">
 					<div class="mb-2">
 						<label>Select Date</label>
 						<p-calendar 
@@ -174,7 +166,7 @@
 			</div>
 		</div>
 	</div>
-	<p-footer *ngIf="selectedItem.id_workflow_status != 'MBRSTS03' && selectedItem.id_workflow_status != 'MBRSTS07'  && selectedItem.id_workflow_status != 'MBRSTS08'">
+	<p-footer *ngIf="selectedItem.show_input">
 		<button [disabled]="isSubmitReject || isSubmitApprove" class="btn btn-danger mr-1" (click)="reject()">
 			<span *ngIf="!isSubmitReject">Reject</span>
 			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>

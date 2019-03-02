@@ -36,6 +36,7 @@ export class ApprovalMemberComponent implements OnInit {
 	public start = 0;
 	public pageLength = 10;
 	public availabelColumn: Number;
+	public roleId;
 	private objFilter = {};
 
 	public displayForm: boolean = false;
@@ -57,6 +58,9 @@ export class ApprovalMemberComponent implements OnInit {
 
 	ngOnInit() {
 		this.fetchUser();
+		this.roleId = localStorage.getItem('id_role_master');
+
+		console.log(this.roleId);
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
@@ -118,6 +122,19 @@ export class ApprovalMemberComponent implements OnInit {
 				x['number'] = i + 1;
 				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
 				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
+				x['show_input'] = false;
+				switch(this.roleId){
+					case "ROLE003" :
+						if(x.id_workflow_status != 'MBRSTS02' && x.id_workflow_status != 'MBRSTS03' && x.id_workflow_status != 'MBRSTS07'  && x.id_workflow_status != 'MBRSTS08'){
+							x['show_input'] = true;
+						}
+					break;
+					case "ROLE002" :
+						if(x.id_workflow_status != 'MBRSTS03' && x.id_workflow_status != 'MBRSTS07'  && x.id_workflow_status != 'MBRSTS08'){
+							x['show_input'] = true;
+						}
+					break;
+				}
 			});
 			this.data = res['data'].data;
 			this.totalCount = Number(res['data'].count_filter);
