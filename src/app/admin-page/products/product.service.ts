@@ -18,7 +18,7 @@ export class ProductService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		return this.http.get(this.urlGetMasterProduct,options);
@@ -28,7 +28,7 @@ export class ProductService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		return this.http.get(this.urlGetChanel + '?limit=' + limit + '&offset=' + offset,options);

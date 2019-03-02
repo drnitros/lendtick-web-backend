@@ -103,8 +103,8 @@
 <!-- End Main Content -->
 
 <!-- Start Dialog Modal -->
-<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="1200">
-	<div *ngIf="selectedItem != null" class="content">
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Approval Member" [modal]="true" [width]="1200">
+	<div class="content">
 		<div class="row">
 			<div class="col-md-7">
 				<img [src]="selectedItem.personal_photo" class="img-user" width="250" />
@@ -147,7 +147,7 @@
 					</tr>
 				</table>
 
-				<div class="mt-4 mb-2">
+				<div *ngIf="selectedItem.id_workflow_status != 'MBRSTS03' && selectedItem.id_workflow_status != 'MBRSTS07'  && selectedItem.id_workflow_status != 'MBRSTS08'" class="mt-4 mb-2">
 					<div class="mb-2">
 						<label>Select Date</label>
 						<p-calendar 
@@ -174,7 +174,7 @@
 			</div>
 		</div>
 	</div>
-	<p-footer>
+	<p-footer *ngIf="selectedItem.id_workflow_status != 'MBRSTS03' && selectedItem.id_workflow_status != 'MBRSTS07'  && selectedItem.id_workflow_status != 'MBRSTS08'">
 		<button [disabled]="isSubmitReject || isSubmitApprove" class="btn btn-danger mr-1" (click)="reject()">
 			<span *ngIf="!isSubmitReject">Reject</span>
 			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>

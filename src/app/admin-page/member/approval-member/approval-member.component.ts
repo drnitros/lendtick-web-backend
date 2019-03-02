@@ -129,6 +129,7 @@ export class ApprovalMemberComponent implements OnInit {
 		}, err=>{
 			this.fetchUser();
 			this.loading = false;
+			if(err.status == 401) this.memberService.updateToken(this.fetchUser());
 		});
 	}
 	paginate(e){
@@ -143,7 +144,7 @@ export class ApprovalMemberComponent implements OnInit {
 		this.selectedItem = e;
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
-		}, 500);
+		}, 1000);
 	}
 
 	// Fetch Grade 
@@ -159,7 +160,7 @@ export class ApprovalMemberComponent implements OnInit {
 				this.grades2.push(obj);
 			});
 		}, err =>{
-			this.fetchGrade();
+			if(err.status == 401) this.memberService.updateToken(this.fetchGrade());
 		});
 	}
 

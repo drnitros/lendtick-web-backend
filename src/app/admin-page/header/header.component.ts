@@ -4,7 +4,7 @@ import { HeaderService } from './header.service';
 
 import * as _ from 'lodash';
 import * as screenfull from 'screenfull';
-
+import { APIService } from "../../service/api.service";
 
 @Component({
 	selector: 'app-header',
@@ -15,6 +15,7 @@ export class HeaderComponent implements OnInit {
 	public displaySidebar: boolean = false;
 	public name: string;
 	public photo: string;
+	public loading: boolean;
 	public checked: boolean = false;
 	public checked2: boolean = false;
 	public checked3: boolean = true;
@@ -26,11 +27,13 @@ export class HeaderComponent implements OnInit {
 
 	constructor(
 		private router: Router,
-		private headerService: HeaderService
+		private headerService: HeaderService,
+		private apiService: APIService
 	) { }
 
 	ngOnInit() {
 		this.fetchUserProfile();
+		this.fetchCheckUser();
 	}
 	
 	onFullscreen(){
@@ -38,16 +41,31 @@ export class HeaderComponent implements OnInit {
 	}
 
 	fetchUserProfile(){
-		console.log("asdasd");
+		this.loading = true;
 		this.headerService.getProfilelUser().subscribe(res =>{
-			console.log(res);
-			this.name = _.truncate(res['data'][0].name, {
+			this.name = _.truncate(res['data'].name, {
 				'length': 10,
 				'separator': '...'
 			});
-			this.photo = res['data'][0].personal_photo;
+			this.photo = res['data'].personal_photo;
+			this.loading = false;
 		}, err =>{
-			if(err.status == 401) this.logout();
+			this.loading = false;
+			if(err.status == 401) this.headerService.updateToken(this.fetchCheckUser());
+		});
+	}
+
+	refresh(){
+		console.log("asdas");
+		this.headerService.updateToken(function(){
+			console.log("asdas dasdas");
+		});
+	}
+
+	fetchCheckUser(){
+		this.headerService.getCheckUser().subscribe(res =>{
+			localStorage.setItem("id_role_master", res['data'].id_role_master);
+			localStorage.setItem("id_user", res['data'].id_user);
 		});
 	}
 
@@ -80,5 +98,4 @@ export class HeaderComponent implements OnInit {
 		localStorage.removeItem("token");
 		location.reload();
 	}
-
 }

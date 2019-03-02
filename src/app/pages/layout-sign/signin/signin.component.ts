@@ -22,7 +22,8 @@ export class SigninComponent implements OnInit {
 		private router: Router
 	){ }
 
-	ngOnInit() {}
+	ngOnInit() {
+	}
 
 	onSubmit(e){
 		this.isLoading = true;
@@ -30,19 +31,15 @@ export class SigninComponent implements OnInit {
 		this.signService.postLogin(e).subscribe(res =>{
 			console.log(res);
 			if(res['status']){
-				store.dispatch({ 
-					type: 'LOGIN', 
-					token: res['data'].token,
-					id_role_master: res['data'].id_role_master,
-					is_new: res['data'].is_new,
-				});
+				localStorage.setItem("token", res['data'].token);
+				localStorage.setItem("id_role_master", res['data'].id_role_master);
+				localStorage.setItem("is_new_user", res['data'].is_new_user);
 			}
 			this.isLoading = false;
 			this.router.navigate(['/main/']);  
 		}, err =>{
 			this.errorUser = true;
 			this.isLoading = false;
-			store.dispatch({ type: 'LOGOUT' })
 		})
 	}
 }	

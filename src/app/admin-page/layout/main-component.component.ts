@@ -14,7 +14,6 @@ export class MainComponent implements OnInit {
 
 	ngOnInit() {
 		let token = localStorage.getItem("token");
-		console.log(token);
 		if(!token){
 			this.router.navigate(['/sign/']);  
 		}

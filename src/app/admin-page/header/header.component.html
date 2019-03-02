@@ -27,7 +27,7 @@
 			</ul>
 		</div>
 		<div class="col-sm-6 col-8 text-right">
-			<ul class="nav justify-content-end">
+			<ul *ngIf="!loading" class="nav justify-content-end">
 				<li class="nav-item">
 					<!-- Start Media -->
 					<div class="media author" (click)="auth.toggle($event)">
@@ -52,6 +52,7 @@
 		<li><a href="javascript:;"><i-settings class="icon"></i-settings> Settings</a></li>
 		<li><a href="javascript:;"><i-user class="icon"></i-user> Profile</a></li>
 		<li class="logout"><a (click)="logout()"><i-log-out class="icon"></i-log-out> Logout</a></li>
+		<li class="logout"><a (click)="refresh()">Refresh</a></li>
 	</ul>
 </p-overlayPanel>
 <!-- End Author -->

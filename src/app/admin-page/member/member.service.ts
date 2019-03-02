@@ -1,12 +1,12 @@
 import { Injectable } from '@angular/core';
 import { HttpClient,HttpHeaders } from "@angular/common/http";
-
 import { APIService } from "../../service/api.service";
 
 @Injectable({
   providedIn: 'root'
 })
 export class MemberService {
+	private urlGetRefresh = this.APIService['hostAuth'] + '/auth/refresh';
 	private urlGetApprovalUser = this.APIService['hostAuth'] + '/user/approve/list';
 	private urlGetGrade = this.APIService['hostAuth'] + '/mst/grade';
 	private urlGetStatus = this.APIService['hostAuth'] + '/mst/user/status';
@@ -20,6 +20,23 @@ export class MemberService {
 		private APIService: APIService,
 		private http: HttpClient
 	){}
+
+	refreshToken(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetRefresh,options);
+	}
+	updateToken(run){
+		this.refreshToken().subscribe(res =>{
+			localStorage.setItem("token", res['data'].token);
+			return run;
+		});
+	}
+	
 	postUser(obj){
 		const options = {
 			headers: new HttpHeaders({
@@ -33,7 +50,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		let filter = escape(JSON.stringify(objFilter));
@@ -43,7 +60,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		let filter = escape(JSON.stringify(objFilter));
@@ -53,7 +70,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		let body = obj;
@@ -63,7 +80,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		let body = obj;
@@ -73,7 +90,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		return this.http.get(this.urlGetGrade,options);
@@ -82,7 +99,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		return this.http.get(this.urlGetStatus,options);
@@ -91,7 +108,7 @@ export class MemberService {
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
-			  'Authorization' : this.APIService['token']
+			  'Authorization' : localStorage.getItem('token')
 			})
 		};
 		return this.http.get(this.urlGetCompany,options);

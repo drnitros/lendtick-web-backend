@@ -15,7 +15,7 @@ import { PagesModule } from './pages/pages.module';
 		BrowserModule,
 		AppRoutingModule,
 		MainModule,
-		PagesModule
+		PagesModule,
 	],
 	providers: [
 		{provide: LocationStrategy, useClass: HashLocationStrategy}

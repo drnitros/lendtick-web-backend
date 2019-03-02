@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { FormsModule,  } from '@angular/forms';
+import { HttpClientModule } from '@angular/common/http';
 
 // Modules
 import { DashboardModule } from './dashboard/dashboard.module';
@@ -32,6 +33,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 
 		FormsModule,
 		CommonModule,
+		HttpClientModule,
 
 		SidebarModule,
 		OverlayPanelModule,
