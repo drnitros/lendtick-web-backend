@@ -100,11 +100,21 @@
 <!-- End Main Content -->
 
 <!-- Start Dialog Modal -->
-<p-dialog [(visible)]="display" header="Approval Member" [modal]="true" [width]="1200">
-	<div *ngIf="selectedItem != null" class="content">
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Member" [modal]="true" [width]="widthDisplay">
+	<div class="dialog-content">
 		<div class="row">
+			<div class="col-md-5 border-right">
+				<div class="wrap-photo mb-3">
+					<img [src]="selectedItem.personal_identity_path" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
+				<div class="wrap-photo mb-3">
+					<img [src]="selectedItem.company_identity_path" class="w-100">
+					<a href="javascript:;" class="link"></a>
+				</div>
+			</div>
 			<div class="col-md-7">
-				<img [src]="selectedItem.personal_photo" class="img-user" width="250" />
+				<img [src]="selectedItem.personal_photo" class="img-user" />
 				<table class="table mt-4 border-bottom">
 					<tr>
 						<td class="label">Name</td>
@@ -143,16 +153,6 @@
 						<td>{{selectedItem.employee_starting_date}}</td>
 					</tr>
 				</table>
-			</div>
-			<div class="col-md-5">
-				<div class="wrap-photo mb-3">
-					<img [src]="selectedItem.personal_identity_path" class="w-100">
-					<a href="javascript:;" class="link"></a>
-				</div>
-				<div class="wrap-photo mb-3">
-					<img [src]="selectedItem.company_identity_path" class="w-100">
-					<a href="javascript:;" class="link"></a>
-				</div>
 			</div>
 		</div>
 	</div>

@@ -7,8 +7,12 @@
 }
 
 .img-user{
-    padding: 5px;
+    padding: 10px;
     border: solid 1px #efefef;
+    display: block;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
     @extend .panel-shadow;
     @include border-radius(4px);
 }
@@ -28,7 +32,7 @@
 }
 
 .label{
-    width: 150px;
+    width: 200px;
     color: $color-title;
     font-weight: 500;
 }
@@ -37,6 +41,37 @@
     float: right;
     position: relative;
     top: -10px;
+}
+
+.wrap-photo{
+    border: solid 1px #efefef;
+    padding: 10px;
+    display: block;
+    background: #fff;
+    @extend .panel-shadow;
+    @include border-radius(4px);
+
+    img{
+        width: 100%;
+        object-fit: cover;
+        max-height: 320px;
+    }
+}
+
+
+.dialog-content{
+    
+    .row{
+        margin: 0;
+
+        > div{
+            padding: 30px;
+
+            &:first-child{
+                background-color: #cfcfcf;
+            }
+        }
+    }
 }
 
 @media(max-width:767px){

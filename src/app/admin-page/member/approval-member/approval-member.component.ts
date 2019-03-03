@@ -5,6 +5,7 @@ import { MessageService } from 'primeng/components/common/messageservice';
 import * as _ from 'lodash';
 import * as moment from 'moment';
 import { store } from '../../../service/store.service';
+declare var $: any;
 
 @Component({
   selector: 'app-approval-member',
@@ -37,6 +38,7 @@ export class ApprovalMemberComponent implements OnInit {
 	public pageLength = 10;
 	public availabelColumn: Number;
 	public roleId;
+	public widthDisplay: number;
 	private objFilter = {};
 
 	public displayForm: boolean = false;
@@ -59,8 +61,7 @@ export class ApprovalMemberComponent implements OnInit {
 	ngOnInit() {
 		this.fetchUser();
 		this.roleId = localStorage.getItem('id_role_master');
-
-		console.log(this.roleId);
+		this.widthDisplay = $(window).width() - 60;
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
@@ -162,6 +163,10 @@ export class ApprovalMemberComponent implements OnInit {
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
 		}, 1000);
+
+		$('img').on('load', function(){
+			window.dispatchEvent(new Event('resize')); 
+		});
 	}
 
 	// Fetch Grade 

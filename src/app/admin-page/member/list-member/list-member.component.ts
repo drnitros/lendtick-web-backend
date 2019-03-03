@@ -35,6 +35,8 @@ export class ListMemberComponent implements OnInit {
 	public start = 0;
 	public pageLength = 10;
 	public availabelColumn: Number;
+	public widthDisplay: number;
+	public roleId;
 	private objFilter = {};
 
 	public displayForm: boolean = false;
@@ -56,6 +58,8 @@ export class ListMemberComponent implements OnInit {
 
 	ngOnInit() {
 		this.fetchUser();
+		this.roleId = localStorage.getItem('id_role_master');
+		this.widthDisplay = $(window).width() - 60;
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
