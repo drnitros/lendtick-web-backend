@@ -125,7 +125,7 @@
 					</tr>
 					<tr>
 						<td class="label">NIK</td>
-						<td>{{selectedItem.id_register_member_flow}}</td>
+						<td>{{selectedItem.id_employee}}</td>
 					</tr>
 					<tr>
 						<td class="label">No HP</td>
@@ -148,7 +148,6 @@
 						<td>{{selectedItem.requested_date}}</td>
 					</tr>
 				</table>
-
 				<div *ngIf="selectedItem.show_input" class="mt-4 mb-2">
 					<div class="mb-2">
 						<label>Select Date</label>
@@ -174,6 +173,11 @@
 		<button [disabled]="isSubmitApprove || isSubmitReject || selectedGrade == null || date == null" class="btn btn-primary" (click)="approve()">
 			<span *ngIf="!isSubmitApprove">Approve</span>
 			<span *ngIf="isSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+	<p-footer *ngIf="!selectedItem.show_input">
+		<button class="btn btn-default" (click)="display = false">
+			Close
 		</button>
 	</p-footer>
 </p-dialog>

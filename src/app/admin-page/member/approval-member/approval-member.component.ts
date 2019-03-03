@@ -123,16 +123,17 @@ export class ApprovalMemberComponent implements OnInit {
 				x['number'] = i + 1;
 				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
 				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
-				x['show_input'] = false;
+				x['show_input'] = true;
+
 				switch(this.roleId){
 					case "ROLE003" :
-						if(x.id_workflow_status != 'MBRSTS02' && x.id_workflow_status != 'MBRSTS03' && x.id_workflow_status != 'MBRSTS07'  && x.id_workflow_status != 'MBRSTS08'){
-							x['show_input'] = true;
+						if(x.id_workflow_status == 'MBRSTS02' || x.id_workflow_status == 'MBRSTS03' || x.id_workflow_status == 'MBRSTS07'  || x.id_workflow_status == 'MBRSTS08'){
+							x['show_input'] = false;
 						}
 					break;
 					case "ROLE002" :
-						if(x.id_workflow_status != 'MBRSTS03' && x.id_workflow_status != 'MBRSTS07'  && x.id_workflow_status != 'MBRSTS08'){
-							x['show_input'] = true;
+						if(x.id_workflow_status == 'MBRSTS03' || x.id_workflow_status == 'MBRSTS07' || x.id_workflow_status == 'MBRSTS08'){
+							x['show_input'] = false;
 						}
 					break;
 				}
