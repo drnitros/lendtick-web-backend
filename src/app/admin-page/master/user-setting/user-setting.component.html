@@ -42,24 +42,6 @@
 			<div class="col-sm-4 col-lg-3 mb-3">
 				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
 			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by NIK">
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date1" placeholder="filter by Tanggal pengjuan start"></p-calendar>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-calendar [(ngModel)]="date2" placeholder="filter by Tanggal pengjuan To"></p-calendar>
-			</div>
-			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="loanTypes" styleClass="form-control" [(ngModel)]="selectedLoan"></p-dropdown>
-			</div>
 		</div>
 		
 	</ng-container>
@@ -77,9 +59,10 @@
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<th *ngFor="let col of columns">
-							{{col.header}}
-						</th>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
 						<th class="text-right">
 							Options
 						</th>
@@ -90,7 +73,8 @@
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
 						<td *ngFor="let col of columns">
-							{{rowData[col.field]}}
+							<ng-container *ngIf="col.field == 'status'"><p-inputSwitch [(ngModel)]="rowData[col.field]"></p-inputSwitch></ng-container>
+							<ng-container *ngIf="col.field != 'status'">{{rowData[col.field]}}</ng-container>
 						</td>
 						<td class="text-right">
 							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
@@ -107,3 +91,42 @@
 	<!-- End Card -->
 </div>
 <!-- End Main Content -->
+
+<!-- Start Dialog Modal -->
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Pengguna" [modal]="true" [width]="500">
+		<div class="dialog-content">
+			<img src="../assets/img/user.jpg"  alt=""/>
+			<table class="table mt-4 border-bottom">
+				<tr>
+					<td class="label" style="width:170px"><label>Nama</label></td>
+					<td>{{selectedItem.name}}</td>
+				</tr>
+				<tr>
+					<td class="label"><label>Email</label></td>
+					<td>{{selectedItem.email}}</td>
+				</tr>
+				<tr>
+					<td class="label"><label>Nama Perusahaan</label></td>
+					<td>{{selectedItem.name_company}}</td>
+				</tr>
+				<tr>
+					<td class="label"><label>Role</label></td>
+					<td>{{selectedItem.role}}</td>
+				</tr>
+				<tr>
+					<td class="label"><label>Terakhir Login</label></td>
+					<td>{{selectedItem.last_login}}</td>
+				</tr>
+				<tr>
+					<td class="label"><label>Status</label></td>
+					<td><p-inputSwitch [(ngModel)]="selectedItem.status"></p-inputSwitch></td>
+				</tr>
+			</table>
+		</div>
+		<p-footer>
+			<button class="btn btn-default" (click)="display = false">
+				Close
+			</button>
+		</p-footer>
+	</p-dialog>
+	<!-- End Dialog Modal -->

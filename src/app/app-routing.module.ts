@@ -27,6 +27,12 @@ import { MainProductComponent } from './admin-page/products/main-product/main-pr
 import { SyncProductComponent } from './admin-page/products/sync-product/sync-product.component';
 import { SettingProductComponent } from './admin-page/products/setting-product/setting-product.component';
 
+// Master
+// ========================== //
+import { MainMasterComponent } from './admin-page/master//main-master/main-master.component';
+import { LoanTypeComponent } from './admin-page/master/loan-type/loan-type.component';
+import { UserSettingComponent } from './admin-page/master/user-setting/user-setting.component';
+
 // Pages
 // ========================== //
 import { SigninComponent } from './pages/layout-sign/signin/signin.component';
@@ -66,6 +72,13 @@ const routes: Routes = [
 					{ path: 'microloan', component: MicroloanComponent },
 					{ path: 'jangka-panjang', component: JangkaPanjangComponent },
 					{ path: 'detail', component: DetailLoanComponent },
+				]
+			},
+			{ path: 'master', component: MainMasterComponent,
+				children: [
+					{ path: '', redirectTo: 'loan-type', pathMatch: 'full' },
+					{ path: 'loan-type', component: LoanTypeComponent },
+					{ path: 'user-setting', component: UserSettingComponent },
 				]
 			}
 		]

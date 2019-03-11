@@ -10,7 +10,7 @@ export class MemberService {
 	private urlGetApprovalUser = this.APIService['hostAuth'] + '/user/approve/list';
 	private urlGetGrade = this.APIService['hostAuth'] + '/mst/grade';
 	private urlGetStatus = this.APIService['hostAuth'] + '/mst/user/status';
-	private urlGetCompany = this.APIService['hostAuth'] + '/company/get';
+	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
 	private urlApproveUser = this.APIService['hostAuth'] + '/user/approve';
 	private urlRejectUser = this.APIService['hostAuth'] + '/user/reject';
 	private urlPostUser = this.APIService['hostAuth'] + '/reg';

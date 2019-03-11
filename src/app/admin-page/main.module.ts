@@ -9,6 +9,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
 import { MemberModule } from './member/member.module';
 import { ProductsModule } from './products/products.module';
 import { LoanModule } from './loan/loan.module';
+import { MasterModule } from './master/master.module';
 import { IconsModule } from '../icons/icons.module';
 
 import { HeaderComponent } from './header/header.component';
@@ -30,6 +31,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 		MemberModule,
 		ProductsModule,
 		LoanModule,
+		MasterModule,
 
 		FormsModule,
 		CommonModule,
