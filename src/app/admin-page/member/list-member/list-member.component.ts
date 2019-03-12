@@ -37,6 +37,7 @@ export class ListMemberComponent implements OnInit {
 	public availabelColumn: Number;
 	public widthDisplay: number;
 	public roleId;
+	public dataProfile = null;
 	private objFilter = {};
 
 	public displayForm: boolean = false;
@@ -142,11 +143,22 @@ export class ListMemberComponent implements OnInit {
 	// Select Item / User
 	// ======================== //
 	selectItem(e){
-		this.display = true;
+		this.loading = true;
 		this.selectedItem = e;
+		this.memberService.getUserDetail(e.id_user).subscribe(res =>{
+			console.log(res);
+			this.dataProfile = res['data'];
+			this.display = true;
+			this.loading = false;
+			setTimeout(() => { 
+				window.dispatchEvent(new Event('resize')); 
+			}, 100);
+		});
+	}
+	tabChange(){
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
-		}, 500);
+		}, 100);
 	}
 
 	// Fetch Grade 

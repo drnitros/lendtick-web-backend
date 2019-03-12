@@ -14,6 +14,7 @@ export class APIService {
 	// Rest API 
 	public hostAuth: string = "https://lentick-api-user-dev.azurewebsites.net";
 	public hostProduct: string = "https://lentick-api-product-dev.azurewebsites.net";
+	public hostLoan: string = "https://lentick-api-loan-dev.azurewebsites.net";
 	
 	// Store
 	// =================== //

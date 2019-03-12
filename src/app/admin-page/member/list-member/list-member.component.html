@@ -101,7 +101,7 @@
 
 <!-- Start Dialog Modal -->
 <p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Member" [modal]="true" [width]="widthDisplay">
-	<div class="dialog-content">
+	<div *ngIf="!loading" class="dialog-content">
 		<div class="row">
 			<div class="col-md-5 border-right">
 				<div class="wrap-photo mb-3">
@@ -114,48 +114,134 @@
 				</div>
 			</div>
 			<div class="col-md-7">
-				<img [src]="selectedItem.personal_photo" class="img-user" />
-				<table class="table mt-4 border-bottom">
-					<tr>
-						<td class="label">Name</td>
-						<td>{{selectedItem.name}}</td>
-					</tr>
-					<tr>
-						<td class="label">NIK</td>
-						<td>{{selectedItem.id_employee}}</td>
-					</tr>
-					<tr>
-						<td class="label">No HP</td>
-						<td>{{selectedItem.phone_number}}</td>
-					</tr>
-					<tr>
-						<td class="label">Email</td>
-						<td>{{selectedItem.email}}</td>
-					</tr>
-					<tr>
-						<td class="label">No KTP</td>
-						<td>4234123423323</td>
-					</tr>
-					<tr>
-						<td class="label">Nama Perusahaan</td>
-						<td>{{selectedItem.name_company}}</td>
-					</tr>
-					<tr>
-						<td class="label">Tanggal Pengajuan</td>
-						<td>{{selectedItem.requested_date}}</td>
-					</tr>
-					<tr>
-						<td class="label">Golongan</td>
-						<td>{{selectedItem.name_grade}}</td>
-					</tr>
-					<tr>
-						<td class="label">Tanggal Masuk</td>
-						<td>{{selectedItem.employee_starting_date}}</td>
-					</tr>
-				</table>
+				<p-tabView styleClass="tab-nav-tabs" (onChange)="tabChange()">
+					<!-- Start Profile -->
+					<p-tabPanel header="Profile">
+						<div class="mt-4">
+							<img [src]="dataProfile.profile.personal_photo" class="img-user" />
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Name</td>
+									<td>{{dataProfile.profile.name}}</td>
+								</tr>
+								<tr>
+									<td class="label">NIK</td>
+									<td>{{selectedItem.id_employee}}</td>
+								</tr>
+								<tr>
+									<td class="label">No HP</td>
+									<td>{{dataProfile.profile.phone_number}}</td>
+								</tr>
+								<tr>
+									<td class="label">Email</td>
+									<td>{{dataProfile.profile.email}}</td>
+								</tr>
+								<tr>
+									<td class="label">No KTP</td>
+									<td>{{dataProfile.profile.identity_id}}</td>
+								</tr>
+								<tr>
+									<td class="label">Nama Perusahaan</td>
+									<td>{{selectedItem.name_company}}</td>
+								</tr>
+								<tr>
+									<td class="label">Tanggal Pengajuan</td>
+									<td>{{selectedItem.requested_date}}</td>
+								</tr>
+								<tr>
+									<td class="label">Golongan</td>
+									<td>{{selectedItem.name_grade}}</td>
+								</tr>
+								<tr>
+									<td class="label">Tanggal Masuk</td>
+									<td>{{selectedItem.employee_starting_date}}</td>
+								</tr>
+							</table>
+						</div>
+					</p-tabPanel>
+					<!-- End Profile -->
+					<!-- Start Company -->
+					<p-tabPanel header="Company">
+						<div class="dialog-content">
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Tanggal Mulai Bekerja</td>
+									<td>{{dataProfile.company.employee_starting_date}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Karyawan</td>
+									<td>{{dataProfile.company.id_employee}}</td>
+								</tr>
+								<tr>
+									<td class="label">Golongan</td>
+									<td>{{dataProfile.company.id_grade}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Company</td>
+									<td>{{dataProfile.company.id_user_company}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Profile</td>
+									<td>{{dataProfile.company.id_user_profile}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Workflow Status</td>
+									<td>{{dataProfile.company.id_workflow_status}}</td>
+								</tr>
+								<tr>
+									<td class="label">Posisi</td>
+									<td>{{dataProfile.company.position}}</td>
+								</tr>
+								<tr>
+									<td class="label">Termination Date</td>
+									<td>{{dataProfile.company.termination_date}}</td>
+								</tr>
+							</table>
+						</div>
+					</p-tabPanel>
+					<!-- End Company -->
+					<!-- Start User -->
+					<p-tabPanel header="User">
+						<div class="dialog-content">
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Role</td>
+									<td>{{dataProfile.user.id_role_master}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User</td>
+									<td>{{dataProfile.user.id_user}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Workflow Status</td>
+									<td>{{dataProfile.user.id_workflow_status}}</td>
+								</tr>
+								<tr>
+									<td class="label">Last Login</td>
+									<td>{{dataProfile.user.last_login}}</td>
+								</tr>
+								<tr>
+									<td class="label">Username</td>
+									<td>{{dataProfile.user.username}}</td>
+								</tr>
+								<tr>
+									<td class="label">Android Device Token</td>
+									<td>{{dataProfile.user.android_device_token}}</td>
+								</tr>
+								<tr>
+									<td class="label">IOS Device Token</td>
+									<td>{{dataProfile.user.ios_device_token}}</td>
+								</tr>
+							</table>
+						</div>
+					</p-tabPanel>
+					<!-- End User -->
+				</p-tabView>
+				
 			</div>
 		</div>
 	</div>
+	
 	<p-footer>
 		<button class="btn btn-default" (click)="display = false">
 			Close

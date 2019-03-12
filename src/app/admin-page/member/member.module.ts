@@ -17,6 +17,7 @@ import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
 import { PaginatorModule } from 'primeng/paginator';
+import { TabViewModule } from 'primeng/tabview';
 import { CustomFormsModule } from 'ng2-validation';
 
 import { MemberService } from './member.service';
@@ -44,6 +45,7 @@ import { ListMemberComponent } from './list-member/list-member.component';
 		DropdownModule,
 		CalendarModule,
 		DialogModule,
+		TabViewModule,
 		FileUploadModule
 	],
 	providers:[MemberService],

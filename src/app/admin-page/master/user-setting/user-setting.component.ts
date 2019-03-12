@@ -1,11 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import {Router, NavigationExtras} from "@angular/router";
-
+import {Router} from "@angular/router";
 import { MemberService } from '../../member/member.service';
-
-import { MessageService } from 'primeng/components/common/messageservice';
 import * as _ from 'lodash';
-import * as moment from 'moment';
 
 @Component({
   selector: 'app-user-setting',

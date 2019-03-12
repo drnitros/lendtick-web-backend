@@ -15,6 +15,7 @@ export class MemberService {
 	private urlRejectUser = this.APIService['hostAuth'] + '/user/reject';
 	private urlPostUser = this.APIService['hostAuth'] + '/reg';
 	private urlGetUserList = this.APIService['hostAuth'] + '/user/list';
+	private urlGetUserDetail = this.APIService['hostAuth'] + '/user/detail';
 
 	constructor(
 		private APIService: APIService,
@@ -30,13 +31,21 @@ export class MemberService {
 		};
 		return this.http.get(this.urlGetRefresh,options);
 	}
+	getUserDetail(id){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetUserDetail + '?id=' + id,options);
+	}
 	updateToken(run){
 		this.refreshToken().subscribe(res =>{
 			localStorage.setItem("token", res['data'].token);
 			return run;
 		});
 	}
-	
 	postUser(obj){
 		const options = {
 			headers: new HttpHeaders({
