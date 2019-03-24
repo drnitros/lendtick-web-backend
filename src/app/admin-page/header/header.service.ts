@@ -16,20 +16,10 @@ export class HeaderService {
 		private http: HttpClient
 	) { }
 
-	refreshToken(){
-		const options = {
-			headers: new HttpHeaders({
-			  'accept':  'application/json',
-			  'Authorization' : localStorage.getItem('token')
-			})
-		};
-		return this.http.get(this.urlGetRefresh,options);
-	}
-	updateToken(run){
-		this.refreshToken().subscribe(res =>{
-			localStorage.setItem("token", res['data'].token);
-			return run;
-		});
+	updateToken(token,run){
+		console.log(token);
+		localStorage.setItem("token", token);
+		return run;
 	}
 	
 	getProfilelUser(){

@@ -60,18 +60,53 @@
 
 
 .dialog-content{
-    
-    .row{
-        margin: 0;
+    padding: 30px;
+    border-end-end-radius: solid 1px red;
+}
 
-        > div{
-            padding: 30px;
+.list-document{
+    padding: 0;
+    margin: 25px 0 0 0;
+    list-style: none;
 
-            &:first-child{
-                background-color: #cfcfcf;
-            }
+    li{
+        display: block;
+        background: #fafafa;
+        border: solid 1px #dfdfdf;
+        padding: 15px;
+        border-radius: 4px;
+        margin-bottom: 15px;
+        cursor: pointer;
+        position: relative;
+
+        .link{
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 3;
+        }
+
+        img{
+            border: solid 1px #dfdfdf;
+        }
+
+        &.active,
+        &:hover{
+            border: dashed 1px $color-primary;
+            background: #fff;
+        }
+
+        &:last-child{
+            margin-bottom: 0;
         }
     }
+}
+
+.icon-btn{
+    width: 16px;
+    margin-right: 10px;
 }
 
 @media(max-width:767px){
@@ -84,7 +119,7 @@
 
 /deep/
     .ui-tabview.tab-nav-tabs .ui-tabview-nav{
-        margin: 0 -30px;
+        margin: 30px 0 0 0;
         padding-left: 30px !important;
         padding-right: 30px !important;
     }

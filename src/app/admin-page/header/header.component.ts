@@ -33,7 +33,6 @@ export class HeaderComponent implements OnInit {
 
 	ngOnInit() {
 		this.fetchUserProfile();
-		this.fetchCheckUser();
 	}
 	
 	onFullscreen(){
@@ -49,16 +48,10 @@ export class HeaderComponent implements OnInit {
 			});
 			this.photo = res['data'].personal_photo;
 			this.loading = false;
+			this.fetchCheckUser();
 		}, err =>{
 			this.loading = false;
-			if(err.status == 401) this.headerService.updateToken(this.fetchCheckUser());
-		});
-	}
-
-	refresh(){
-		console.log("asdas");
-		this.headerService.updateToken(function(){
-			console.log("asdas dasdas");
+			if(err.status == 401) this.headerService.updateToken(err.error.data.token, this.fetchUserProfile());
 		});
 	}
 

@@ -24,6 +24,7 @@ import { CustomFormsModule } from 'ng2-validation';
 import { MainMasterComponent } from './main-master/main-master.component';
 import { LoanTypeComponent } from './loan-type/loan-type.component';
 import { UserSettingComponent } from './user-setting/user-setting.component';
+import { VoucherComponent } from './voucher/voucher.component';
 
 @NgModule({
 	imports: [
@@ -47,7 +48,7 @@ import { UserSettingComponent } from './user-setting/user-setting.component';
 		FileUploadModule,
 		InputSwitchModule
 	],
-	declarations: [LoanTypeComponent, UserSettingComponent, MainMasterComponent],
+	declarations: [LoanTypeComponent, UserSettingComponent, MainMasterComponent, VoucherComponent],
 	providers: [MasterService]
 })
 export class MasterModule { }

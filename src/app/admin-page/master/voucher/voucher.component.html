@@ -3,11 +3,11 @@
 	<div class="media">
 		<i-book class="icon"></i-book> 
 		<div class="media-body">
-			<h5 class="title">Pengaturan Pengguna</h5>
+			<h5 class="title">Pengaturan Voucher</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
 				<li class="breadcrumb-item"><a routerLink="/main/master/">Master</a></li>
-				<li class="breadcrumb-item active" aria-current="page">Pengaturan Pengguna</li>
+				<li class="breadcrumb-item active" aria-current="page">Pengaturan Voucher</li>
 			</ol>
 		</div>
 	</div>
@@ -15,7 +15,6 @@
 <!-- End Sub Header -->
 <!-- Start Main Content -->
 <div class="main-content">
-
 	<!-- Start Toggle Columns -->
 	<ng-container *ngIf="!loading">
 		<div class="row mb-4">
@@ -30,17 +29,27 @@
 					defaultLabel="Choose Columns">
 				</p-multiSelect>
 			</div>
-			<!-- <div class="col-sm-4 col-lg-6"></div>
-			<div class="col-sm-4 col-lg-3 text-right">
-				<button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Anggota <i-plus class="icon"></i-plus></button>
-			</div> -->
+			<div class="col-sm-8 col-lg-9 text-right">
+				<button class="btn btn-primary btn-icon" (click)="displaynew = true">
+					Buat Baru <i-edit-2 class="icon"></i-edit-2>
+				</button>
+			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-4 col-lg-3 mb-3">
-				<input type="text" class="form-control" placeholder="filter by nama">
+				<input type="text" class="form-control" placeholder="filter by code">
 			</div>
 			<div class="col-sm-4 col-lg-3 mb-3">
-				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"></p-dropdown>
+				<p-dropdown [options]="loanType" styleClass="form-control" [(ngModel)]="selectedLoan"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="arrUser" styleClass="form-control" [(ngModel)]="selectedCreated"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-calendar [(ngModel)]="date" dateFormat="yy-mm-dd" selectionMode="range" placeholder="Filter berdasarkan tanggal"></p-calendar>
 			</div>
 		</div>
 		
@@ -126,6 +135,34 @@
 	<p-footer>
 		<button class="btn btn-default" (click)="display = false">
 			Close
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
+
+<!-- Start Dialog Modal -->
+<p-dialog [(visible)]="displaynew" header="Buat Voucher Baru" [modal]="true" [width]="500">
+	<div class="dialog-content">
+		<div class="mb-2">
+			<label>User Name Anggota</label>
+			<p-dropdown [options]="arrUser" styleClass="form-control" appendTo="body" [(ngModel)]="selectedCreated"></p-dropdown>
+		</div>
+		<div class="mb-2">
+			<label>Loan Type</label>
+			<p-dropdown [options]="loanType" styleClass="form-control" appendTo="body" [(ngModel)]="selectedLoan"></p-dropdown>
+		</div>
+		<div class="mb-2">
+			<label>Masa Berlaku</label>
+			<p-calendar [(ngModel)]="date" dateFormat="yy-mm-dd" appendTo="body" placeholder="Masa Berlaku"></p-calendar>
+		</div>
+		<div class="mb-2">
+			<label>Amount Percentage</label>
+			<p-spinner [max]="100" [min]="1" [(ngModel)]="amount" inputStyleClass="form-control"></p-spinner>
+		</div>
+	</div>
+	<p-footer>
+		<button class="btn btn-primary" (click)="displaynew = false">
+			Submit
 		</button>
 	</p-footer>
 </p-dialog>

@@ -32,6 +32,7 @@ import { SettingProductComponent } from './admin-page/products/setting-product/s
 import { MainMasterComponent } from './admin-page/master//main-master/main-master.component';
 import { LoanTypeComponent } from './admin-page/master/loan-type/loan-type.component';
 import { UserSettingComponent } from './admin-page/master/user-setting/user-setting.component';
+import { VoucherComponent } from './admin-page/master/voucher/voucher.component';
 
 // Pages
 // ========================== //
@@ -79,6 +80,7 @@ const routes: Routes = [
 					{ path: '', redirectTo: 'loan-type', pathMatch: 'full' },
 					{ path: 'loan-type', component: LoanTypeComponent },
 					{ path: 'user-setting', component: UserSettingComponent },
+					{ path: 'voucher', component: VoucherComponent }
 				]
 			}
 		]

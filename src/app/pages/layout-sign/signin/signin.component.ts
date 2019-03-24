@@ -29,7 +29,6 @@ export class SigninComponent implements OnInit {
 		this.isLoading = true;
 		this.errorUser = false;
 		this.signService.postLogin(e).subscribe(res =>{
-			console.log(res);
 			if(res['status']){
 				localStorage.setItem("token", res['data'].token);
 				localStorage.setItem("id_role_master", res['data'].id_role_master);

@@ -24,6 +24,10 @@ export class ListMemberComponent implements OnInit {
 	public companies = [];
 	public originGrades = [];
 	public arrStatus = [];
+	public arrReligion = [];
+	public arrDomicile = [];
+	public arrMariege = [];
+	public arrRole = [];
 	public selectedStatus = null;
 	public date: Date = null;
 	public date1: Date = null;
@@ -59,8 +63,12 @@ export class ListMemberComponent implements OnInit {
 
 	ngOnInit() {
 		this.fetchUser();
+		this.fetchDomicile();
+		this.fetchMarriage();
+		this.fetchReligion();
+		this.fetchRole();
 		this.roleId = localStorage.getItem('id_role_master');
-		this.widthDisplay = $(window).width() - 60;
+		this.widthDisplay = 1200;
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
@@ -132,7 +140,7 @@ export class ListMemberComponent implements OnInit {
 		}, err=>{
 			this.fetchUser();
 			this.loading = false;
-			if(err.status == 401) this.memberService.updateToken(this.fetchUser());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchUser());
 		});
 	}
 	paginate(e){
@@ -146,13 +154,30 @@ export class ListMemberComponent implements OnInit {
 		this.loading = true;
 		this.selectedItem = e;
 		this.memberService.getUserDetail(e.id_user).subscribe(res =>{
-			console.log(res);
 			this.dataProfile = res['data'];
-			this.display = true;
-			this.loading = false;
-			setTimeout(() => { 
-				window.dispatchEvent(new Event('resize')); 
-			}, 100);
+			let findStatus = _.find(this.arrStatus, {value: res['data'].user.id_workflow_status});
+			if(findStatus) res['data'].user.status_name = findStatus.label;
+
+			let findReligion =  _.find(this.arrReligion, {id_religion: res['data'].profile.id_religion});
+			if(findReligion) res['data'].profile.name_religion = findReligion.name_religion;
+			
+			let findMarriage = _.find(this.arrMariege, {id_marriage_status: res['data'].profile.id_marriage_status});
+			if(findMarriage) res['data'].profile.marriage_status_name = findMarriage.marriage_status_name;
+
+			let findDomicili = _.find(this.arrDomicile, {id_domicile_address_status: res['data'].profile.id_domicile_address_status});
+			if(findDomicili) res['data'].profile.domicili_name = findDomicili.name_domicile_address_status;
+			
+			let findGrade = _.find(this.grades2, {value: res['data'].company.id_grade});
+			if(findGrade) res['data'].company.grade_name = findGrade.label;
+			
+			setTimeout(()=>{
+				let findRole = _.find(this.arrRole, {id_role_master: res['data'].user.id_role_master});
+				if(findRole) res['data'].user.role_master_name = findRole.name_role_master;
+				
+				let findGradeSlary = _.find(this.grades2, {value: res['data'].salary.id_grade});
+				if(findGradeSlary) res['data'].salary.salary_grade_name = findGradeSlary.label;
+			}, 1000); 
+			this.fetchSallary(e.id_user);
 		});
 	}
 	tabChange(){
@@ -161,25 +186,120 @@ export class ListMemberComponent implements OnInit {
 		}, 100);
 	}
 
-	// Fetch Grade 
-	// ========================= //
-	fetchGrade(){
-		this.memberService.getGrade().subscribe(res =>{
-			this.originGrades = res['data'];
-			this.grades = [{label:"Semua Golongan",value:null}];
-			this.grades2 = [];
-			_.map(res['data'], (x)=>{
-				let obj = {label:x.name_grade,value:x.id_grade};
-				this.grades.push(obj);
-				this.grades2.push(obj);
-			});
+	// Create Mutation Employee
+	// ======================== //
+	public isSubmitMutation: boolean = false;
+	createMutation(){
+		this.isSubmitMutation = true;
+		let imgCompanyPath;
+		this.memberService.toDataUrl(this.dataProfile.company.company_identity_path,(res)=>{
+			imgCompanyPath = res;
+		});
+		let obj = {
+			id: this.selectedItem.id_user,
+			id_employee: this.selectedItem.id_employee,
+			id_company: this.dataProfile.company.id_company,
+			company_identity_photo: imgCompanyPath,
+			division: this.dataProfile.company.division,
+			position: this.dataProfile.company.position
+		};
+		this.memberService.updateMutation(obj).subscribe(res =>{
+			this.isSubmitMutation = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
+			this.display = false;
+			this.fetchUser();
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(this.fetchGrade());
+			this.isSubmitMutation = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Mutasi karyawan gagal, silakan coba lagi'});
+		})
+	}
+
+	// Fetch Salary
+	// ============================ //
+	fetchSallary(id){
+		this.memberService.getSallary(id).subscribe(res =>{
+			this.dataProfile['salary'] = res['data'];
+			this.dataProfile['salary'].amount = Number(res['data'].salary_amount).toLocaleString();
+			this.fetchBank(id);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchSallary(id));
 		});
 	}
 
-	// Fetch Status 
-	// ========================= // 
+	// Fetch Bank
+	// ============================ //
+	fetchBank(id){
+		this.memberService.getBank(id).subscribe(res =>{
+			this.dataProfile['bank'] = res['data'];
+			this.fetchDocument(id);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchBank(id));
+		});
+	}
+
+	// Fetch Document
+	// ============================ //
+	public selectedDocument = null;
+	public isViewDocument: boolean = false;
+	public openTabDocument: boolean = false;
+	fetchDocument(id){
+		this.memberService.getDocument(id).subscribe(res =>{
+			res['data'].map((x)=> x['disable'] = false);
+			this.dataProfile['document'] = res['data'];
+			this.display = true;
+			this.loading = false;
+			this.openTabDocument = false;
+			setTimeout(() => { 
+				window.dispatchEvent(new Event('resize')); 
+			}, 100);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchBank(id));
+		});
+	}
+	selectDocument(e){
+		if(this.selectedDocument){
+			if(!this.selectedDocument.disable) this.selectedDocument = e;
+		}else{
+			this.selectedDocument = e;
+		}
+	}
+	removeDocument(){
+		this.selectedDocument.disable = true;
+		this.memberService.deleteDocument(Number(this.selectedDocument.id_user),this.selectedDocument.id_user_document).subscribe(res =>{
+			this.fetchDocument(Number(this.selectedDocument.id_user));
+			this.selectedDocument = null;
+		}, err =>{
+			this.selectedDocument.disable = false;
+		});
+	}
+	viewDocument(){
+		this.widthDisplay = 800;
+		this.isViewDocument = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+	closeViewDocument(){
+		this.widthDisplay = 1200;
+		this.isViewDocument = false;
+		this.openTabDocument = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+
+	// Fetch Master 
+	// ========================= //
+	fetchCompany(){
+		this.memberService.getCompany().subscribe(res =>{
+			this.companies = [{label:"Semua Perusahaan",value: null}];
+			_.map(res['data'],(x)=>{
+				this.companies.push({label:x.name_company, value:x.id_company});
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchCompany());
+		});
+	}
 	fetchStatus(){
 		this.memberService.getStatus().subscribe(res =>{
 			this.arrStatus = [{label:"Semua Status",value:null}];
@@ -192,23 +312,52 @@ export class ListMemberComponent implements OnInit {
 				x['status_name'] = _.find(this.arrStatus, {value: x.id_workflow_status}).label;
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(this.fetchStatus());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchStatus());
 		});
 	}
-
-	// Fetch Company 
-	// ========================= //
-	fetchCompany(){
-		this.memberService.getCompany().subscribe(res =>{
-			this.companies = [{label:"Semua Perusahaan",value: null}];
-			_.map(res['data'],(x)=>{
-				this.companies.push({label:x.name_company, value:x.id_company});
+	fetchGrade(){
+		this.memberService.getGrade().subscribe(res =>{
+			this.originGrades = res['data'];
+			this.grades = [{label:"Semua Golongan",value:null}];
+			this.grades2 = [];
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.name_grade,value:x.id_grade};
+				this.grades.push(obj);
+				this.grades2.push(obj);
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(this.fetchCompany());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchGrade());
 		});
 	}
-
+	fetchDomicile(){
+		this.memberService.getDomicile().subscribe(res =>{
+			this.arrDomicile = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchDomicile());
+		});
+	}
+	fetchReligion(){
+		this.memberService.getReligion().subscribe(res =>{
+			this.arrReligion = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchReligion());
+		});
+	}
+	fetchMarriage(){
+		this.memberService.getMarriage().subscribe(res =>{
+			this.arrMariege = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
+		});
+	}
+	fetchRole(){
+		this.memberService.getRole().subscribe(res =>{
+			this.arrRole = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
+		});
+	}
+	
 	// Approve User
 	// ========================= //
 	approve(){
@@ -261,7 +410,6 @@ export class ListMemberComponent implements OnInit {
 		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 		var pattern = /image-*/;
 		var reader = new FileReader();
-		console.log(file,reader);
 		if(file != undefined){
 			if (!file.type.match(pattern)) {
 				alert('invalid format');
