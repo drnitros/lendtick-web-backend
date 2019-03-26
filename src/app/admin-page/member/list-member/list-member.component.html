@@ -270,7 +270,7 @@
 									</div>
 								</div>
 								<div class="mt-4">
-									<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid || imgEmployee == null" (click)="createMutation()">
+									<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid" (click)="createMutation()">
 										<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
 										<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
 									</button>

@@ -211,7 +211,7 @@ export class ListMemberComponent implements OnInit {
 			id: this.selectedItem.id_user,
 			id_employee: this.idEmployee,
 			id_company: this.selectedCompany2,
-			// company_identity_photo: this.imgEmployee,
+			company_identity_photo: this.imgEmployee,
 			division: this.division,
 			position: this.position
 		};
