@@ -175,48 +175,109 @@
 			<!-- Start Company -->
 			<p-tabPanel header="Company">
 				<div class="dialog-content">
-
-					<div class="mb-4">
-						<button class="btn btn-inverse btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation" (click)="createMutation()">
-							<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
-							<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
-						</button>
+					<div class="row">
+						<div class="col-md-6">
+							<table class="table table-striped mb-0">
+								<tr>
+									<td class="label">Tanggal Mulai Bekerja</td>
+									<td>{{dataProfile.company.employee_starting_date}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Karyawan</td>
+									<td>{{dataProfile.company.id_employee}}</td>
+								</tr>
+								<tr>
+									<td class="label">Golongan</td>
+									<td>{{dataProfile.company.grade_name}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Company</td>
+									<td>{{dataProfile.company.id_user_company}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Profile</td>
+									<td>{{dataProfile.company.id_user_profile}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Workflow Status</td>
+									<td>{{dataProfile.company.id_workflow_status}}</td>
+								</tr>
+								<tr>
+									<td class="label">Posisi</td>
+									<td>{{dataProfile.company.position}}</td>
+								</tr>
+								<tr>
+									<td class="label">Termination Date</td>
+									<td>{{dataProfile.company.termination_date}}</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-6">
+							<form #mutationForm="ngForm">
+								<div class="mb-2">
+									<label>ID Karyawan</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="idEmployee" 
+										[(ngModel)]="idEmployee" 
+										[class.is-invalid]="idEmployeeRef.errors?.required && idEmployeeRef.touched" 
+										#idEmployeeRef="ngModel"
+										placeholder="Masukan ID Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Divisi</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="divisi" 
+										[(ngModel)]="division" 
+										[class.is-invalid]="divisionRef.errors?.required && divisionRef.touched" 
+										#divisionRef="ngModel"
+										placeholder="Divisi Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Posisi</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="position" 
+										[(ngModel)]="position" 
+										[class.is-invalid]="positionRef.errors?.required && positionRef.touched" 
+										#positionRef="ngModel"
+										placeholder="Posisi Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Perusahaan</label>
+									<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true"></p-dropdown>
+								</div>
+								<div class="mb-2">
+									<label>Unggah foto perusahaan</label>
+									<img *ngIf="imgEmployee" [src]="imgEmployee" class="img-user mt-2 mb-2" />
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text file pt-1">
+												<i-upload class="icon"></i-upload> 
+											</span>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event)" id="uploadcompany" required>
+											<label class="custom-file-label" for="uploadcompany">Unggah foto perusahaan</label>
+										</div>
+									</div>
+								</div>
+								<div class="mt-4">
+									<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid || imgEmployee == null" (click)="createMutation()">
+										<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
+										<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</form>
+						</div>
 					</div>
-					
-					<table class="table table-striped mb-0">
-						<tr>
-							<td class="label">Tanggal Mulai Bekerja</td>
-							<td>{{dataProfile.company.employee_starting_date}}</td>
-						</tr>
-						<tr>
-							<td class="label">ID Karyawan</td>
-							<td>{{dataProfile.company.id_employee}}</td>
-						</tr>
-						<tr>
-							<td class="label">Golongan</td>
-							<td>{{dataProfile.company.grade_name}}</td>
-						</tr>
-						<tr>
-							<td class="label">ID User Company</td>
-							<td>{{dataProfile.company.id_user_company}}</td>
-						</tr>
-						<tr>
-							<td class="label">ID User Profile</td>
-							<td>{{dataProfile.company.id_user_profile}}</td>
-						</tr>
-						<tr>
-							<td class="label">ID Workflow Status</td>
-							<td>{{dataProfile.company.id_workflow_status}}</td>
-						</tr>
-						<tr>
-							<td class="label">Posisi</td>
-							<td>{{dataProfile.company.position}}</td>
-						</tr>
-						<tr>
-							<td class="label">Termination Date</td>
-							<td>{{dataProfile.company.termination_date}}</td>
-						</tr>
-					</table>
 				</div>
 			</p-tabPanel>
 			<!-- End Company -->

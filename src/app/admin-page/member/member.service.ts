@@ -16,6 +16,7 @@ export class MemberService {
 	private urlGetRole = this.APIService['hostAuth'] + '/mst/role';
 
 	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
+	private urlGetCompany2 = this.APIService['hostAuth'] + '/company/get';
 	private urlApproveUser = this.APIService['hostAuth'] + '/user/approve';
 	private urlRejectUser = this.APIService['hostAuth'] + '/user/reject';
 	private urlPostUser = this.APIService['hostAuth'] + '/reg';
@@ -60,6 +61,7 @@ export class MemberService {
 
 	// Update Mutation
 	updateMutation(body){
+		console.log(body);
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',
@@ -121,10 +123,10 @@ export class MemberService {
 			  'Authorization' : localStorage.getItem('token')
 			})
 		};
-		let body = JSON.stringify({
-			id: id_user,
-			id_user_document: id_user_doc
-		});
+		let body = {
+			id: id_user.toString(),
+			id_user_document: id_user_doc.toString()
+		};
 		return this.http.put(this.urlDeleteDocument,body,options);
 	}
 
@@ -232,6 +234,15 @@ export class MemberService {
 			})
 		};
 		return this.http.get(this.urlGetCompany,options);
+	}
+	getCompany2(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetCompany2,options);
 	}
 	getReligion(){
 		const options = {

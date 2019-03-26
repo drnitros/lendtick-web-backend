@@ -22,6 +22,8 @@ export class ListMemberComponent implements OnInit {
 	public grades2 = [];
 	public selectedGrade = null;
 	public companies = [];
+	public companies2 = [];
+	public selectedCompany = null;
 	public originGrades = [];
 	public arrStatus = [];
 	public arrReligion = [];
@@ -54,6 +56,10 @@ export class ListMemberComponent implements OnInit {
 	public company_identity_photo;
 	public personal_photo;
 	public phone_number;
+
+	public imageID = null;
+	public imageKTP = null;
+	public imagePersonal = null;
 
 	constructor(
 		private messageService: MessageService,
@@ -176,6 +182,11 @@ export class ListMemberComponent implements OnInit {
 				
 				let findGradeSlary = _.find(this.grades2, {value: res['data'].salary.id_grade});
 				if(findGradeSlary) res['data'].salary.salary_grade_name = findGradeSlary.label;
+
+				this.selectedCompany2 = this.dataProfile.company.id_company;
+				this.position = this.dataProfile.company.position;
+				this.division = this.dataProfile.company.division;
+				this.idEmployee = this.selectedItem.id_employee;
 			}, 1000); 
 			this.fetchSallary(e.id_user);
 		});
@@ -189,20 +200,22 @@ export class ListMemberComponent implements OnInit {
 	// Create Mutation Employee
 	// ======================== //
 	public isSubmitMutation: boolean = false;
+	public idEmployee = null;
+	public division = null;
+	public position = null;
+	public selectedCompany2 = null;
+	public imgEmployee = null;
 	createMutation(){
 		this.isSubmitMutation = true;
-		let imgCompanyPath;
-		this.memberService.toDataUrl(this.dataProfile.company.company_identity_path,(res)=>{
-			imgCompanyPath = res;
-		});
 		let obj = {
 			id: this.selectedItem.id_user,
-			id_employee: this.selectedItem.id_employee,
-			id_company: this.dataProfile.company.id_company,
-			company_identity_photo: imgCompanyPath,
-			division: this.dataProfile.company.division,
-			position: this.dataProfile.company.position
+			id_employee: this.idEmployee,
+			id_company: this.selectedCompany2,
+			// company_identity_photo: this.imgEmployee,
+			division: this.division,
+			position: this.position
 		};
+		console.log(obj);
 		this.memberService.updateMutation(obj).subscribe(res =>{
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
@@ -212,6 +225,33 @@ export class ListMemberComponent implements OnInit {
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Mutasi karyawan gagal, silakan coba lagi'});
 		})
+	}
+	// Upload image 
+	// ========================= //
+	handleInputChange(e) {
+		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+		var pattern = /image-*/;
+		var reader = new FileReader();
+		if(file != undefined){
+			if (!file.type.match(pattern)) {
+				alert('invalid format');
+				return;
+			}
+		}
+		reader.onload = this._handleReaderLoaded.bind(this);
+		reader.readAsDataURL(file);
+	}
+	_handleReaderLoaded(e) {
+		let reader = e.target;
+		this.imgEmployee = reader.result;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 500);
+	}
+	// Select Company Mutation Employee
+	// ============================== //
+	changeCompany2(e){
+		this.selectedCompany2 = e.value;
 	}
 
 	// Fetch Salary
@@ -268,8 +308,11 @@ export class ListMemberComponent implements OnInit {
 		this.memberService.deleteDocument(Number(this.selectedDocument.id_user),this.selectedDocument.id_user_document).subscribe(res =>{
 			this.fetchDocument(Number(this.selectedDocument.id_user));
 			this.selectedDocument = null;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Hapush dokumen berhasil'});
 		}, err =>{
 			this.selectedDocument.disable = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Hapush dokumen gagal'});
+
 		});
 	}
 	viewDocument(){
@@ -295,6 +338,14 @@ export class ListMemberComponent implements OnInit {
 			this.companies = [{label:"Semua Perusahaan",value: null}];
 			_.map(res['data'],(x)=>{
 				this.companies.push({label:x.name_company, value:x.id_company});
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchCompany());
+		});
+
+		this.memberService.getCompany2().subscribe(res =>{
+			_.map(res['data'],(x)=>{
+				this.companies2.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchCompany());
@@ -356,88 +407,6 @@ export class ListMemberComponent implements OnInit {
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
 		});
-	}
-	
-	// Approve User
-	// ========================= //
-	approve(){
-		this.isSubmitApprove = true;
-		let body = {
-			id: Number(this.selectedItem['id_user']),
-			grade: this.selectedGrade,
-			date_in: moment(this.date).format('YYYY-MM-DD hh:mm:ss'),
-		};
-		this.memberService.putApproveUser(body).subscribe(res =>{
-			this.display = false;
-			this.isSubmitApprove = false;
-			this.fetchUser();
-			this.messageService.add({severity:'success', summary: 'Success', detail:'User ha been approved'});
-		}, err =>{
-			this.isSubmitApprove = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Please try again'});
-		});
-	}
-
-	// Reject User
-	// ========================= //
-	reject(){
-		this.isSubmitReject = true;
-		this.memberService.putRejectUser({id: Number(this.selectedItem['id_user'])}).subscribe(res =>{
-			this.display = false;
-			this.isSubmitReject = false;
-			this.fetchUser();
-			this.messageService.add({severity:'success', summary: 'Success', detail:'User ha been rejected'});
-		}, err =>{
-			this.isSubmitReject = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Please try again'});
-		});
-	}
-
-	// Add New Member
-	// ========================= //
-	openDialogForm(){
-		this.displayForm = true;
-		setTimeout(() => { 
-			window.dispatchEvent(new Event('resize')); 
-		}, 500);
-	}
-
-	public imageKTP: any = {};
-	public imageID: any = {};
-	public imagePersonal: any = {};
-	private uploadType: string;
-	handleInputChange(e,type) {
-		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-		var pattern = /image-*/;
-		var reader = new FileReader();
-		if(file != undefined){
-			if (!file.type.match(pattern)) {
-				alert('invalid format');
-				return;
-			}
-
-			this.uploadType = type;
-		}
-		reader.onload = this._handleReaderLoaded.bind(this);
-		reader.readAsDataURL(file);
-
-		switch(this.uploadType){
-			case "ktp" : this.imageKTP['imageName'] = file.name; break;
-			case "id" : this.imageID['imageName'] = file.name; break;
-			case "personal" : this.imagePersonal['imageName'] = file.name; break;
-		}
-	}
-	_handleReaderLoaded(e) {
-		let reader = e.target;
-		switch(this.uploadType){
-			case "ktp" : this.imageKTP['imageSrc'] = reader.result; break;
-			case "id" : this.imageID['imageSrc'] = reader.result; break;
-			case "personal" : this.imagePersonal['imageSrc'] = reader.result; break;
-		}
-
-		setTimeout(() => { 
-			window.dispatchEvent(new Event('resize')); 
-		}, 500);
 	}
 
 	// Filter List
