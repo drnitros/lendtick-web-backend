@@ -15,6 +15,8 @@ export class MemberService {
 	private urlGetDomicile = this.APIService['hostAuth'] + '/mst/domicile';
 	private urlGetRole = this.APIService['hostAuth'] + '/mst/role';
 
+	private urlGetMstDocument = this.APIService['hostLoan'] + '/master/document';
+
 	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
 	private urlGetCompany2 = this.APIService['hostAuth'] + '/company/get';
 	private urlApproveUser = this.APIService['hostAuth'] + '/user/approve';
@@ -109,7 +111,8 @@ export class MemberService {
 	postDocument(obj){
 		const options = {
 			headers: new HttpHeaders({
-			  'accept':  'application/json',
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
 			})
 		};
 		let body = obj;
@@ -280,4 +283,15 @@ export class MemberService {
 		};
 		return this.http.get(this.urlGetRole,options);
 	}
+	getMstDocument(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetMstDocument,options);
+	}
 }
+
+

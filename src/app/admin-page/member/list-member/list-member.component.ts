@@ -73,6 +73,7 @@ export class ListMemberComponent implements OnInit {
 		this.fetchMarriage();
 		this.fetchReligion();
 		this.fetchRole();
+		this.fetchMasterDocumentType();
 		this.roleId = localStorage.getItem('id_role_master');
 		this.widthDisplay = 1200;
 
@@ -125,6 +126,40 @@ export class ListMemberComponent implements OnInit {
 		}
 		this.availabelColumn = _.filter(this.columns, {show: true}).length + 1;
 		this.selectedColumns = _.filter(this.columns,{show:true});
+	}
+
+	// Convert Image
+	// ========================= //
+	private typeupload = null;
+	handleInputChange(e,type) {
+		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
+		var pattern = /image-*/;
+		var reader = new FileReader();
+		if(file != undefined){
+			if (!file.type.match(pattern)) {
+				alert('invalid format');
+				return;
+			}
+		}
+
+		this.typeupload = type;
+		reader.onload = this._handleReaderLoaded.bind(this);
+		reader.readAsDataURL(file);
+	}
+	_handleReaderLoaded(e,type) {
+		let reader = e.target;
+		switch(this.typeupload){
+			case "company" :
+				this.imgEmployee = reader.result;
+			break;
+			case "document" :
+				this.imgDocument = reader.result;
+			break;
+		}
+		
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 500);
 	}
 
 	// Fetching User
@@ -226,28 +261,7 @@ export class ListMemberComponent implements OnInit {
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Mutasi karyawan gagal, silakan coba lagi'});
 		})
 	}
-	// Upload image 
-	// ========================= //
-	handleInputChange(e) {
-		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
-		var pattern = /image-*/;
-		var reader = new FileReader();
-		if(file != undefined){
-			if (!file.type.match(pattern)) {
-				alert('invalid format');
-				return;
-			}
-		}
-		reader.onload = this._handleReaderLoaded.bind(this);
-		reader.readAsDataURL(file);
-	}
-	_handleReaderLoaded(e) {
-		let reader = e.target;
-		this.imgEmployee = reader.result;
-		setTimeout(() => { 
-			window.dispatchEvent(new Event('resize')); 
-		}, 500);
-	}
+	
 	// Select Company Mutation Employee
 	// ============================== //
 	changeCompany2(e){
@@ -279,12 +293,20 @@ export class ListMemberComponent implements OnInit {
 
 	// Fetch Document
 	// ============================ //
-	public selectedDocument = null;
 	public isViewDocument: boolean = false;
 	public openTabDocument: boolean = false;
+	public selectedDocument = null;
+	public imgDocument = null;
+	public isSubmitDocument: boolean = false;
+	public arrDocumentType = [];
+	public selectedDocumentType = null;
+
 	fetchDocument(id){
 		this.memberService.getDocument(id).subscribe(res =>{
-			res['data'].map((x)=> x['disable'] = false);
+			res['data'].map((x)=> {
+				x['disable'] = false;
+				x['document_name'] = _.find(this.arrDocumentType,{value: x.id_document_type}).label;
+			});
 			this.dataProfile['document'] = res['data'];
 			this.display = true;
 			this.loading = false;
@@ -296,27 +318,21 @@ export class ListMemberComponent implements OnInit {
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchBank(id));
 		});
 	}
-	selectDocument(e){
-		if(this.selectedDocument){
-			if(!this.selectedDocument.disable) this.selectedDocument = e;
-		}else{
-			this.selectedDocument = e;
-		}
-	}
-	removeDocument(){
+	removeDocument(e){
+		this.selectedDocument = e;
 		this.selectedDocument.disable = true;
 		this.memberService.deleteDocument(Number(this.selectedDocument.id_user),this.selectedDocument.id_user_document).subscribe(res =>{
 			this.fetchDocument(Number(this.selectedDocument.id_user));
 			this.selectedDocument = null;
-			this.messageService.add({severity:'success', summary: 'Success', detail:'Hapush dokumen berhasil'});
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil hapush dokumen'});
 		}, err =>{
 			this.selectedDocument.disable = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Hapush dokumen gagal'});
-
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal hapush dokumen'});
 		});
 	}
-	viewDocument(){
+	viewDocument(e){
 		this.widthDisplay = 800;
+		this.selectedDocument = e;
 		this.isViewDocument = true;
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
@@ -329,6 +345,27 @@ export class ListMemberComponent implements OnInit {
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
 		}, 100);
+	}
+	changeDocumentType(e){
+		this.selectedDocumentType = e.value;
+	}
+	createDocument(){
+		let obj = {
+			id: this.selectedItem.id_user,
+			id_document_type: this.selectedDocumentType.value,
+			doc_photo: this.imgDocument
+		};
+
+		console.log(obj);
+		this.isSubmitDocument = true;
+		this.memberService.postDocument(obj).subscribe(res =>{
+			this.isSubmitDocument = false;
+			this.fetchDocument(this.selectedItem.id_user);
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+		}, err =>{
+			this.isSubmitDocument = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+		});
 	}
 
 	// Fetch Master 
@@ -406,6 +443,17 @@ export class ListMemberComponent implements OnInit {
 			this.arrRole = res['data'];
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
+		});
+	}
+	fetchMasterDocumentType(){
+		this.memberService.getMstDocument().subscribe(res =>{
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.document_name,value:x.id_document_type};
+				this.arrDocumentType.push(obj);
+			});
+			this.selectedDocumentType = this.arrDocumentType[0];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchGrade());
 		});
 	}
 

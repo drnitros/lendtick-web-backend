@@ -264,7 +264,7 @@
 											</span>
 										</div>
 										<div class="custom-file">
-											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event)" id="uploadcompany" required>
+											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'company')" id="uploadcompany" required>
 											<label class="custom-file-label" for="uploadcompany">Unggah foto perusahaan</label>
 										</div>
 									</div>
@@ -305,33 +305,59 @@
 			<p-tabPanel header="Document"  [selected]="openTabDocument">
 				<div class="dialog-content">
 
-					<div class="mb-4">
-						<button class="btn btn-inverse btn-primary btn-icon" (click)="addDocument()">
-							Tambah Dokumen <i-upload class="icon"></i-upload>
-						</button>
+					<div class="row">
+						<div class="col-md-4">
+
+							<form #documentForm="ngForm">
+								<div class="mb-2">
+									<label>Tipe Dokumen</label>
+									<p-dropdown [options]="arrDocumentType" name="company" styleClass="form-control" [(ngModel)]="selectedDocumentType" (onChange)="changeDocumentType($event)" [required]="true"></p-dropdown>
+								</div>
+								<div class="mb-4">
+									<label>Unggah Dokumen</label>
+									<img *ngIf="imgDocument" [src]="imgDocument" class="img-user mt-2 mb-2" />
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text file pt-1">
+												<i-upload class="icon"></i-upload> 
+											</span>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'document')" id="uploaddocument" required>
+											<label class="custom-file-label" for="uploaddocument">Unggah foto perusahaan</label>
+										</div>
+									</div>
+								</div>
+								<div class="mb-4">
+									<button class="btn btn-primary" [class.btn-icon]="!isSubmitDocument" [disabled]="isSubmitDocument || documentForm.invalid && imgDocument == null" (click)="createDocument()">
+										<span *ngIf="!isSubmitDocument">Tambah Dokumen <i-upload class="icon"></i-upload></span>
+										<span *ngIf="isSubmitDocument"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</form>
+
+						</div>
 					</div>
 
-					<ul class="list-document">
-						<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item">
-							<div *ngIf="selectedDocument == item" class="mb-3">
-								<img [src]="item.path" width="100" alt="" />
-							</div>
-							<label class="d-inline-block mr-2">Document type :</label> {{item.id_document_type}}<br />
-							<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}<br />
-							<label class="d-inline-block mr-2">Created at :</label> {{item.created_at}}<br />
-							<label class="d-inline-block mr-2">Updated at :</label> {{item.updated_at}}
-							<div class="mt-4" *ngIf="selectedDocument == item">
-								<button class="btn btn-primary btn-inverse mr-2" (click)="selectedDocument = null" [disabled]="item.disable">Tutup</button>
-								<button class="btn btn-primary btn-inverse mr-2" (click)="viewDocument()" [disabled]="item.disable">Lihat Dockumen</button>
-								<button class="btn btn-primary btn-inverse mr-2" [disabled]="item.disable">Ubah</button>
-								<button class="btn btn-danger" [disabled]="item.disable" (click)="removeDocument()">
-									<span *ngIf="!item.disable">Hapus</span>
-									<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
-								</button>
-							</div>
-							<a  *ngIf="selectedDocument != item" href="javascript:;" class="link" (click)="selectDocument(item)"></a>
-						</li>
-					</ul>
+					<div class="wrap-gallery">
+						<ul class="list-document row">
+							<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-4">
+								<img [src]="item.path" class="img-user mb-2" style="width:100px;height:100px;" alt="" />
+								<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}<br />
+								<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}<br />
+								<label class="d-inline-block mr-2">Created at :</label> {{item.created_at}}<br />
+								<label class="d-inline-block mr-2">Updated at :</label> {{item.updated_at}}
+								<div class="mt-4">
+									<button class="btn btn-primary btn-inverse mr-2" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
+									<button class="btn btn-primary btn-inverse mr-2" [disabled]="item.disable">Ubah</button>
+									<button class="btn btn-danger" [disabled]="item.disable" (click)="removeDocument(item)">
+										<span *ngIf="!item.disable">Hapus</span>
+										<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</li>
+						</ul>
+					</div>
 				</div>
 			</p-tabPanel>
 			<!-- End Document -->
