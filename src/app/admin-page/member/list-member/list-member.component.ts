@@ -352,11 +352,11 @@ export class ListMemberComponent implements OnInit {
 	createDocument(){
 		let obj = {
 			id: this.selectedItem.id_user,
-			id_document_type: this.selectedDocumentType.value,
+			id_document_type: this.selectedDocumentType,
 			doc_photo: this.imgDocument
 		};
 
-		console.log(obj);
+		console.log(obj,this.selectedDocumentType);
 		this.isSubmitDocument = true;
 		this.memberService.postDocument(obj).subscribe(res =>{
 			this.isSubmitDocument = false;
@@ -451,7 +451,7 @@ export class ListMemberComponent implements OnInit {
 				let obj = {label:x.document_name,value:x.id_document_type};
 				this.arrDocumentType.push(obj);
 			});
-			this.selectedDocumentType = this.arrDocumentType[0];
+			this.selectedDocumentType = this.arrDocumentType[0].value;
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchGrade());
 		});
