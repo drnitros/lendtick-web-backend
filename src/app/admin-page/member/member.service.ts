@@ -29,9 +29,11 @@ export class MemberService {
 
 	private urlGetDocument = this.APIService['hostAuth'] + '/profile/document';
 	private urlPostDocument = this.APIService['hostAuth'] + '/profile/document/add';
+	private urlPutDocument = this.APIService['hostAuth'] + '/profile/document/update';
 	private urlDeleteDocument = this.APIService['hostAuth'] + '/profile/document/delete';
 
 	private urlPutMutation = this.APIService['hostAuth'] + '/user/mutation';
+	private urlPutPassword = this.APIService['hostAuth'] + '/profile/change-password';
 
 	constructor(
 		private APIService: APIService,
@@ -97,6 +99,19 @@ export class MemberService {
 		return this.http.get(this.urlGetBank + '?id=' + id,options);
 	}
 
+	// Update Password
+	// ====================== //
+	updatePassword(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		let body = obj;
+		return this.http.put(this.urlPutPassword, body, options);
+	}
+
 	// User Document
 	// ====================== //
 	getDocument(id){
@@ -117,6 +132,16 @@ export class MemberService {
 		};
 		let body = obj;
 		return this.http.post(this.urlPostDocument, body, options);
+	}
+	updateDocument(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		let body = obj;
+		return this.http.put(this.urlPutDocument, body, options);
 	}
 
 	deleteDocument(id_user,id_user_doc){

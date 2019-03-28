@@ -300,6 +300,7 @@ export class ListMemberComponent implements OnInit {
 	public isSubmitDocument: boolean = false;
 	public arrDocumentType = [];
 	public selectedDocumentType = null;
+	public isUpdateDocument: boolean = false;
 
 	fetchDocument(id){
 		this.memberService.getDocument(id).subscribe(res =>{
@@ -355,16 +356,62 @@ export class ListMemberComponent implements OnInit {
 			id_document_type: this.selectedDocumentType,
 			doc_photo: this.imgDocument
 		};
-
-		console.log(obj,this.selectedDocumentType);
 		this.isSubmitDocument = true;
-		this.memberService.postDocument(obj).subscribe(res =>{
-			this.isSubmitDocument = false;
-			this.fetchDocument(this.selectedItem.id_user);
-			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+
+		if(this.isUpdateDocument){
+			this.memberService.updateDocument(obj).subscribe(res =>{
+				this.isSubmitDocument = false;
+				this.fetchDocument(this.selectedItem.id_user);
+				this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+				this.cancelUpdateDoc();
+			}, err =>{
+				this.isSubmitDocument = false;
+				this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+			});
+		}else{
+			this.memberService.postDocument(obj).subscribe(res =>{
+				this.isSubmitDocument = false;
+				this.fetchDocument(this.selectedItem.id_user);
+				this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+			}, err =>{
+				this.isSubmitDocument = false;
+				this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+			});
+		}
+		
+	}
+	editDocument(e){
+		this.isUpdateDocument = true;
+		this.selectedDocumentType = e.id_document_type;
+		this.imgDocument = e.path;
+	}
+	cancelUpdateDoc(){
+		this.isUpdateDocument = false;
+		this.imgDocument = null;
+	}
+
+	// Update Password
+	// ========================= //
+	public password = null;
+	public oldpassword = null;
+	public confirmpassword = null;
+	public isSubmitPassword: boolean = false;
+
+	updatePassword(){
+		let obj = {
+			old_password: this.oldpassword,
+			new_password: this.password
+		};
+
+		this.isSubmitPassword = true;
+		this.memberService.updatePassword(obj).subscribe(res =>{
+			console.log(res);
+			this.isSubmitPassword = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil ganti password'});
 		}, err =>{
-			this.isSubmitDocument = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+			console.log(err);
+			this.isSubmitPassword = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
 		});
 	}
 

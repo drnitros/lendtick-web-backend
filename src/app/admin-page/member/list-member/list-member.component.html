@@ -330,9 +330,14 @@
 								</div>
 								<div class="mb-4">
 									<button class="btn btn-primary" [class.btn-icon]="!isSubmitDocument" [disabled]="isSubmitDocument || documentForm.invalid && imgDocument == null" (click)="createDocument()">
-										<span *ngIf="!isSubmitDocument">Tambah Dokumen <i-upload class="icon"></i-upload></span>
+										<span *ngIf="!isSubmitDocument">
+											<span *ngIf="!isUpdateDocument">Tambah Dokumen</span> 
+											<span *ngIf="isUpdateDocument">Update Dokumen</span> 
+											<i-upload class="icon"></i-upload>
+										</span>
 										<span *ngIf="isSubmitDocument"><i class="fas fa-spin fa-spinner"></i></span>
 									</button>
+									<button class="btn btn-primary btn-inverse ml-2" *ngIf="isUpdateDocument" (click)="cancelUpdateDoc()" [disabled]="isSubmitDocument">Cancel</button>
 								</div>
 							</form>
 
@@ -341,16 +346,14 @@
 
 					<div class="wrap-gallery">
 						<ul class="list-document row">
-							<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-4">
+							<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-3">
 								<img [src]="item.path" class="img-user mb-2" style="width:100px;height:100px;" alt="" />
 								<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}<br />
-								<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}<br />
-								<label class="d-inline-block mr-2">Created at :</label> {{item.created_at}}<br />
-								<label class="d-inline-block mr-2">Updated at :</label> {{item.updated_at}}
-								<div class="mt-4">
-									<button class="btn btn-primary btn-inverse mr-2" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
-									<button class="btn btn-primary btn-inverse mr-2" [disabled]="item.disable">Ubah</button>
-									<button class="btn btn-danger" [disabled]="item.disable" (click)="removeDocument(item)">
+								<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}
+								<div class="mt-3">
+									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
+									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="editDocument(item)" [disabled]="item.disable">Ubah</button>
+									<button class="btn btn-danger btn-sm" [disabled]="item.disable" (click)="removeDocument(item)">
 										<span *ngIf="!item.disable">Hapus</span>
 										<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
 									</button>
@@ -386,21 +389,73 @@
 			<!-- Start User -->
 			<p-tabPanel header="User">
 				<div class="dialog-content pt-1">
-					<table class="mt-4 table table-striped mb-0">
-						<tr>
-							<td class="label">Username</td>
-							<td>{{dataProfile.user.username}}</td>
-						</tr>
-						<tr>
-							<td class="label">Role</td>
-							<td>{{dataProfile.user.role_master_name}}</td>
-						</tr>
-						<tr>
-							<td class="label">Password</td>
-							<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
-						</tr>
-						
-					</table>
+					<div class="row">
+						<div class="col-md-6">
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Username</td>
+									<td>{{dataProfile.user.username}}</td>
+								</tr>
+								<tr>
+									<td class="label">Role</td>
+									<td>{{dataProfile.user.role_master_name}}</td>
+								</tr>
+								<tr>
+									<td class="label">Password</td>
+									<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-6 pt-3">
+							<form #passwordForm="ngForm">
+								<div class="mb-2">
+									<label>Password Lama</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="oldpassword" 
+										[(ngModel)]="oldpassword" 
+										[class.is-invalid]="oldpasswordRef.errors?.required && oldpasswordRef.touched" 
+										#oldpasswordRef="ngModel"
+										placeholder="Masukan Password Lama" 
+										type="oldpassword"
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Password Baru</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="password" 
+										[(ngModel)]="password" 
+										[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
+										#passwordRef="ngModel"
+										placeholder="Masukan Password Baru" 
+										type="password"
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Konfirmasi Password</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="confirmpassword" 
+										[(ngModel)]="confirmpassword" 
+										[class.is-invalid]="confirmpasswordRef.errors?.required && confirmpasswordRef.touched" 
+										#confirmpasswordRef="ngModel"
+										placeholder="Konfirmasi Password Baru" 
+										type="password"
+										required/>
+								</div>
+								<div class="mt-4">
+									<button class="btn btn-primary" [disabled]="isSubmitPassword || passwordForm.invalid || confirmpassword != password" (click)="updatePassword()">
+										<span *ngIf="!isSubmitPassword">Reset Password</span>
+										<span *ngIf="isSubmitPassword"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
 				</div>
 			</p-tabPanel>
 			<!-- End User -->
