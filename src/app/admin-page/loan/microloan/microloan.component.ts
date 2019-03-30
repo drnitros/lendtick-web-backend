@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {Router, NavigationExtras} from "@angular/router";
-
-import { MemberService } from '../../member/member.service';
-
+import { LoanService } from '../loan.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import * as _ from 'lodash';
 import * as moment from 'moment';
@@ -15,43 +13,7 @@ import * as moment from 'moment';
 })
 export class MicroloanComponent implements OnInit {
 	private objFilter = {};
-	public data:any = [{
-		id: 1,
-		name: "Adam Jordan",
-		nik: 32342323,
-		name_company: "Toyota",
-		name_grade: "IV",
-		loan_type: "Multiguna",
-		loan_value: "Rp 75.000.000",
-		tenor: 60,
-		bunga: 7,
-		date: "27 Januari 2018",
-		approval_by: 1,
-	},{
-		id: 2,
-		name: "Asep Sumarna",
-		nik: 42342343,
-		name_company: "Toyota",
-		name_grade: "IV",
-		loan_type: "Middle Loan",
-		loan_value: "Rp 5.000.000",
-		tenor: 12,
-		bunga: 8,
-		date: "20 Januari 2018",
-		approval_by: 2
-	},{
-		id: 2,
-		name: "Wawan Gunawan",
-		nik: 423423,
-		name_company: "Toyota",
-		name_grade: "IV",
-		loan_type: "Middle Loan",
-		loan_value: "Rp 6.000.000",
-		tenor: 11,
-		bunga: 4,
-		date: "21 Januari 2018",
-		approval_by: 3
-	}];
+	public data:any = [];
 	public columns:any = [];
 	public selectedColumns: any[];
 	public loading: boolean;
@@ -83,27 +45,27 @@ export class MicroloanComponent implements OnInit {
 	public selectedStatus = null;
 
 	constructor(
-		private memberService: MemberService,
+		private loanService: LoanService,
 		private router: Router
 	) { }
 
 
 	ngOnInit() {
-		this.fetchUser();
-		this.fetchGrade();
 		this.fetchLoan();
+		this.fetchCompany();
+		this.fetchGrade();
 
 		this.columns = [
-			{field: 'id', header: 'No', show:true},
+			{field: 'number', header: 'No', show:true},
 			{field: 'name', header: 'Nama Anggota', show:true},
-			{field: 'nik', header: 'NIK', show:true},
+			{field: 'id_employee', header: 'NIK', show:true},
 			{field: 'name_company', header: 'Company', show:true},
 			{field: 'name_grade', header: 'Golongan', show:true},
-			{field: 'loan_type', header: 'Tipe Pinjaman', show:true},
-			{field: 'loan_value', header: 'Jumlah Pinjaman', show:true},
-			{field: 'tenor', header: 'Tenor', show:true},
-			{field: 'bunga', header: 'Bunga', show:true},
-			{field: 'date', header: 'Tanggal Pengajuan', show:true},
+			{field: 'name_loan_type', header: 'Tipe Pinjaman', show:true},
+			{field: 'loan_approved', header: 'Jumlah Pinjaman', show:true},
+			{field: 'term_monthly', header: 'Tenor', show:true},
+			{field: 'interest', header: 'Bunga', show:true},
+			{field: 'request_date', header: 'Tgl Pengajuan', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
@@ -127,15 +89,18 @@ export class MicroloanComponent implements OnInit {
 
 	// Fetching User
 	// ========================= //
-	fetchUser(){
+	fetchLoan(){
 		this.loading = true;
-		this.memberService.getAprrovalUser(0,10, this.objFilter).subscribe(res =>{
-			console.log(res);
-			// this.data = res['data'].data;
+		this.loanService.getLoan().subscribe(res =>{
+			this.data = res['data'];
+
+			_.map(this.data,(x,i)=>{
+				x.number = i + 1;
+				x.loan_approved = 'Rp ' + x.loan_approved.toLocaleString();
+				x.request_date = moment(x.request_date).format("DD MMM YYYY");
+			});
 			this.loading = false;
 		}, err=>{
-			console.log(err);
-			// this.fetchUser();
 			this.loading = false;
 		});
 	}
@@ -143,13 +108,13 @@ export class MicroloanComponent implements OnInit {
 	// Select Item / User
 	// ======================== //
 	selectItem(e){
-		this.router.navigate(['/main/loan/detail'], { queryParams: { type: e.approval_by } });
+		this.router.navigate(['/main/loan/detail/' + e.id_loan], { queryParams: { type: e.approval_by } });
 	}
 
 	// Fetch Grade 
 	// ========================= //
 	fetchGrade(){
-		this.memberService.getGrade().subscribe(res =>{
+		this.loanService.getGrade().subscribe(res =>{
 			this.originGrades = res['data'];
 			this.grades = [];
 			_.map(res['data'], (x)=>{
@@ -164,8 +129,8 @@ export class MicroloanComponent implements OnInit {
 
 	// Fetch Company 
 	// ========================= //
-	fetchLoan(){
-		this.memberService.getCompany().subscribe(res =>{
+	fetchCompany(){
+		this.loanService.getCompany().subscribe(res =>{
 			this.companies = [];
 			_.map(res['data'],(x)=>{
 				this.companies.push({label:x.name_company, value:x.id_company});

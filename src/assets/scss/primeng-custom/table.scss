@@ -12,7 +12,8 @@
                     border: 0;
                     padding: 20px 25px !important;
                     position: relative;
-                    white-space: nowrap;
+                    word-wrap: break-word !important;
+                    vertical-align: top;
                 }
             }
     
@@ -21,10 +22,11 @@
         tbody{
             tr{
                 td{
-                    word-break: break-all;
+                    word-wrap: break-word;
                     border-color: #efefef;
                     padding: 20px 25px !important;
                     position: relative;
+                    vertical-align: top;
 
                     &:first-child:before{
                         content: "";

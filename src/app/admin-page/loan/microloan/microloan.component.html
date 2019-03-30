@@ -77,9 +77,10 @@
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<th *ngFor="let col of columns">
-							{{col.header}}
-						</th>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
 						<th class="text-right">
 							Options
 						</th>

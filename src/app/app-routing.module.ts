@@ -72,7 +72,7 @@ const routes: Routes = [
 					{ path: '', redirectTo: 'microloan', pathMatch: 'full' },
 					{ path: 'microloan', component: MicroloanComponent },
 					{ path: 'jangka-panjang', component: JangkaPanjangComponent },
-					{ path: 'detail', component: DetailLoanComponent },
+					{ path: 'detail/:id', component: DetailLoanComponent },
 				]
 			},
 			{ path: 'master', component: MainMasterComponent,
