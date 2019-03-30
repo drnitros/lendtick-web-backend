@@ -150,7 +150,7 @@
 				</table>
 				<div *ngIf="selectedItem.show_input" class="mt-4 mb-2">
 					<div class="mb-2">
-						<label>Select Date</label>
+						<label>Tanggal Karyawan Tetap</label>
 						<p-calendar 
 							dateFormat="dd-mm -yy"
 							[(ngModel)]="date" 
@@ -158,7 +158,7 @@
 						</p-calendar>
 					</div>
 					<div>
-						<label>Select grade</label>
+						<label>Pilih Golongan</label>
 						<p-dropdown [options]="grades2" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
 					</div>
 				</div>
@@ -170,7 +170,7 @@
 			<span *ngIf="!isSubmitReject">Reject</span>
 			<span *ngIf="isSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="isSubmitApprove || isSubmitReject || selectedGrade == null || date == null" class="btn btn-primary" (click)="approve()">
+		<button [disabled]="isSubmitApprove || isSubmitReject || selectedGrade == null || date == null || selectedItem.id_workflow_status == 'MBRSTS00'" class="btn btn-primary" (click)="approve()">
 			<span *ngIf="!isSubmitApprove">Approve</span>
 			<span *ngIf="isSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>

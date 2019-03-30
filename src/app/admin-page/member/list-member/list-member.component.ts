@@ -194,6 +194,9 @@ export class ListMemberComponent implements OnInit {
 	selectItem(e){
 		this.loading = true;
 		this.selectedItem = e;
+		console.log(this.selectedItem);
+
+		this.selectedItem.employee_starting_date = moment(this.selectedItem.employee_starting_date).format("DD MMM YYYY");
 		this.memberService.getUserDetail(e.id_user).subscribe(res =>{
 			this.dataProfile = res['data'];
 			let findStatus = _.find(this.arrStatus, {value: res['data'].user.id_workflow_status});
@@ -405,11 +408,9 @@ export class ListMemberComponent implements OnInit {
 
 		this.isSubmitPassword = true;
 		this.memberService.updatePassword(obj).subscribe(res =>{
-			console.log(res);
 			this.isSubmitPassword = false;
 			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil ganti password'});
 		}, err =>{
-			console.log(err);
 			this.isSubmitPassword = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
 		});

@@ -270,7 +270,6 @@ export class ApprovalMemberComponent implements OnInit {
 		var file = e.dataTransfer ? e.dataTransfer.files[0] : e.target.files[0];
 		var pattern = /image-*/;
 		var reader = new FileReader();
-		console.log(file,reader);
 		if(file != undefined){
 			if (!file.type.match(pattern)) {
 				alert('invalid format');
