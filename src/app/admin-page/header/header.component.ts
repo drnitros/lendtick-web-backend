@@ -51,7 +51,7 @@ export class HeaderComponent implements OnInit {
 			this.fetchCheckUser();
 		}, err =>{
 			this.loading = false;
-			if(err.status == 401) this.headerService.updateToken(err.error.data.token, this.fetchUserProfile());
+			if(err.status == 401) this.headerService.updateToken(err.error.data.token);
 		});
 	}
 

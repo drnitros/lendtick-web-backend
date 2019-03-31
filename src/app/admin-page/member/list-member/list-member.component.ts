@@ -181,7 +181,7 @@ export class ListMemberComponent implements OnInit {
 		}, err=>{
 			this.fetchUser();
 			this.loading = false;
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchUser());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	paginate(e){
@@ -279,7 +279,7 @@ export class ListMemberComponent implements OnInit {
 			this.dataProfile['salary'].amount = Number(res['data'].salary_amount).toLocaleString();
 			this.fetchBank(id);
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchSallary(id));
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 
@@ -290,7 +290,7 @@ export class ListMemberComponent implements OnInit {
 			this.dataProfile['bank'] = res['data'];
 			this.fetchDocument(id);
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchBank(id));
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 
@@ -319,7 +319,7 @@ export class ListMemberComponent implements OnInit {
 				window.dispatchEvent(new Event('resize')); 
 			}, 100);
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchBank(id));
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	removeDocument(e){
@@ -425,7 +425,7 @@ export class ListMemberComponent implements OnInit {
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchCompany());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 
 		this.memberService.getCompany2().subscribe(res =>{
@@ -433,7 +433,7 @@ export class ListMemberComponent implements OnInit {
 				this.companies2.push({label:x.name_company, value:x.id_company});
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchCompany());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchStatus(){
@@ -448,7 +448,7 @@ export class ListMemberComponent implements OnInit {
 				x['status_name'] = _.find(this.arrStatus, {value: x.id_workflow_status}).label;
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchStatus());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchGrade(){
@@ -462,35 +462,35 @@ export class ListMemberComponent implements OnInit {
 				this.grades2.push(obj);
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchGrade());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchDomicile(){
 		this.memberService.getDomicile().subscribe(res =>{
 			this.arrDomicile = res['data'];
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchDomicile());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchReligion(){
 		this.memberService.getReligion().subscribe(res =>{
 			this.arrReligion = res['data'];
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchReligion());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchMarriage(){
 		this.memberService.getMarriage().subscribe(res =>{
 			this.arrMariege = res['data'];
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchRole(){
 		this.memberService.getRole().subscribe(res =>{
 			this.arrRole = res['data'];
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchMarriage());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	fetchMasterDocumentType(){
@@ -501,7 +501,7 @@ export class ListMemberComponent implements OnInit {
 			});
 			this.selectedDocumentType = this.arrDocumentType[0].value;
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchGrade());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 

@@ -42,9 +42,9 @@ export class MemberService {
 
 	// Update Token
 	// ======================== //
-	updateToken(token,run){
+	updateToken(token){
 		localStorage.setItem("token", token);
-		return run;
+		location.reload();
 	}
 
 	// Convert Image to base64

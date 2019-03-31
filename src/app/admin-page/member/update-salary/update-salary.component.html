@@ -1,0 +1,139 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+	<div class="media">
+		<i-book class="icon"></i-book> 
+		<div class="media-body">
+			<h5 class="title">Pengajuan Gaji dan Golongan</h5>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+				<li class="breadcrumb-item"><a routerLink="/main/master/">Master</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Pengajuan Gaji dan Golongan</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<!-- End Sub Header -->
+<!-- Start Main Content -->
+<div class="main-content">
+	<!-- Start Toggle Columns -->
+	<ng-container *ngIf="!loading">
+		<div class="row mb-4">
+			<div class="col-sm-4 col-lg-3 text-left">
+				<p-multiSelect 
+					[showHeader]="false"
+					[options]="columns" 
+					[(ngModel)]="selectedColumns" 
+					(onChange)="changeColumn($event)"
+					optionLabel="header"
+					selectedItemsLabel="{0} selected" 
+					defaultLabel="Choose Columns">
+				</p-multiSelect>
+			</div>
+		</div>
+	</ng-container>
+	<!-- End Toggle Columns -->
+
+	<div *ngIf="loading" class="wrap-loading">
+		<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+	</div>
+
+	<!-- Start Card -->
+	<div *ngIf="!loading" class="card">
+		<div class="card-body p-0">
+			<!-- Start Table -->
+			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+				<!-- Start Header -->
+				<ng-template pTemplate="header" let-columns>
+					<tr>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
+						<th class="text-right">
+							Options
+						</th>
+					</tr>
+				</ng-template>
+				<!-- End Header -->
+				<!-- Start Body -->
+				<ng-template pTemplate="body" let-rowData let-columns="columns">
+					<tr>
+						<td *ngFor="let col of columns">
+							<ng-container *ngIf="col.field == 'status'"><p-inputSwitch [(ngModel)]="rowData[col.field]"></p-inputSwitch></ng-container>
+							<ng-container *ngIf="col.field != 'status'">{{rowData[col.field]}}</ng-container>
+						</td>
+						<td class="text-right">
+							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
+								<i-settings class="icon"></i-settings>
+							</button>
+						</td>
+					</tr>
+				</ng-template>
+				<!-- End Body -->
+			</p-table>
+			<!-- End Table -->
+		</div>
+	</div>
+	<!-- End Card -->
+</div>
+<!-- End Main Content -->
+
+<!-- Start Dialog Modal -->
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Pengajuan Gaji dan Golongan" [modal]="true" [width]="1200">
+	<div class="dialog-content">
+		<div class="row">
+			<div class="col-md-8 border-right">
+				<img src="https://www.finansialku.com/wp-content/uploads/2019/02/10-Contoh-Slip-Gaji-Karyawan-Perusahaan-12-Slip-Gaji-Perusahaan-Finansialku.jpg" class="w-100"/>
+			</div>
+			<div class="col-md-4">
+				<div class="mb-3">
+					<label>Nama Lengkap</label>
+					<input type="text" class="form-control" [(ngModel)]="selectedItem.name" />
+				</div> 
+				<div class="mb-3">
+					<label>Nama Perusahaan</label>
+					<p-dropdown [options]="companies" [(ngModel)]="selectedItem.company" styleClass="form-control"></p-dropdown>
+				</div> 
+				<div class="mb-3">
+					<label>NIK</label>
+					<input type="text" class="form-control" [(ngModel)]="selectedItem.nik" />
+				</div> 
+				<div class="mb-3">
+					<label>Tanggal Masuk</label>
+					<p-calendar 
+						dateFormat="dd-mm -yy"
+						appendTo="body"
+						[(ngModel)]="date1" 
+						placeholder="Enter date">
+					</p-calendar>
+				</div> 
+				<div class="mb-3">
+					<label>Tanggal Pengajuan</label>
+					<p-calendar 
+						dateFormat="dd-mm -yy"
+						appendTo="body"
+						[(ngModel)]="date2" 
+						placeholder="Enter date">
+					</p-calendar>
+				</div> 
+				<div class="mb-3">
+					<label>Status</label>
+					<p-inputSwitch [(ngModel)]="selectedItem.status"></p-inputSwitch>
+				</div> 
+				<div class="mb-3">
+					<label>Golongan</label>
+					<p-dropdown [options]="grades" appendTo="body" styleClass="form-control"></p-dropdown>
+				</div> 
+				<div class="mb-3">
+					<label>Gaji</label>
+					<p-spinner [min]="1"></p-spinner>
+				</div> 
+			</div>
+		</div>
+	</div>
+	<p-footer>
+		<button class="btn btn-primary">Approve</button>
+		<button class="btn btn-danger ml-2">Reject</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->

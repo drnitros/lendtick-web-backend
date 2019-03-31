@@ -19,12 +19,14 @@ import { FileUploadModule } from 'primeng/fileupload';
 import { PaginatorModule } from 'primeng/paginator';
 import { TabViewModule } from 'primeng/tabview';
 import { CustomFormsModule } from 'ng2-validation';
-
+import { InputSwitchModule } from 'primeng/inputswitch';
+import { SpinnerModule } from 'primeng/spinner';
 import { MemberService } from './member.service';
 
 import { ApprovalMemberComponent } from './approval-member/approval-member.component';
 import { MainMemberComponent } from './main-member/main-member.component';
 import { ListMemberComponent } from './list-member/list-member.component';
+import { UpdateSalaryComponent } from './update-salary/update-salary.component';
 
 @NgModule({
 	imports: [
@@ -46,9 +48,11 @@ import { ListMemberComponent } from './list-member/list-member.component';
 		CalendarModule,
 		DialogModule,
 		TabViewModule,
-		FileUploadModule
+		FileUploadModule,
+		InputSwitchModule,
+		SpinnerModule
 	],
 	providers:[MemberService],
-	declarations: [ApprovalMemberComponent, MainMemberComponent, ListMemberComponent],
+	declarations: [ApprovalMemberComponent, MainMemberComponent, ListMemberComponent, UpdateSalaryComponent],
 })
 export class MemberModule { }

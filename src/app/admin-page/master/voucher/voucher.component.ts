@@ -1,6 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from "@angular/router";
-import { MemberService } from '../../member/member.service';
 import * as _ from 'lodash';
 
 @Component({
@@ -9,31 +7,7 @@ import * as _ from 'lodash';
 	styleUrls: ['./voucher.component.scss']
 })
 export class VoucherComponent implements OnInit {
-	public data:any = [{
-		number: 1,
-		id_voucher: "42434234",
-		voucher_code: "VOU-001",
-		expire_date: "27 January 2020",
-		created_date: "21 March 2019",
-		created_by: "Wulung Tresno",
-		status: true,
-	},{
-		number: 2,
-		id_voucher: "42434235",
-		voucher_code: "VOU-002",
-		expire_date: "27 Februaru 2020",
-		created_date: "22 March 2019",
-		created_by: "Rendy Wijanarko",
-		status: false,
-	},{
-		number: 3,
-		id_voucher: "42434236",
-		voucher_code: "VOU-003",
-		expire_date: "29 January 2020",
-		created_date: "25 October 2019",
-		created_by: "Wulung Tresno",
-		status: true,
-	}];
+	public data:any = [];
 	public columns:any = [];
 	public selectedColumns: any[];
 	public loading: boolean;
@@ -66,10 +40,7 @@ export class VoucherComponent implements OnInit {
 
 	public display = false;
 
-	constructor(
-		private memberService: MemberService,
-		private router: Router
-	) { }
+	constructor() { }
 
 
 	ngOnInit() {
@@ -109,6 +80,31 @@ export class VoucherComponent implements OnInit {
 		this.loading = true;
 		setTimeout(()=>{
 			this.loading = false;
+			this.data = [{
+				number: 1,
+				id_voucher: "42434234",
+				voucher_code: "VOU-001",
+				expire_date: "27 January 2020",
+				created_date: "21 March 2019",
+				created_by: "Wulung Tresno",
+				status: true,
+			},{
+				number: 2,
+				id_voucher: "42434235",
+				voucher_code: "VOU-002",
+				expire_date: "27 Februaru 2020",
+				created_date: "22 March 2019",
+				created_by: "Rendy Wijanarko",
+				status: false,
+			},{
+				number: 3,
+				id_voucher: "42434236",
+				voucher_code: "VOU-003",
+				expire_date: "29 January 2020",
+				created_date: "25 October 2019",
+				created_by: "Wulung Tresno",
+				status: true,
+			}];
 		}, 3000);
 	}
 

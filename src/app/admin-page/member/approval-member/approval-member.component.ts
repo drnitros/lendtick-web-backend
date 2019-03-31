@@ -148,7 +148,7 @@ export class ApprovalMemberComponent implements OnInit {
 		}, err=>{
 			this.fetchUser();
 			this.loading = false;
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token,this.fetchUser());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 	paginate(e){
@@ -183,7 +183,7 @@ export class ApprovalMemberComponent implements OnInit {
 				this.grades2.push(obj);
 			});
 		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token, this.fetchGrade());
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
 

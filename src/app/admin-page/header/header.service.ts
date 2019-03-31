@@ -16,10 +16,9 @@ export class HeaderService {
 		private http: HttpClient
 	) { }
 
-	updateToken(token,run){
-		console.log(token);
+	updateToken(token){
 		localStorage.setItem("token", token);
-		return run;
+		location.reload();
 	}
 	
 	getProfilelUser(){

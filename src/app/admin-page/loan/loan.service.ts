@@ -18,9 +18,9 @@ export class LoanService {
 
 	// Update Token
 	// ======================== //
-	updateToken(token,run){
+	updateToken(token){
 		localStorage.setItem("token", token);
-		return run;
+		location.reload();
 	}
 
 	// Ge Loan

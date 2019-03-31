@@ -13,6 +13,7 @@ import { EcommerceComponent } from './admin-page/dashboard/ecommerce/ecommerce.c
 import { ApprovalMemberComponent } from './admin-page/member/approval-member/approval-member.component';
 import { MainMemberComponent } from './admin-page/member/main-member/main-member.component';
 import { ListMemberComponent } from './admin-page/member/list-member/list-member.component';
+import { UpdateSalaryComponent } from './admin-page/member/update-salary/update-salary.component';
 
 // Loan
 // ========================== //
@@ -58,6 +59,7 @@ const routes: Routes = [
 					{ path: '', redirectTo: 'anggota', pathMatch: 'full' },
 					{ path: 'calon-anggota', component: ApprovalMemberComponent },
 					{ path: 'anggota', component: ListMemberComponent },
+					{ path: 'update-salary', component: UpdateSalaryComponent },
 				]
 			},
 			{ path: 'product', component: MainProductComponent,

@@ -1,0 +1,14 @@
+.dialog-content{
+    
+    .row{
+        margin: 0;
+
+        > div{
+            padding: 30px;
+
+            &:first-child{
+                background-color: #cfcfcf;
+            }
+        }
+    }
+}
