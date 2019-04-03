@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  hostAuth: "https://lentick-api-user-dev.azurewebsites.net",
+	hostProduct: "https://lentick-api-product-dev.azurewebsites.net",
+	hostLoan: "https://lentick-api-loan-dev.azurewebsites.net"
 };
 
 /*

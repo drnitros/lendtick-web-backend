@@ -6,15 +6,16 @@ import * as _ from 'lodash';
 import { utils, write, WorkBook } from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
+import { environment } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class APIService {
 	// Rest API 
-	public hostAuth: string = "https://lentick-api-user-dev.azurewebsites.net";
-	public hostProduct: string = "https://lentick-api-product-dev.azurewebsites.net";
-	public hostLoan: string = "https://lentick-api-loan-dev.azurewebsites.net";
+	public hostAuth: string = environment.hostAuth;
+	public hostProduct: string = environment.hostProduct;
+	public hostLoan: string = environment.hostLoan;
 	
 	// Store
 	// =================== //

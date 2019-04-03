@@ -7,6 +7,7 @@ import { APIService } from "../../service/api.service";
 })
 export class MasterService {
 	private urlGetLoanType = this.APIService['hostLoan'] + '/master/loan/type';
+	private urlGetCompany = this.APIService['hostLoan'] + '/master/loan/type';
 
 	constructor(
 		private APIService: APIService,
@@ -14,6 +15,15 @@ export class MasterService {
 	) { }
 
 	getLoanType(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetLoanType,options);
+	}
+	getListCompany(){
 		const options = {
 			headers: new HttpHeaders({
 			  'accept':  'application/json',

@@ -56,7 +56,7 @@
 			</div>
 		</div>
 		<div class="col-md-4">
-			<div class="card text-white bg-primary mb-2">
+			<div class="card text-white bg-primary mb-3">
 				<div class="card-header">
 					Tipe Pinjaman
 				</div>
@@ -64,7 +64,7 @@
 					<h5 class="mb-0 text-white">Multi Guna</h5>
 				</div>
 			</div>
-			<div class="card text-white bg-primary mb-2">
+			<div class="card text-white bg-primary mb-3">
 				<div class="card-header">
 					Jumlah Pinjaman
 				</div>
@@ -72,7 +72,7 @@
 					<h5 class="mb-0 text-white">Rp 50.000.000</h5>
 				</div>
 			</div>
-			<div class="card text-white bg-primary mb-2">
+			<div class="card text-white bg-primary mb-3">
 				<div class="card-header">
 					Tenor Pinjaman
 				</div>
@@ -166,7 +166,7 @@
 	<div class="mt-5">
 		<div class="card">
 			<div class="card-header">
-				<button class="btn btn-sm btn-info btn-inverse float-right">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
+				<button class="btn btn-sm btn-info btn-inverse float-right" (click)="isPopupVisible = true">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
 				<h6 class="mb-0">Pinjaman Aktif</h6>
 			</div>
 			<div class="card-body p-0">
@@ -256,3 +256,56 @@
 	</div>
 </div>
 <!--End Main Content -->
+
+
+<!-- Start Dialog Modal -->
+<p-dialog [(visible)]="isPopupVisible" header="Pinjaman aktif non Koperasi" [modal]="true" [width]="480">
+	<div class="dialog-content p-4">
+		<form [formGroup]="formAddLoan" (ngSubmit)="save()">
+			<div class="mb-3">
+				<label>Nama</label>
+				<input type="text" class="form-control" name="nama" formControlName="nama">
+			</div>
+			<div class="mb-3">
+				<label>Perusahaan</label>
+				<input type="text" class="form-control" name="perusahaan" formControlName="perusahaan">
+			</div>
+			<div class="mb-3">
+				<label>NIK</label>
+				<input type="text" class="form-control" name="nik" formControlName="nik">
+			</div>
+			<div class="mb-3">
+				<label>Tanggal mulai</label>
+				<p-calendar formControlName="tgl_mulai" dateFormat="yy-mm-dd"></p-calendar>
+
+			</div>
+			<div class="mb-3">
+				<label>Tanggal selesai</label>
+				<p-calendar formControlName="tgl_selesai" dateFormat="yy-mm-dd"></p-calendar>
+			</div>
+			<div class="mb-3">
+				<label>Tipe pinjaman</label>
+				<p-dropdown [options]="tipePinjaman" formControlName="tipe" optionLabel="title" styleClass="form-control"></p-dropdown>
+			</div>
+			<div class="mb-3">
+				<label>Total pinjaman</label>
+				<input type="text" class="form-control" name="total_pinjaman" formControlName="total_pinjaman">
+			</div>
+			<div class="mb-3">
+				<label>Jumlah perbulan</label>
+				<input type="text" class="form-control" name="jumlah_perbulan" formControlName="jumlah_perbulan">
+			</div>
+		</form>
+	</div>
+	
+	<p-footer>
+		<button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="back()">
+			<span>Batal</span>
+		</button>
+		<button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="save()">
+			<span *ngIf="!isProcessing">Simpan</span>
+			<span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->

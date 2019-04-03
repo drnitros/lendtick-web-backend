@@ -1,0 +1,142 @@
+<!-- Start Sub Header -->
+  <div class="sub-header">
+    <div class="media">
+      <i-book class="icon"></i-book> 
+      <div class="media-body">
+        <h5 class="title">Daftar Perusahaan</h5>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/main/master/">Master</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Perusahaan</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+<!-- End Sub Header -->
+<!-- Start Main Content -->
+  <div class="main-content">
+  
+    <!-- Start Toggle Columns -->
+    <ng-container *ngIf="!loading">
+      <div class="row mb-4">
+        <div class="col-sm-4 col-lg-3 text-left">
+          <p-multiSelect 
+            [showHeader]="false"
+            [options]="columns" 
+            [(ngModel)]="selectedColumns" 
+            (onChange)="changeColumn($event)"
+            optionLabel="header"
+            selectedItemsLabel="{0} selected" 
+            defaultLabel="Choose Columns">
+          </p-multiSelect>
+        </div>
+        <div class="col-sm-4 col-lg-3 mb-3">
+          <input type="text" class="form-control" placeholder="filter berdasarkan nama">
+        </div>
+        <div class="col-sm-4 col-lg-6 text-right">
+          <button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah Perusahaan <i-plus class="icon"></i-plus></button>
+        </div>
+      </div>
+      <div class="row">
+      </div>
+      
+    </ng-container>
+    <!-- End Toggle Columns -->
+  
+    <div *ngIf="loading" class="wrap-loading">
+      <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    </div>
+  
+    <!-- Start Card -->
+    <div *ngIf="!loading" class="card">
+      <div class="card-body p-0">
+        <!-- Start Table -->
+        <p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+          <!-- Start Header -->
+          <ng-template pTemplate="header" let-columns>
+            <tr>
+              <ng-container *ngFor="let col of columns">
+                <th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+                <th *ngIf="col.field != 'number'">{{col.header}}</th>
+              </ng-container>
+              <th class="text-right">
+                Options
+              </th>
+            </tr>
+          </ng-template>
+          <!-- End Header -->
+          <!-- Start Body -->
+          <ng-template pTemplate="body" let-rowData let-columns="columns">
+            <tr>
+              <td *ngFor="let col of columns">{{rowData[col.field]}}</td>
+              <td class="text-right">
+                <button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
+                  <i-settings class="icon"></i-settings>
+                </button>
+              </td>
+            </tr>
+          </ng-template>
+          <!-- End Body -->
+        </p-table>
+        <!-- End Table -->
+      </div>
+    </div>
+    <!-- End Card -->
+  </div>
+<!-- End Main Content -->
+
+<!-- Start Dialog Modal -->
+<p-dialog [(visible)]="isPopupVisible" header="Company" [modal]="true" [width]="480">
+  <div class="dialog-content p-4">
+    <form [formGroup]="formCompany" (ngSubmit)="save()">
+      <div class="mb-3">
+        <label>Nama Perusahaan</label>
+        <input type="text" class="form-control" name="name_company" formControlName="name_company">
+      </div>
+      <div class="mb-3">
+        <label>Group</label>
+        <input type="text" class="form-control" name="id_holding" formControlName="id_holding">
+      </div>
+      <div class="mb-3">
+        <label>Telepon Perusahaan</label>
+        <input type="text" class="form-control" name="phone_number" formControlName="phone_number">
+      </div>
+      <div class="mb-3">
+        <label>Alamat Perusahaan</label>
+        <input type="text" class="form-control" name="address" formControlName="address">
+      </div>
+      <div class="mb-3">
+        <label>Koperasi Unit</label>
+        <p-checkbox formControlName="is_kopnit" binary="true" label="Ya"></p-checkbox> 
+      </div>
+      <div class="mb-3">
+        <label>Kekuatan Pinjam</label>
+        <input type="text" class="form-control" name="loan_power" formControlName="loan_power">
+      </div>
+      <div class="mb-3">
+        <label>Bank</label>
+				<p-dropdown [options]="bankOptions" formControlName="id_bank_main" optionLabel="name" styleClass="form-control"></p-dropdown>
+      </div>
+      <div class="mb-3">
+        <label>No. Rekening</label>
+        <input type="text" class="form-control" name="account_number_bank_main" formControlName="account_number_bank_main">
+      </div>
+      <div class="mb-3">
+        <label>Nama Akun</label>
+        <input type="text" class="form-control" name="account_name_bank_main" formControlName="account_name_bank_main">
+      </div>
+      <a>Tambah bank?</a>
+    </form>
+  </div>
+  
+  <p-footer>
+    <button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="back()">
+      <span>Batal</span>
+    </button>
+    <button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="save()">
+      <span *ngIf="!isProcessing">Simpan</span>
+      <span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+    </button>
+  </p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->

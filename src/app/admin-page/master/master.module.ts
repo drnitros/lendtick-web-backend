@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule,  } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
@@ -25,6 +25,8 @@ import { MainMasterComponent } from './main-master/main-master.component';
 import { LoanTypeComponent } from './loan-type/loan-type.component';
 import { UserSettingComponent } from './user-setting/user-setting.component';
 import { VoucherComponent } from './voucher/voucher.component';
+import { CompanyComponent } from './company/company.component';
+import { CheckboxModule } from 'primeng/checkbox';
 
 @NgModule({
 	imports: [
@@ -35,6 +37,7 @@ import { VoucherComponent } from './voucher/voucher.component';
 		IconsModule,
 		HttpClientModule,
 		CustomFormsModule,
+		ReactiveFormsModule,
 
 		TableModule,
 		ToastModule,
@@ -46,9 +49,10 @@ import { VoucherComponent } from './voucher/voucher.component';
 		DialogModule,
 		SpinnerModule,
 		FileUploadModule,
-		InputSwitchModule
+		InputSwitchModule,
+		CheckboxModule
 	],
-	declarations: [LoanTypeComponent, UserSettingComponent, MainMasterComponent, VoucherComponent],
+	declarations: [LoanTypeComponent, UserSettingComponent, MainMasterComponent, VoucherComponent, CompanyComponent],
 	providers: [MasterService]
 })
 export class MasterModule { }
