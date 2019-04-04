@@ -23,6 +23,8 @@ import { JangkaPanjangComponent } from './jangka-panjang/jangka-panjang.componen
 import { MainLoanComponent } from './main-loan/main-loan.component';
 import { MicroloanComponent } from './microloan/microloan.component';
 import { DetailLoanComponent } from './detail-loan/detail-loan.component';
+import { NonKoperasiComponent } from './non-koperasi/non-koperasi.component';
+import { NonKoperasiDetailComponent } from './non-koperasi-detail/non-koperasi-detail.component';
 
 @NgModule({
 	imports: [
@@ -49,7 +51,7 @@ import { DetailLoanComponent } from './detail-loan/detail-loan.component';
 	declarations: [
 		JangkaPanjangComponent, 
 		MainLoanComponent, 
-		MicroloanComponent, DetailLoanComponent
+		MicroloanComponent, DetailLoanComponent, NonKoperasiComponent, NonKoperasiDetailComponent
 	]
 })
 export class LoanModule { }

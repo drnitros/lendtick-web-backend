@@ -1,0 +1,141 @@
+<!-- Start Sub Header -->
+  <div class="sub-header">
+    <div class="media">
+      <i-book class="icon"></i-book> 
+      <div class="media-body">
+        <h5 class="title">Pinjaman Non-koperasi</h5>
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+          <li class="breadcrumb-item"><a routerLink="/main/loan">Loan</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Non-koperasi</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+<!-- End Sub Header -->
+
+<!-- Start Main Content -->
+  <div class="main-content">
+    <!-- Start Toggle Columns -->
+      <ng-container *ngIf="!loading">
+        <div class="row mb-4">
+          <div class="col-sm-4 col-lg-3 text-left">
+            <p-multiSelect 
+              [showHeader]="false"
+              [options]="columns" 
+              [(ngModel)]="selectedColumns" 
+              (onChange)="changeColumn($event)"
+              optionLabel="header"
+              selectedItemsLabel="{0} selected" 
+              defaultLabel="Choose Columns">
+            </p-multiSelect>
+          </div>
+          <div class="col-sm-4 col-lg-3 mb-3">
+            <input type="text" class="form-control" placeholder="filter berdasarkan nama">
+          </div>
+          <div class="col-sm-4 col-lg-6 text-right">
+            <!-- <button type="button" class="btn btn-primary btn-icon" (click)="openDialogForm()">Tambah <i-plus class="icon"></i-plus></button> -->
+          </div>
+        </div>
+        <div class="row">
+        </div>
+        
+      </ng-container>
+    <!-- End Toggle Columns -->
+  
+    <div *ngIf="loading" class="wrap-loading">
+      <p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+    </div>
+  
+    <!-- Start Card -->
+      <div *ngIf="!loading" class="card">
+        <div class="card-body p-0">
+          <!-- Start Table -->
+          <p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+            <!-- Start Header -->
+            <ng-template pTemplate="header" let-columns>
+              <tr>
+                <ng-container *ngFor="let col of columns">
+                  <th *ngIf="col.field == 'no'" style="width:75px;">{{col.header}}</th>
+                  <th *ngIf="col.field != 'no'">{{col.header}}</th>
+                </ng-container>
+                <th class="text-right">
+                  Options
+                </th>
+              </tr>
+            </ng-template>
+            <!-- End Header -->
+            <!-- Start Body -->
+            <ng-template pTemplate="body" let-rowData let-columns="columns">
+              <tr>
+                <td *ngFor="let col of columns">{{rowData[col.field]}}</td>
+                <td class="text-right">
+                  <button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
+                    <i-settings class="icon"></i-settings>
+                  </button>
+                </td>
+              </tr>
+            </ng-template>
+            <!-- End Body -->
+          </p-table>
+          <!-- End Table -->
+        </div>
+      </div>
+    <!-- End Card -->
+  </div>
+<!-- End Main Content -->
+
+
+
+
+<!-- Start Dialog Modal -->
+  <!-- <p-dialog [(visible)]="isPopupVisible" header="Pinjaman aktif non Koperasi" [modal]="true" [width]="480">
+    <div class="dialog-content p-4">
+      <form [formGroup]="formAddLoan" (ngSubmit)="save()">
+        <div class="mb-3">
+          <label>Nama</label>
+          <input type="text" class="form-control" name="nama" formControlName="nama">
+        </div>
+        <div class="mb-3">
+          <label>Perusahaan</label>
+          <input type="text" class="form-control" name="perusahaan" formControlName="perusahaan">
+        </div>
+        <div class="mb-3">
+          <label>NIK</label>
+          <input type="text" class="form-control" name="nik" formControlName="nik">
+        </div>
+        <div class="mb-3">
+          <label>Tanggal mulai</label>
+          <p-calendar formControlName="tgl_mulai" dateFormat="yy-mm-dd"></p-calendar>
+  
+        </div>
+        <div class="mb-3">
+          <label>Tanggal selesai</label>
+          <p-calendar formControlName="tgl_selesai" dateFormat="yy-mm-dd"></p-calendar>
+        </div>
+        <div class="mb-3">
+          <label>Tipe pinjaman</label>
+          <p-dropdown [options]="tipePinjaman" formControlName="tipe" optionLabel="title" styleClass="form-control"></p-dropdown>
+        </div>
+        <div class="mb-3">
+          <label>Total pinjaman</label>
+          <input type="text" class="form-control" name="total_pinjaman" formControlName="total_pinjaman">
+        </div>
+        <div class="mb-3">
+          <label>Jumlah perbulan</label>
+          <input type="text" class="form-control" name="jumlah_perbulan" formControlName="jumlah_perbulan">
+        </div>
+      </form>
+    </div>
+    
+    <p-footer>
+      <button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="back()">
+        <span>Batal</span>
+      </button>
+      <button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="save()">
+        <span *ngIf="!isProcessing">Simpan</span>
+        <span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+      </button>
+    </p-footer>
+  </p-dialog> -->
+<!-- End Dialog Modal -->
