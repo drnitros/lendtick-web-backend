@@ -52,7 +52,6 @@ export class VoucherComponent implements OnInit {
 			{field: 'voucher_code', header: 'Voucher Code', show:true},
 			{field: 'expire_date', header: 'Expire Date', show:true},
 			{field: 'created_by', header: 'Created By', show:true},
-			{field: 'status', header: 'Voucher Status', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}

@@ -73,8 +73,7 @@
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
 						<td *ngFor="let col of columns">
-							<ng-container *ngIf="col.field == 'status'"><p-inputSwitch [(ngModel)]="rowData[col.field]"></p-inputSwitch></ng-container>
-							<ng-container *ngIf="col.field != 'status'">{{rowData[col.field]}}</ng-container>
+							{{rowData[col.field]}}
 						</td>
 						<td class="text-right">
 							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">

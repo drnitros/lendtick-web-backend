@@ -44,7 +44,6 @@ export class UpdateSalaryComponent implements OnInit {
 			{field: 'nik', header: 'NIK', show:true},
 			{field: 'tgl_masuk', header: 'Tanggal Masuk', show:true},
 			{field: 'tgl_pengajuan', header: 'Tanggal Pengajuan', show:true},
-			{field: 'status', header: 'Status', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}

@@ -58,7 +58,6 @@ export class UserSettingComponent implements OnInit {
 			{field: 'email', header: 'Email', show:true},
 			{field: 'name_company', header: 'Nama Perusahaan', show:true},
 			{field: 'role', header: 'Role', show:true},
-			{field: 'status', header: 'Status', show:true},
 			{field: 'last_login', header: 'Terakhir Login', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
