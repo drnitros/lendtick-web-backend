@@ -50,9 +50,9 @@
 						</tr>
 					</table>
 					<div class="mt-3 text-right">
-						<button class="btn btn-inverse btn-primary btn-icon" type="button" (click)="selectItem()">
+						<button class="btn btn-inverse btn-primary btn-icon" [disabled]="loading" type="button" (click)="selectItem()">
 							<span *ngIf="!loading">Lihat Detail</span>
-							<span *ngIf="loading">Loading <i class="fas fa-spin fa-spinner"></i> </span>
+							<span *ngIf="loading"><i class="fas fa-spin fa-spinner"></i> </span>
 							<i-eye class="icon"></i-eye>
 						</button>
 					</div>
