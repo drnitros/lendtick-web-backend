@@ -1,23 +1,532 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
+import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { MessageService } from 'primeng/components/common/messageservice';
+import { MemberService } from '../../member/member.service';
+import * as moment from 'moment';
+import * as _ from 'lodash';
 
 @Component({
 	selector: 'app-detail-loan',
 	templateUrl: './detail-loan.component.html',
-	styleUrls: ['./detail-loan.component.scss']
+	styleUrls: ['./detail-loan.component.scss'],
+	providers: [MessageService]
 })
 export class DetailLoanComponent implements OnInit {
 	public type;
+	public id_user;
 	public date: Date = null;
 	public bunga: number = 1;
-	constructor(private route: ActivatedRoute) { 
-		
+	public isPopupVisible: boolean;
+	public isPopupReject: boolean;
+	public formAddLoan:FormGroup;
+	public formReject:FormGroup;
+	public tipePinjaman = [
+		{id:'multi_guna',title:'Multi Guna'},
+		{id:'pendidikan',title:'Pendidikan'},
+		{id:'cicilan_hrd',title:'Cicilan HRD-1'}
+	];
+	public golonganPinjaman = [
+		{id:'1',title:'I'},
+		{id:'2',title:'II'},
+		{id:'3',title:'III'},
+		{id:'4',title:'IV'}
+	];
+	golongan = {id:'1',title:'I'};
+
+	// Member variable
+	public data:any = this.data = [];
+	public loading: boolean;
+	public selectedItem = null;
+	public grades = [];
+	public grades2 = [];
+	public selectedGrade = null;
+	public companies = [];
+	public companies2 = [];
+	public selectedCompany = null;
+	public originGrades = [];
+	public arrStatus = [];
+	public arrReligion = [];
+	public arrDomicile = [];
+	public arrMariege = [];
+	public arrRole = [];
+	public selectedStatus = null;
+	public date1: Date = null;
+	public date2: Date = null;
+	public minDate = moment().add('days',-1)['_d'];
+	public isSubmitApprove: boolean = false;
+	public isSubmitReject: boolean = false;
+	public totalCount: number = 0;
+	public start = 0;
+	public pageLength = 10;
+	public availabelColumn: Number;
+	public widthDisplay: number;
+	public roleId;
+	public dataProfile = null;
+	private objFilter = {};
+
+	public displayForm: boolean = false;
+	public isSubmitRegis: boolean = false;
+
+	public name;
+	public company;
+	public email;
+	public identity_photo;
+	public company_identity_photo;
+	public personal_photo;
+	public phone_number;
+
+	public imageID = null;
+	public imageKTP = null;
+	public imagePersonal = null;
+	constructor(private route: ActivatedRoute, private router: Router, private memberService: MemberService, private messageService: MessageService) { 
+		this.formAddLoan = new FormGroup({
+			nama: new FormControl({value:"Anggota", disabled:true}, Validators.required),
+			perusahaan: new FormControl({value:"Pt Mencari Cinta Sejati", disabled:true}, Validators.required),
+			nik: new FormControl({value:"35454532", disabled:true}, Validators.required),
+			tgl_mulai: new FormControl("", Validators.required),
+			tgl_selesai: new FormControl("", Validators.required),
+			tipe: new FormControl("", Validators.required),
+			total_pinjaman: new FormControl("", Validators.required),
+			jumlah_perbulan: new FormControl("", Validators.required),
+		 });
+		 this.formReject = new FormGroup({
+			reason: new FormControl('', Validators.required),
+		 });
 	}
 
 	ngOnInit() {
 		this.route.queryParamMap.subscribe(queryParams => {
 			this.type = queryParams.get("type");
+			this.id_user = queryParams.get("user");
+		});
+
+		
+		this.widthDisplay = 1200;
+	}
+	back(){
+		this.isPopupVisible = false;
+		this.formAddLoan.reset();
+	}
+	save(){
+		this.isPopupVisible = false;
+		console.log(this.formAddLoan.value);
+		this.formAddLoan.reset();
+	}
+	cancel(){
+		this.isPopupReject = false;
+		this.formReject.reset();
+	}
+	reject(){
+		this.isPopupReject = false;
+	}
+
+
+
+
+
+
+
+	
+
+
+	// Member section
+
+	
+	// Select Item / User
+	// ======================== //
+	selectItem(){
+		this.loading = true;
+		this.memberService.getUserDetail(this.id_user).subscribe(res =>{
+			this.dataProfile = res['data'];
+			let findStatus = _.find(this.arrStatus, {value: res['data'].user.id_workflow_status});
+			if(findStatus) res['data'].user.status_name = findStatus.label;
+
+			let findReligion =  _.find(this.arrReligion, {id_religion: res['data'].profile.id_religion});
+			if(findReligion) res['data'].profile.name_religion = findReligion.name_religion;
+			
+			let findMarriage = _.find(this.arrMariege, {id_marriage_status: res['data'].profile.id_marriage_status});
+			if(findMarriage) res['data'].profile.marriage_status_name = findMarriage.marriage_status_name;
+
+			let findDomicili = _.find(this.arrDomicile, {id_domicile_address_status: res['data'].profile.id_domicile_address_status});
+			if(findDomicili) res['data'].profile.domicili_name = findDomicili.name_domicile_address_status;
+			
+			let findGrade = _.find(this.grades2, {value: res['data'].company.id_grade});
+			if(findGrade) res['data'].company.grade_name = findGrade.label;
+			
+			setTimeout(()=>{
+				let findRole = _.find(this.arrRole, {id_role_master: res['data'].user.id_role_master});
+				if(findRole) res['data'].user.role_master_name = findRole.name_role_master;
+				
+				let findGradeSlary = _.find(this.grades2, {value: res['data'].salary.id_grade});
+				if(findGradeSlary) res['data'].salary.salary_grade_name = findGradeSlary.label;
+
+				this.selectedCompany2 = this.dataProfile.company.id_company;
+				this.position = this.dataProfile.company.position;
+				this.division = this.dataProfile.company.division;
+				this.idEmployee = this.selectedItem.id_employee;
+			}, 1000); 
+			this.fetchSallary(this.id_user);
+		});
+	}
+	tabChange(){
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+
+	// Create Mutation Employee
+	// ======================== //
+	public isSubmitMutation: boolean = false;
+	public idEmployee = null;
+	public division = null;
+	public position = null;
+	public selectedCompany2 = null;
+	public imgEmployee = null;
+	public display: boolean = false;
+	createMutation(){
+		this.isSubmitMutation = true;
+		let obj = {
+			id: this.selectedItem.id_user,
+			id_employee: this.idEmployee,
+			id_company: this.selectedCompany2,
+			company_identity_photo: this.imgEmployee,
+			division: this.division,
+			position: this.position
+		};
+		console.log(obj);
+		this.memberService.updateMutation(obj).subscribe(res =>{
+			this.isSubmitMutation = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
+			this.display = false;
+			this.fetchUser();
+		}, err =>{
+			this.isSubmitMutation = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Mutasi karyawan gagal, silakan coba lagi'});
 		})
+	}
+	
+	// Select Company Mutation Employee
+	// ============================== //
+	changeCompany2(e){
+		this.selectedCompany2 = e.value;
+	}
+
+	// Fetch Salary
+	// ============================ //
+	fetchSallary(id){
+		this.memberService.getSallary(id).subscribe(res =>{
+			this.dataProfile['salary'] = res['data'];
+			this.dataProfile['salary'].amount = Number(res['data'].salary_amount).toLocaleString();
+			this.fetchBank(id);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+
+	// Fetch Bank
+	// ============================ //
+	fetchBank(id){
+		this.memberService.getBank(id).subscribe(res =>{
+			this.dataProfile['bank'] = res['data'];
+			this.fetchDocument(id);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+
+	// Fetch Document
+	// ============================ //
+	public isViewDocument: boolean = false;
+	public openTabDocument: boolean = false;
+	public selectedDocument = null;
+	public imgDocument = null;
+	public isSubmitDocument: boolean = false;
+	public arrDocumentType = [];
+	public selectedDocumentType = null;
+	public isUpdateDocument: boolean = false;
+
+	fetchDocument(id){
+		this.memberService.getDocument(id).subscribe(res =>{
+			res['data'].map((x)=> {
+				x['disable'] = false;
+				// x['document_name'] = _.find(this.arrDocumentType,{value: x.id_document_type}).label;
+			});
+			this.dataProfile['document'] = res['data'];
+			this.display = true;
+			this.loading = false;
+			this.openTabDocument = false;
+			setTimeout(() => { 
+				window.dispatchEvent(new Event('resize')); 
+			}, 100);
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	removeDocument(e){
+		this.selectedDocument = e;
+		this.selectedDocument.disable = true;
+		this.memberService.deleteDocument(Number(this.selectedDocument.id_user),this.selectedDocument.id_user_document).subscribe(res =>{
+			this.fetchDocument(Number(this.selectedDocument.id_user));
+			this.selectedDocument = null;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil hapush dokumen'});
+		}, err =>{
+			this.selectedDocument.disable = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal hapush dokumen'});
+		});
+	}
+	viewDocument(e){
+		this.widthDisplay = 800;
+		this.selectedDocument = e;
+		this.isViewDocument = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+	closeViewDocument(){
+		this.widthDisplay = 1200;
+		this.isViewDocument = false;
+		this.openTabDocument = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+	changeDocumentType(e){
+		this.selectedDocumentType = e.value;
+	}
+	createDocument(){
+		let obj = {
+			id: this.selectedItem.id_user,
+			id_document_type: this.selectedDocumentType,
+			doc_photo: this.imgDocument
+		};
+		this.isSubmitDocument = true;
+
+		if(this.isUpdateDocument){
+			this.memberService.updateDocument(obj).subscribe(res =>{
+				this.isSubmitDocument = false;
+				this.fetchDocument(this.selectedItem.id_user);
+				this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+				this.cancelUpdateDoc();
+			}, err =>{
+				this.isSubmitDocument = false;
+				this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+			});
+		}else{
+			this.memberService.postDocument(obj).subscribe(res =>{
+				this.isSubmitDocument = false;
+				this.fetchDocument(this.selectedItem.id_user);
+				this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil tambah dokumen'});
+			}, err =>{
+				this.isSubmitDocument = false;
+				this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal tambah dokumen'});
+			});
+		}
+		
+	}
+	editDocument(e){
+		this.isUpdateDocument = true;
+		this.selectedDocumentType = e.id_document_type;
+		this.imgDocument = e.path;
+	}
+	cancelUpdateDoc(){
+		this.isUpdateDocument = false;
+		this.imgDocument = null;
+	}
+
+	// Update Password
+	// ========================= //
+	public password = null;
+	public oldpassword = null;
+	public confirmpassword = null;
+	public isSubmitPassword: boolean = false;
+
+	updatePassword(){
+		let obj = {
+			old_password: this.oldpassword,
+			new_password: this.password
+		};
+
+		this.isSubmitPassword = true;
+		this.memberService.updatePassword(obj).subscribe(res =>{
+			this.isSubmitPassword = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil ganti password'});
+		}, err =>{
+			this.isSubmitPassword = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
+		});
+	}
+
+	// Fetch Master 
+	// ========================= //
+	fetchCompany(){
+		this.memberService.getCompany().subscribe(res =>{
+			this.companies = [{label:"Semua Perusahaan",value: null}];
+			_.map(res['data'],(x)=>{
+				this.companies.push({label:x.name_company, value:x.id_company});
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+
+		this.memberService.getCompany2().subscribe(res =>{
+			_.map(res['data'],(x)=>{
+				this.companies2.push({label:x.name_company, value:x.id_company});
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchStatus(){
+		this.memberService.getStatus().subscribe(res =>{
+			this.arrStatus = [{label:"Semua Status",value:null}];
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.workflow_status_name,value:x.id_workflow_status};
+				this.arrStatus.push(obj);
+			});
+
+			_.map(this.data, (x)=>{
+				x['status_name'] = _.find(this.arrStatus, {value: x.id_workflow_status}).label;
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchGrade(){
+		this.memberService.getGrade().subscribe(res =>{
+			this.originGrades = res['data'];
+			this.grades = [{label:"Semua Golongan",value:null}];
+			this.grades2 = [];
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.name_grade,value:x.id_grade};
+				this.grades.push(obj);
+				this.grades2.push(obj);
+			});
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchDomicile(){
+		this.memberService.getDomicile().subscribe(res =>{
+			this.arrDomicile = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchReligion(){
+		this.memberService.getReligion().subscribe(res =>{
+			this.arrReligion = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchMarriage(){
+		this.memberService.getMarriage().subscribe(res =>{
+			this.arrMariege = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchRole(){
+		this.memberService.getRole().subscribe(res =>{
+			this.arrRole = res['data'];
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+	fetchMasterDocumentType(){
+		this.memberService.getMstDocument().subscribe(res =>{
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.document_name,value:x.id_document_type};
+				this.arrDocumentType.push(obj);
+			});
+			this.selectedDocumentType = this.arrDocumentType[0].value;
+		}, err =>{
+			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
+		});
+	}
+
+	// Filter List
+	// ========================== //
+	private typingTimer;
+	private doneTypingInterval = 1000;
+	onSearchName(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['nama'] = searchValue;
+			}else{
+				delete this.objFilter['nama'];
+			}
+			this.start = 0;
+			this.fetchUser();
+		}, this.doneTypingInterval);
+	}
+	onSearchNik(searchValue : string ) {  
+		clearTimeout(this.typingTimer);
+		this.typingTimer = setTimeout(()=>{
+			if(searchValue){
+				this.objFilter['no_anggota'] = searchValue;
+			}else{
+				delete this.objFilter['no_anggota'];
+			}
+			this.start = 0;
+			this.fetchUser();
+		}, this.doneTypingInterval);
+	}
+	changeCompany(e){
+		if(e.value){
+			this.objFilter['company'] = e.value;
+		}else{
+			delete this.objFilter['company'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	changeGrade(e){
+		if(e.value){
+			this.objFilter['golongan'] = e.value;
+		}else{
+			delete this.objFilter['golongan'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	changeStatus(e){
+		if(e.value){
+			this.objFilter['status'] = e.value;
+		}else{
+			delete this.objFilter['status'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	onSelectTglMasuk(e){
+		if(this.date1[1]){
+			let date1 = moment(this.date1[0]).format("YYYY-MM-DD");
+			let date2 = moment(this.date1[1]).format("YYYY-MM-DD");
+			this.objFilter['tgl_masuk'] = "2019-02-01 - 2019-02-15";		
+		}else{
+			delete this.objFilter['tgl_masuk'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+	onSelectTglPengajuan(e){
+		if(this.date2[1]){
+			let date1 = moment(this.date2[0]).format("YYYY-MM-DD");
+			let date2 = moment(this.date2[1]).format("YYYY-MM-DD");
+			this.objFilter['tgl_pengajuan'] = "2019-02-01 - 2019-02-15";		
+		}else{
+			delete this.objFilter['tgl_pengajuan'];
+		}
+		this.start = 0;
+		this.fetchUser();
+	}
+
+
+	fetchUser(){
+		this.router.navigate(['/main/member']);
 	}
 
 }

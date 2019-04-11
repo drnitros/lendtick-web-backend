@@ -50,7 +50,11 @@
 						</tr>
 					</table>
 					<div class="mt-3 text-right">
-						<button class="btn btn-inverse btn-primary btn-icon" type="button">Lihat detail <i-eye class="icon"></i-eye></button>
+						<button class="btn btn-inverse btn-primary btn-icon" type="button" (click)="selectItem()">
+							<span *ngIf="!loading">Lihat Detail</span>
+							<span *ngIf="loading">Loading <i class="fas fa-spin fa-spinner"></i> </span>
+							<i-eye class="icon"></i-eye>
+						</button>
 					</div>
 				</div>
 			</div>
@@ -166,7 +170,7 @@
 	<div class="mt-5">
 		<div class="card">
 			<div class="card-header">
-				<button class="btn btn-sm btn-info btn-inverse float-right">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
+				<button class="btn btn-sm btn-info btn-inverse float-right" (click)="isPopupVisible = true">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
 				<h6 class="mb-0">Pinjaman Aktif</h6>
 			</div>
 			<div class="card-body p-0">
@@ -220,11 +224,17 @@
 		<div class="col-lg-4">
 			<div class="card">
 				<div class="card-header">
-					<h6 class="mb-0">Informasi Tambahan</h6>
+					<h6 class="mb-0">Perubahan Gaji dan Golongan</h6>
 				</div>
 				<div class="card-body">
-					<label>Tanggal pencarian</label>
-					<p-calendar [(ngModel)]="date" placeholder="Tanggal Pencairan"></p-calendar>
+					<div class="mb-3">
+						<label>Golongan</label>
+						<p-dropdown [options]="golonganPinjaman" [(ngModel)]="golongan" optionLabel="title" styleClass="form-control"></p-dropdown>
+					</div>
+					<div>
+						<label>Gaji</label>
+						<p-spinner [min]="1" [(ngModel)]="gaji" [formatInput]="false"></p-spinner>
+					</div>
 				</div>
 			</div>
 		</div>
@@ -251,8 +261,478 @@
 	</div>
 
 	<div class="mt-5 mb-2 text-right">
-		<button class="btn btn-danger btn-lg btn-icon mr-3" type="button">Tolak <i-x class="icon"></i-x></button>
+		<button class="btn btn-danger btn-lg btn-icon mr-3" type="button" (click)="isPopupReject=true">Tolak <i-x class="icon"></i-x></button>
 		<button class="btn btn-primary btn-lg btn-icon" type="button">Setuju <i-check class="icon"></i-check></button>
 	</div>
 </div>
 <!--End Main Content -->
+
+
+<!-- Start Dialog Modal ( Tambah Pinjaman ) -->
+<p-dialog [(visible)]="isPopupVisible" header="Pinjaman aktif non Koperasi" [modal]="true" [width]="800">
+	<div class="dialog-content p-4">
+		<form [formGroup]="formAddLoan" (ngSubmit)="save()">
+			<div class="row">
+				<div class="col-6">
+					<div class="mb-3">
+						<label>Tipe Pinjaman non koperasi</label>
+						<p-dropdown [options]="tipePinjaman" formControlName="tipe" optionLabel="title" styleClass="form-control"></p-dropdown>
+					</div>
+					<div class="mb-3">
+						<label>Total pinjaman</label>
+						<input type="text" class="form-control" name="total_pinjaman" formControlName="total_pinjaman">
+					</div>
+					<div class="mb-3">
+						<label>Total Tagihan Per Bulan</label>
+						<input type="text" class="form-control" name="jumlah_perbulan" formControlName="jumlah_perbulan">
+					</div>
+					<div class="mb-3">
+						<label>Mulai Pinjaman</label>
+						<p-calendar formControlName="tgl_mulai" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+		
+					</div>
+					<div class="mb-3">
+						<label>Akhir Pinjaman</label>
+						<p-calendar formControlName="tgl_selesai" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
+					</div>
+				</div>
+				<div class="col-6">
+					<div class="mb-3">
+						<label>Nama</label>
+						<input type="text" class="form-control" name="nama" formControlName="nama">
+					</div>
+					<div class="mb-3">
+						<label>Nomor anggota</label>
+						<input type="text" class="form-control" name="nik" formControlName="nik">
+					</div>
+				</div>
+			</div>
+		</form>
+	</div>
+	
+	<p-footer>
+		<button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="back()">
+			<span>Batal</span>
+		</button>
+		<button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="save()">
+			<span *ngIf="!isProcessing">Simpan</span>
+			<span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
+
+
+
+
+<!-- Start Dialog Modal ( Tolak permintaan ) -->
+<p-dialog [(visible)]="isPopupReject" header="Tolak pinjaman" [modal]="true" [width]="480">
+	<div class="dialog-content p-4">
+		<form [formGroup]="formReject">
+				<div class="mb-3">
+					<label class="mb-2">Alasan penolakan</label>
+					<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control" formControlName="reason"></textarea>
+				</div>
+		</form>
+	</div>
+	
+	<p-footer>
+		<button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="cancel()">
+			<span>Batal</span>
+		</button>
+		<button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="reject()">
+			<span *ngIf="!isProcessing">Simpan</span>
+			<span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
+	
+
+
+
+
+
+
+
+<!-- Start Dialog Member Modal -->
+<p-dialog  [(visible)]="display" header="Detail Member" [modal]="true" [width]="widthDisplay">
+	<ng-container *ngIf="!loading">
+		<div *ngIf="isViewDocument" class="dialog-content">
+			<img [src]="selectedDocument.path" class="w-100" alt="" />
+		</div>
+		<p-tabView *ngIf="!isViewDocument" styleClass="tab-nav-tabs" (onChange)="tabChange()">
+			<!-- Start Profile -->
+			<p-tabPanel header="Profile">
+				<div class="mt-4">
+					<div class="dialog-content pt-1">
+						<img [src]="dataProfile.profile.personal_photo" class="img-user-big" />
+						<table class="mt-4 table table-striped mb-3">
+							<tr>
+								<td class="label">No Anggota</td>
+								<td>{{dataProfile.profile.id_user}}</td>
+							</tr>
+							<tr>
+								<td class="label">Nama</td>
+								<td>{{dataProfile.profile.name}}</td>
+							</tr>
+							<tr>
+								<td class="label">Tanggal Lahir</td>
+								<td>{{dataProfile.profile.birth_date}}</td>
+							</tr>
+							<tr>
+								<td class="label">Tempat Lahir</td>
+								<td>{{dataProfile.profile.birth_place}}</td>
+							</tr>
+							<tr>
+								<td class="label">Agama</td>
+								<td>{{dataProfile.profile.name_religion}}</td>
+							</tr>
+							<tr>
+								<td class="label">Jenis Kelamin</td>
+								<td>{{dataProfile.profile.id_gender}}</td>
+							</tr>      
+							<tr>
+								<td class="label">No KTP</td>
+								<td>{{dataProfile.profile.identity_id}}</td>
+							</tr>            
+							<tr>
+								<td class="label">No Handphone</td>
+								<td>{{dataProfile.profile.phone_number}}</td>
+							</tr>         
+							<tr>
+								<td class="label">Status Perkawinan</td>
+								<td>{{dataProfile.profile.marriage_status_name}}</td>
+							</tr>    
+							<tr>
+								<td class="label">Status Tempat Tinggal</td>
+								<td>{{dataProfile.profile.domicili_name}}</td>
+							</tr>      
+							<tr>
+								<td class="label">NPWP No</td>
+								<td>{{dataProfile.profile.NPWP_No}}</td>
+							</tr>      
+							<tr>
+								<td class="label">Email</td>
+								<td>{{dataProfile.profile.email}}</td>
+							</tr>     
+							<tr>
+								<td class="label">Nama Ibu Kandung</td>
+								<td>{{dataProfile.profile.mother_name}}</td>
+							</tr>    
+							<!-- <tr>
+								<td class="label">Golongan</td>
+								<td>{{selectedItem.name_grade}}</td>
+							</tr>  
+							<tr>
+								<td class="label">Tanggal Karyawan Tetap</td>
+								<td>{{selectedItem.employee_starting_date}}</td>
+							</tr>                                                                                                                       -->
+						</table>
+						<div class="text-right">
+							<button class="btn btn-danger">Terminate {{dataProfile.profile.name}}</button>
+						</div>
+					</div>
+				</div>
+			</p-tabPanel>
+			<!-- End Profile -->
+			<!-- Start Company -->
+			<p-tabPanel header="Company">
+				<div class="dialog-content">
+					<div class="row">
+						<div class="col-md-6">
+							<table class="table table-striped mb-0">
+								<tr>
+									<td class="label">Tanggal Mulai Bekerja</td>
+									<td>{{dataProfile.company.employee_starting_date}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Karyawan</td>
+									<td>{{dataProfile.company.id_employee}}</td>
+								</tr>
+								<tr>
+									<td class="label">Golongan</td>
+									<td>{{dataProfile.company.grade_name}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Company</td>
+									<td>{{dataProfile.company.id_user_company}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID User Profile</td>
+									<td>{{dataProfile.company.id_user_profile}}</td>
+								</tr>
+								<tr>
+									<td class="label">ID Workflow Status</td>
+									<td>{{dataProfile.company.id_workflow_status}}</td>
+								</tr>
+								<tr>
+									<td class="label">Posisi</td>
+									<td>{{dataProfile.company.position}}</td>
+								</tr>
+								<tr>
+									<td class="label">Termination Date</td>
+									<td>{{dataProfile.company.termination_date}}</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-6">
+							<form #mutationForm="ngForm">
+								<div class="mb-2">
+									<label>ID Karyawan</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="idEmployee" 
+										[(ngModel)]="idEmployee" 
+										[class.is-invalid]="idEmployeeRef.errors?.required && idEmployeeRef.touched" 
+										#idEmployeeRef="ngModel"
+										placeholder="Masukan ID Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Divisi</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="divisi" 
+										[(ngModel)]="division" 
+										[class.is-invalid]="divisionRef.errors?.required && divisionRef.touched" 
+										#divisionRef="ngModel"
+										placeholder="Divisi Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Posisi</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="position" 
+										[(ngModel)]="position" 
+										[class.is-invalid]="positionRef.errors?.required && positionRef.touched" 
+										#positionRef="ngModel"
+										placeholder="Posisi Karyawan" 
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Perusahaan</label>
+									<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true"></p-dropdown>
+								</div>
+								<div class="mb-2">
+									<label>Unggah foto perusahaan</label>
+									<img *ngIf="imgEmployee" [src]="imgEmployee" class="img-user-big mt-2 mb-2" />
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text file pt-1">
+												<i-upload class="icon"></i-upload> 
+											</span>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'company')" id="uploadcompany" required>
+											<label class="custom-file-label" for="uploadcompany">Unggah foto perusahaan</label>
+										</div>
+									</div>
+								</div>
+								<div class="mt-4">
+									<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid" (click)="createMutation()">
+										<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
+										<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</p-tabPanel>
+			<!-- End Company -->
+			<!-- Start Bank -->
+			<p-tabPanel header="Bank">
+				<div class="dialog-content pt-1">
+					<table class="mt-4 table table-striped mb-0">
+						<tr>
+							<td class="label">Bank</td>
+							<td>{{dataProfile.bank.name_bank}}</td>
+						</tr>
+						<tr>
+							<td class="label">No Rekening</td>
+							<td>{{dataProfile.bank.account_number_bank}}</td>
+						</tr>
+						<tr>
+							<td class="label">Nama Rekening</td>
+							<td style="word-break: break-all;">{{dataProfile.bank.account_name_bank}}</td>
+						</tr>
+					</table>
+				</div>
+			</p-tabPanel>
+			<!-- End Bank -->
+			<!-- Start Document -->
+			<p-tabPanel header="Document"  [selected]="openTabDocument">
+				<div class="dialog-content">
+
+					<div class="row">
+						<div class="col-md-4">
+
+							<form #documentForm="ngForm">
+								<div class="mb-2">
+									<label>Tipe Dokumen</label>
+									<p-dropdown [options]="arrDocumentType" name="company" styleClass="form-control" [(ngModel)]="selectedDocumentType" (onChange)="changeDocumentType($event)" [required]="true"></p-dropdown>
+								</div>
+								<div class="mb-4">
+									<label>Unggah Dokumen</label>
+									<img *ngIf="imgDocument" [src]="imgDocument" class="img-user-big mt-2 mb-2" />
+									<div class="input-group">
+										<div class="input-group-prepend">
+											<span class="input-group-text file pt-1">
+												<i-upload class="icon"></i-upload> 
+											</span>
+										</div>
+										<div class="custom-file">
+											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'document')" id="uploaddocument" required>
+											<label class="custom-file-label" for="uploaddocument">Unggah foto perusahaan</label>
+										</div>
+									</div>
+								</div>
+								<div class="mb-4">
+									<button class="btn btn-primary" [class.btn-icon]="!isSubmitDocument" [disabled]="isSubmitDocument || documentForm.invalid && imgDocument == null" (click)="createDocument()">
+										<span *ngIf="!isSubmitDocument">
+											<span *ngIf="!isUpdateDocument">Tambah Dokumen</span> 
+											<span *ngIf="isUpdateDocument">Update Dokumen</span> 
+											<i-upload class="icon"></i-upload>
+										</span>
+										<span *ngIf="isSubmitDocument"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+									<button class="btn btn-primary btn-inverse ml-2" *ngIf="isUpdateDocument" (click)="cancelUpdateDoc()" [disabled]="isSubmitDocument">Cancel</button>
+								</div>
+							</form>
+
+						</div>
+					</div>
+
+					<div class="wrap-gallery">
+						<ul class="list-document row">
+							<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-3">
+								<img [src]="item.path" class="img-user-big mb-2" style="width:100px;height:100px;" alt="" />
+								<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}<br />
+								<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}
+								<div class="mt-3">
+									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
+									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="editDocument(item)" [disabled]="item.disable">Ubah</button>
+									<button class="btn btn-danger btn-sm" [disabled]="item.disable" (click)="removeDocument(item)">
+										<span *ngIf="!item.disable">Hapus</span>
+										<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</p-tabPanel>
+			<!-- End Document -->
+			<!-- Start Salary -->
+			<p-tabPanel header="Salary">
+				<div class="dialog-content pt-1">
+					<table class="mt-4 table table-striped mb-0">
+						<tr>
+							<td class="label">Nilai Gaji</td>
+							<td>Rp {{dataProfile.salary.amount}}</td>
+						</tr>
+						<tr>
+							<td class="label">Golongan</td>
+							<td>{{dataProfile.salary.salary_grade_name}}</td>
+						</tr>
+						<tr>
+							<td class="label">Slip Gaji</td>
+							<td>
+								<img [src]="dataProfile.salary.salary_photo" alt="" class="w-100"/>
+							</td>
+						</tr>
+					</table>
+				</div>
+			</p-tabPanel>
+			<!-- End Salary -->
+			<!-- Start User -->
+			<p-tabPanel header="User">
+				<div class="dialog-content pt-1">
+					<div class="row">
+						<div class="col-md-6">
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Username</td>
+									<td>{{dataProfile.user.username}}</td>
+								</tr>
+								<tr>
+									<td class="label">Role</td>
+									<td>{{dataProfile.user.role_master_name}}</td>
+								</tr>
+								<tr>
+									<td class="label">Password</td>
+									<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
+								</tr>
+							</table>
+						</div>
+						<div class="col-md-6 pt-3">
+							<form #passwordForm="ngForm">
+								<div class="mb-2">
+									<label>Password Lama</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="oldpassword" 
+										[(ngModel)]="oldpassword" 
+										[class.is-invalid]="oldpasswordRef.errors?.required && oldpasswordRef.touched" 
+										#oldpasswordRef="ngModel"
+										placeholder="Masukan Password Lama" 
+										type="oldpassword"
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Password Baru</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="password" 
+										[(ngModel)]="password" 
+										[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
+										#passwordRef="ngModel"
+										placeholder="Masukan Password Baru" 
+										type="password"
+										required/>
+								</div>
+								<div class="mb-2">
+									<label>Konfirmasi Password</label>
+									<input 
+										type="text" 
+										class="form-control" 
+										name="confirmpassword" 
+										[(ngModel)]="confirmpassword" 
+										[class.is-invalid]="confirmpasswordRef.errors?.required && confirmpasswordRef.touched" 
+										#confirmpasswordRef="ngModel"
+										placeholder="Konfirmasi Password Baru" 
+										type="password"
+										required/>
+								</div>
+								<div class="mt-4">
+									<button class="btn btn-primary" [disabled]="isSubmitPassword || passwordForm.invalid || confirmpassword != password" (click)="updatePassword()">
+										<span *ngIf="!isSubmitPassword">Reset Password</span>
+										<span *ngIf="isSubmitPassword"><i class="fas fa-spin fa-spinner"></i></span>
+									</button>
+								</div>
+							</form>
+						</div>
+					</div>
+				</div>
+			</p-tabPanel>
+			<!-- End User -->
+		</p-tabView>
+	</ng-container>
+	
+	<p-footer>
+		<button *ngIf="!isViewDocument" class="btn btn-default" (click)="display = false">
+			Tutup
+		</button>
+		<button *ngIf="isViewDocument" class="btn btn-default" (click)="closeViewDocument()">
+			Tutup Dokumen
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Member Modal -->

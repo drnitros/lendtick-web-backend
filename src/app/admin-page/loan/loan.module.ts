@@ -16,6 +16,9 @@ import { DropdownModule } from 'primeng/dropdown';
 import { CalendarModule } from 'primeng/calendar';
 import { DialogModule } from 'primeng/dialog';
 import { FileUploadModule } from 'primeng/fileupload';
+import { PaginatorModule } from 'primeng/paginator';
+import { TabViewModule } from 'primeng/tabview';
+import { InputSwitchModule } from 'primeng/inputswitch';
 import { SpinnerModule } from 'primeng/spinner';
 import { CustomFormsModule } from 'ng2-validation';
 
@@ -46,7 +49,10 @@ import { NonKoperasiDetailComponent } from './non-koperasi-detail/non-koperasi-d
 		CalendarModule,
 		DialogModule,
 		SpinnerModule,
-		FileUploadModule
+		FileUploadModule,
+		PaginatorModule,
+		TabViewModule,
+		InputSwitchModule
 	],
 	declarations: [
 		JangkaPanjangComponent, 

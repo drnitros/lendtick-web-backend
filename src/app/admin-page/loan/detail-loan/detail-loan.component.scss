@@ -77,3 +77,131 @@ table.table-content{
         margin-bottom: 25px;
     }
 }
+
+
+// Member
+
+@import '../../../../assets/scss/css3-mixins';
+@import '../../../../assets/scss/variable';
+
+.th-option{
+    width: 100px;
+    text-align: center;
+}
+
+.img-user-big{
+    padding: 10px;
+    border: solid 1px #efefef;
+    display: block;
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    @extend .panel-shadow;
+    @include border-radius(4px);
+}
+
+.th-avatar{
+    width: 75px;
+}
+
+.img-avatar{
+    width: 40px;
+    border-radius: 50%;
+    border: solid 1px #efefef;
+    position: absolute;
+    top: 10px;
+    left: 25px;
+    @extend .panel-shadow;
+}
+
+.label{
+    width: 200px;
+    color: $color-title;
+    font-weight: 500;
+}
+
+.btn-close{
+    float: right;
+    position: relative;
+    top: -10px;
+}
+
+.wrap-photo{
+    border: solid 1px #efefef;
+    padding: 10px;
+    display: block;
+    background: #fff;
+    @extend .panel-shadow;
+    @include border-radius(4px);
+
+    img{
+        width: 100%;
+        object-fit: cover;
+        max-height: 320px;
+    }
+}
+
+
+.dialog-content{
+    padding: 30px;
+    border-end-end-radius: solid 1px red;
+}
+
+.wrap-gallery{
+    padding: 30px;
+    background-color: #dfdfdf;
+
+    .list-document{
+        padding: 0;
+        margin: 0;
+        list-style: none;
+    
+        li{
+            display: block;
+            border: solid 1px #dfdfdf;
+            background-color: #fff;
+            padding: 15px;
+            position: relative;
+    
+            &:hover{
+                background-color: #fff;
+                @extend .panel-shadow;
+            }
+    
+            .link{
+                position: absolute;
+                left: 0;
+                top: 0;
+                width: 100%;
+                height: 100%;
+                z-index: 3;
+            }
+    
+            img{
+                border: solid 1px #dfdfdf;
+            }
+    
+            &:last-child{
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.icon-btn{
+    width: 16px;
+    margin-right: 10px;
+}
+
+@media(max-width:767px){
+    .img-avatar{
+        position: relative;
+        top: 0;
+        left: 0;
+    }
+}
+.ui-tabview.tab-nav-tabs .ui-tabview-nav{
+    margin: 30px 0 0 0;
+    padding-left: 30px !important;
+    padding-right: 30px !important;
+}
