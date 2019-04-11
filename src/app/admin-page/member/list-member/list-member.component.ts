@@ -30,7 +30,6 @@ export class ListMemberComponent implements OnInit {
 	public arrDomicile = [];
 	public arrMariege = [];
 	public arrRole = [];
-	public arrGender = [];
 	public selectedStatus = null;
 	public date: Date = null;
 	public date1: Date = null;
@@ -75,7 +74,6 @@ export class ListMemberComponent implements OnInit {
 		this.fetchReligion();
 		this.fetchRole();
 		this.fetchMasterDocumentType();
-		this.fetchMasterGender();
 		this.roleId = localStorage.getItem('id_role_master');
 		this.widthDisplay = 1200;
 
@@ -215,12 +213,6 @@ export class ListMemberComponent implements OnInit {
 			
 			let findGrade = _.find(this.grades2, {value: res['data'].company.id_grade});
 			if(findGrade) res['data'].company.grade_name = findGrade.label;
-
-			let birth_date = res['data'].profile.birth_date.substring(0, 11);
-			res['data'].profile.birth_date = moment(birth_date).format('DD MMM YYYY');
-
-			let findGender = _.find(this.arrGender, {id_gender: res['data'].profile.id_gender});
-			if(findGender) res['data'].profile.id_gender = findGender.name_gender;
 			
 			setTimeout(()=>{
 				let findRole = _.find(this.arrRole, {id_role_master: res['data'].user.id_role_master});
@@ -261,6 +253,7 @@ export class ListMemberComponent implements OnInit {
 			division: this.division,
 			position: this.position
 		};
+		console.log(obj);
 		this.memberService.updateMutation(obj).subscribe(res =>{
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
@@ -316,8 +309,7 @@ export class ListMemberComponent implements OnInit {
 		this.memberService.getDocument(id).subscribe(res =>{
 			res['data'].map((x)=> {
 				x['disable'] = false;
-				let findDocument = _.find(this.arrDocumentType,{value: x.id_document_type});
-				x['document_name'] = findDocument ? findDocument.label : '';
+				x['document_name'] = _.find(this.arrDocumentType,{value: x.id_document_type}).label;
 			});
 			this.dataProfile['document'] = res['data'];
 			this.display = true;
@@ -508,13 +500,6 @@ export class ListMemberComponent implements OnInit {
 				this.arrDocumentType.push(obj);
 			});
 			this.selectedDocumentType = this.arrDocumentType[0].value;
-		}, err =>{
-			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
-		});
-	}
-	fetchMasterGender(){
-		this.memberService.getMstGendder().subscribe(res =>{
-			this.arrGender = res['data'];
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});

@@ -59,7 +59,8 @@
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
 						<td *ngFor="let col of columns">
-							{{rowData[col.field]}}
+							<ng-container *ngIf="col.field == 'status'"><p-inputSwitch [(ngModel)]="rowData[col.field]"></p-inputSwitch></ng-container>
+							<ng-container *ngIf="col.field != 'status'">{{rowData[col.field]}}</ng-container>
 						</td>
 						<td class="text-right">
 							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
@@ -78,7 +79,7 @@
 <!-- End Main Content -->
 
 <!-- Start Dialog Modal -->
-<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Pengajuan Gaji dan Golongan" [modal]="true" [width]="widthDialog">
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Pengajuan Gaji dan Golongan" [modal]="true" [width]="1200">
 	<div class="dialog-content">
 		<div class="row">
 			<div class="col-md-8 border-right">

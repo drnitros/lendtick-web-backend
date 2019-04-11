@@ -17,7 +17,6 @@ export class UpdateSalaryComponent implements OnInit {
 	public amount = 1;
 	public date1 = null;
 	public date2 = null;
-	public widthDialog: number = 0;
 	public grades = [
 		{label: "I", value: "G1"},
 		{label: "II", value: "G2"},
@@ -44,6 +43,7 @@ export class UpdateSalaryComponent implements OnInit {
 			{field: 'nik', header: 'NIK', show:true},
 			{field: 'tgl_masuk', header: 'Tanggal Masuk', show:true},
 			{field: 'tgl_pengajuan', header: 'Tanggal Pengajuan', show:true},
+			{field: 'status', header: 'Status', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
@@ -107,7 +107,6 @@ export class UpdateSalaryComponent implements OnInit {
 	selectItem(e){
 		this.display = true;
 		this.selectedItem = e;
-		this.widthDialog = $(window).width() - 60;
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
 		}, 500);

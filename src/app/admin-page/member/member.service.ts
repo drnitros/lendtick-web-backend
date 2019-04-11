@@ -14,7 +14,6 @@ export class MemberService {
 	private urlGetMarriage = this.APIService['hostAuth'] + '/mst/marriage';
 	private urlGetDomicile = this.APIService['hostAuth'] + '/mst/domicile';
 	private urlGetRole = this.APIService['hostAuth'] + '/mst/role';
-	private urlGetGender = this.APIService['hostAuth'] + '/mst/gender';
 
 	private urlGetMstDocument = this.APIService['hostLoan'] + '/master/document';
 
@@ -317,15 +316,6 @@ export class MemberService {
 			})
 		};
 		return this.http.get(this.urlGetMstDocument,options);
-	}
-	getMstGendder(){
-		const options = {
-			headers: new HttpHeaders({
-			  'accept':  'application/json',
-			  'Authorization' : localStorage.getItem('token')
-			})
-		};
-		return this.http.get(this.urlGetGender,options);
 	}
 }
 

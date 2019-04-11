@@ -34,6 +34,8 @@ export class LoanTypeComponent implements OnInit {
 			{field: 'name_loan_type', header: 'Tipe Pinjaman', show:true},
 			{field: 'interest_effective', header: 'Interest Effective', show:true},
 			{field: 'interest_flat', header: 'Interest Flat', show:true},
+			{field: 'is_balance', header: 'Balanace', show:true},
+			{field: 'is_flat', header: 'Flat', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
