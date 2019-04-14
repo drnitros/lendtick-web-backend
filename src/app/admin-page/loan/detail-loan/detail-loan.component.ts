@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MemberService } from '../../member/member.service';
+import { LoanService } from '../loan.service';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -13,8 +14,10 @@ import * as _ from 'lodash';
 	providers: [MessageService]
 })
 export class DetailLoanComponent implements OnInit {
-	public type;
+	public loadingData: boolean = true;
+	public loan_type;
 	public id_user;
+	public id_loan;
 	public date: Date = null;
 	public bunga: number = 1;
 	public isPopupVisible: boolean;
@@ -79,7 +82,13 @@ export class DetailLoanComponent implements OnInit {
 	public imageID = null;
 	public imageKTP = null;
 	public imagePersonal = null;
-	constructor(private route: ActivatedRoute, private router: Router, private memberService: MemberService, private messageService: MessageService) { 
+	constructor(
+		private route: ActivatedRoute, 
+		private router: Router, 
+		private memberService: MemberService, 
+		private messageService: MessageService,
+		private loanService: LoanService
+	){ 
 		this.formAddLoan = new FormGroup({
 			nama: new FormControl({value:"Anggota", disabled:true}, Validators.required),
 			perusahaan: new FormControl({value:"Pt Mencari Cinta Sejati", disabled:true}, Validators.required),
@@ -97,12 +106,24 @@ export class DetailLoanComponent implements OnInit {
 
 	ngOnInit() {
 		this.route.queryParamMap.subscribe(queryParams => {
-			this.type = queryParams.get("type");
+			this.loan_type = queryParams.get("type");;
 			this.id_user = queryParams.get("user");
+			this.idEmployee = queryParams.get("idemployee");
 		});
-
-		
+		this.route.params.subscribe(params => {
+			this.id_loan = params['id'];
+		});
 		this.widthDisplay = 1200;
+		this.fetchProfileDetail();
+		this.fetchDomicile();
+		this.fetchMarriage();
+		this.fetchReligion();
+		this.fetchRole();
+		this.fetchMasterDocumentType();
+		this.fetchGrade();
+		this.fetchStatus();
+		this.fetchLoanDetail(this.id_user,this.id_loan);
+		this.fetchDocumentLoan(this.id_user,this.loan_type);
 	}
 	back(){
 		this.isPopupVisible = false;
@@ -110,7 +131,6 @@ export class DetailLoanComponent implements OnInit {
 	}
 	save(){
 		this.isPopupVisible = false;
-		console.log(this.formAddLoan.value);
 		this.formAddLoan.reset();
 	}
 	cancel(){
@@ -121,21 +141,62 @@ export class DetailLoanComponent implements OnInit {
 		this.isPopupReject = false;
 	}
 
+	// Fetch Loan Detail
+	// ======================== //
+	public dataDetailLoan = null;
+	fetchLoanDetail(idUser,idLoan){	
+		this.loanService.getLoadDetail(idUser,idLoan).subscribe(res =>{
+			console.log(res);
+			this.dataDetailLoan = res['data'];
+			this.dataDetailLoan.rp_installments = 'Rp ' + this.dataDetailLoan.current_loan.installments.toLocaleString();
+			this.dataDetailLoan.rp_loan_approved = 'Rp ' + this.dataDetailLoan.current_loan.loan_approved.toLocaleString();
+			this.dataDetailLoan.rp_total_installment = 'Rp ' + this.dataDetailLoan.total_installment.toLocaleString();
+			this.dataDetailLoan.rp_salary = 'Rp ' + this.dataDetailLoan.salary.toLocaleString();
+			this.dataDetailLoan.rp_current_strength = 'Rp ' + this.dataDetailLoan.current_strength.toLocaleString();
+			this.dataDetailLoan.rp_final_installment = 'Rp ' + this.dataDetailLoan.final_installment.toLocaleString();
 
+			_.map(this.dataDetailLoan.active_loan,(x)=>{
+				x.rp_installments = 'Rp ' + x.installments.toLocaleString();
+				x.rp_loan_approved = 'Rp ' + x.loan_approved.toLocaleString();
+				x.rp_paid_installment = 'Rp ' + x.paid_installment.toLocaleString();
+				x.rp_unpaid_installment = 'Rp ' + x.unpaid_installment.toLocaleString();
+				x.start_date = moment(x.start_date).format("DD MMM YYYY");
+				x.end_date = moment(x.end_date).format("DD MMM YYYY");
+			});
+			this.loadingData = false;
+		});
+	}
 
+	// Document Loan
+	// ========================== //
+	public selectedDocumentLoan = null;
+	public displayDocument: boolean = false;
+	public isViewDocumentLoan: boolean = false;
+	public arrDocumentDetailLoan = [];
+	fetchDocumentLoan(idUser,loanType){
+		this.loanService.getLoadDocument(idUser,loanType).subscribe(res =>{
+			this.arrDocumentDetailLoan = res['data'];
+		})
+	};
+	viewDocumentLoan(e){
+		this.displayDocument = true;
+		this.selectedDocumentLoan = e;
+		this.isViewDocumentLoan = true;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 100);
+	}
+	closeViewDetailDocument(){
+		this.isViewDocumentLoan = false;
+		this.selectedDocumentLoan = null;
+		setTimeout(() => { 
+			window.dispatchEvent(new Event('resize')); 
+		}, 1000);
+	}
 
-
-
-
-	
-
-
-	// Member section
-
-	
 	// Select Item / User
 	// ======================== //
-	selectItem(){
+	fetchProfileDetail(){
 		this.loading = true;
 		this.memberService.getUserDetail(this.id_user).subscribe(res =>{
 			this.dataProfile = res['data'];
@@ -161,12 +222,12 @@ export class DetailLoanComponent implements OnInit {
 				let findGradeSlary = _.find(this.grades2, {value: res['data'].salary.id_grade});
 				if(findGradeSlary) res['data'].salary.salary_grade_name = findGradeSlary.label;
 
-				this.selectedCompany2 = this.dataProfile.company.id_company;
+				this.selectedCompany2 = this.dataProfile.company.id_company;	
 				this.position = this.dataProfile.company.position;
 				this.division = this.dataProfile.company.division;
-				this.idEmployee = this.selectedItem.id_employee;
 			}, 1000); 
 			this.fetchSallary(this.id_user);
+			this.fetchCompany();
 		});
 	}
 	tabChange(){
@@ -194,7 +255,6 @@ export class DetailLoanComponent implements OnInit {
 			division: this.division,
 			position: this.position
 		};
-		console.log(obj);
 		this.memberService.updateMutation(obj).subscribe(res =>{
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
@@ -250,10 +310,11 @@ export class DetailLoanComponent implements OnInit {
 		this.memberService.getDocument(id).subscribe(res =>{
 			res['data'].map((x)=> {
 				x['disable'] = false;
-				// x['document_name'] = _.find(this.arrDocumentType,{value: x.id_document_type}).label;
+
+				let find = _.find(this.arrDocumentType,{value: x.id_document_type});
+				x['document_name'] = find ? find.label : null;
 			});
 			this.dataProfile['document'] = res['data'];
-			this.display = true;
 			this.loading = false;
 			this.openTabDocument = false;
 			setTimeout(() => { 
@@ -365,6 +426,14 @@ export class DetailLoanComponent implements OnInit {
 			_.map(res['data'],(x)=>{
 				this.companies.push({label:x.name_company, value:x.id_company});
 			});
+
+			try{
+				let findCompany = _.find(this.companies, {value: this.dataProfile.company.id_company});
+				if(findCompany) this.dataProfile.company.company_name = findCompany.label;
+				console.log(findCompany);
+			}catch(err){
+				console.log(err);
+			}
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});

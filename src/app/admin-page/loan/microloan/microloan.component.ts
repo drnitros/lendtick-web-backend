@@ -108,7 +108,12 @@ export class MicroloanComponent implements OnInit {
 	// Select Item / User
 	// ======================== //
 	selectItem(e){
-		this.router.navigate(['/main/loan/detail/' + e.id_loan], { queryParams: { type: e.approval_by, user:e.id_user } });
+		console.log(e);
+		this.router.navigate(['/main/loan/detail/' + e.id_loan], { queryParams: { 
+			type: e.id_loan_type, 
+			user: e.id_user,
+			idemployee: e.id_employee
+		} });
 	}
 
 	// Fetch Grade 

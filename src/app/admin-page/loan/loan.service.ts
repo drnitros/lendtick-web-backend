@@ -7,6 +7,8 @@ import { APIService } from "../../service/api.service";
 })
 export class LoanService {
 	private urlGetLoan = this.APIService['hostLoan'] + '/loan/backend/index';
+	private urlGetLoanDetail = this.APIService['hostLoan'] + '/loan/backend/detail';
+	private urlGetLoanDocument = this.APIService['hostLoan'] + '/loan/document';
 	private urlGetGrade = this.APIService['hostAuth'] + '/mst/grade';
 	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
 	private urlGetCompany2 = this.APIService['hostAuth'] + '/company/get';
@@ -33,6 +35,24 @@ export class LoanService {
 			})
 		};
 		return this.http.get(this.urlGetLoan,options);
+	}
+	getLoadDocument(id_user,loan_type){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetLoanDocument + '?id_user='+ id_user +'&loanType=' + loan_type,options);
+	}
+	getLoadDetail(id_user,id_loan){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetLoanDetail + '?id_user='+ id_user +'&id_loan=' + id_loan,options);
 	}
 
 	// Get Master

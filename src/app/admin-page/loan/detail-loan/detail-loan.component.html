@@ -13,121 +13,94 @@
 	</div>
 </div>
 <!-- End Sub Header -->
+
+<div *ngIf="loading" class="wrap-loading">
+	<p-progressSpinner [style]="{width: '30px', height: '30px'}" strokeWidth="8" fill="#EEEEEE" animationDuration=".5s"></p-progressSpinner>
+</div>
+
 <!-- Start Main Content -->
-<div class="main-content">
+<div *ngIf="!loading" class="main-content">
 	<div class="row">
 		<div class="col-md-4">
-			<div class="user-info">
+			<div *ngIf="dataProfile" class="user-info">
 				<div class="user-info__header">
-					<img src="./assets/img/admin-page/header/user.jpg" class="img-user" width="125" />
+					<img [src]="dataProfile.profile.personal_photo" class="img-user" width="125" />
 				</div>
 				<div class="user-info__body">
 					<table class="table-content">
 						<tr>
 							<td style="width:100px"><strong>Nama</strong></td>
 							<td style="width:10px">:</td>
-							<td>Rendi Wijanarko</td>
+							<td *ngIf="dataProfile.profile">{{dataProfile.profile.name}}</td>
 						</tr>
 						<tr>
 							<td><strong>NIK</strong></td>
 							<td>:</td>
-							<td>4123234234</td>
+							<td *ngIf="dataProfile.profile">{{idEmployee}}</td>
 						</tr>
 						<tr>
 							<td><strong>Golongan</strong></td>
 							<td>:</td>
-							<td>IV</td>
+							<td *ngIf="dataProfile.company">{{dataProfile.company.grade_name}}</td>
 						</tr>
 						<tr>
 							<td><strong>Perusahaan</strong></td>
 							<td>:</td>
-							<td>PT.TMMIN</td>
+							<td *ngIf="dataProfile.company">{{dataProfile.company.company_name}}</td>
 						</tr>
 						<tr>
 							<td><strong>Gaji</strong></td>
 							<td>:</td>
-							<td>Rp 4.500.000</td>
+							<td *ngIf="dataProfile.salary">Rp {{dataProfile.salary.amount}}</td>
 						</tr>
 					</table>
 					<div class="mt-3 text-right">
-						<button class="btn btn-inverse btn-primary btn-icon" [disabled]="loading" type="button" (click)="selectItem()">
-							<span *ngIf="!loading">Lihat Detail</span>
-							<span *ngIf="loading"><i class="fas fa-spin fa-spinner"></i> </span>
-							<i-eye class="icon"></i-eye>
+						<button class="btn btn-inverse btn-primary btn-icon" type="button" (click)="display = true">
+							<i-eye class="icon"></i-eye> Lihat Detail
 						</button>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="col-md-4">
-			<div class="card text-white bg-primary mb-3">
+		<div class="col-md-8">
+			<div *ngIf="dataDetailLoan" class="card">
 				<div class="card-header">
-					Tipe Pinjaman
+					<h5 class="mb-0">Detail Loan</h5>
 				</div>
 				<div class="card-body">
-					<h5 class="mb-0 text-white">Multi Guna</h5>
-				</div>
-			</div>
-			<div class="card text-white bg-primary mb-3">
-				<div class="card-header">
-					Jumlah Pinjaman
-				</div>
-				<div class="card-body">
-					<h5 class="mb-0 text-white">Rp 50.000.000</h5>
-				</div>
-			</div>
-			<div class="card text-white bg-primary mb-3">
-				<div class="card-header">
-					Tenor Pinjaman
-				</div>
-				<div class="card-body">
-					<h5 class="mb-0 text-white">60</h5>
-				</div>
-			</div>
-			<div class="card text-white bg-primary">
-				<div class="card-header">
-					Estimate Pinjaman per bulan
-				</div>
-				<div class="card-body">
-					<h5 class="mb-0 text-white">Rp 5.000.000</h5>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-4">
-			<div class="card border-primary mb-3">
-				<div class="card-body p-3">
-					<div class="d-flex">
-						<h6 class="mb-0 flex-fill pt-2 pl-3">
-							Dokumentasi 1
-						</h6>
-						<button class="btn btn-primary btn-sm btn-icon" type="button">Lihat dokumen <i-eye class="icon"></i-eye></button>
-					</div>
-				</div>
-			</div>
-			<div class="card border-primary mb-3">
-				<div class="card-body p-3">
-					<div class="d-flex">
-						<h6 class="mb-0 flex-fill pt-2 pl-3">
-							Dokumentasi 2
-						</h6>
-						<button class="btn btn-primary btn-sm btn-icon" type="button">Lihat dokumen <i-eye class="icon"></i-eye></button>
-					</div>
-				</div>
-			</div>
-			<div class="card border-primary">
-				<div class="card-body p-3">
-					<div class="d-flex">
-						<h6 class="mb-0 flex-fill pt-2 pl-3">
-							Dokumentasi 3
-						</h6>
-						<button class="btn btn-primary btn-sm btn-icon" type="button">Lihat dokumen <i-eye class="icon"></i-eye></button>
+					<table class="table-content">
+						<tr>
+							<td style="width:200px" class="border-top-0 pt-0"><strong>Tipe Pinjaman</strong></td>
+							<td style="width:10px" class="border-top-0 pt-0">:</td>
+							<td class="border-top-0 pt-0">{{dataDetailLoan.current_loan.loan_type}}</td>
+						</tr>
+						<tr>
+							<td><strong>Jumlah Pinjaman</strong></td>
+							<td>:</td>
+							<td>{{dataDetailLoan.rp_loan_approved}}</td>
+						</tr>
+						<tr>
+							<td><strong>Tenor Pinjaman</strong></td>
+							<td>:</td>
+							<td>{{dataDetailLoan.current_loan.term}}</td>
+						</tr>
+						<tr>
+							<td><strong>Estimate Pinjaman per bulan</strong></td>
+							<td>:</td>
+							<td>{{dataDetailLoan.rp_installments}}</td>
+						</tr>
+					</table>
+					<div class="mt-3 text-right">
+						<button class="btn btn-inverse btn-primary btn-icon" type="button" (click)="displayDocument = true">
+							<i-eye class="icon"></i-eye> Lihat Dokumen
+						</button>
 					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 
-	<div class="mt-5">
+	<div *ngIf="dataDetailLoan" class="mt-5">
 		<div class="card" style="overflow:hidden;">
 			<div class="card-header">
 				<h6 class="mb-0">Summary</h6>
@@ -139,27 +112,27 @@
 							<tr>
 								<td style="width:200px"><strong>Total pinjaman Perbulan</strong></td>
 								<td style="width:10px">:</td>
-								<td>Rp 1.500.000</td>
+								<td>{{dataDetailLoan.rp_total_installment}}</td>
 							</tr>
 							<tr>
 								<td><strong>Total Gaji</strong></td>
 								<td>:</td>
-								<td>Rp 10.000.000</td>
+								<td>{{dataDetailLoan.rp_salary}}</td>
 							</tr>
 							<tr>
-								<td><strong>Kekuatan Pinajaman</strong></td>
+								<td><strong>Kekuatan Pinjaman</strong></td>
 								<td>:</td>
-								<td>Rp 3.000.000</td>
+								<td>{{dataDetailLoan.rp_current_strength}}</td>
 							</tr>
 						</table>
 					</div>
 					<div class="col-lg-6 p-0">
 						<div class="content-summary">
 							<p>prosesentase kekeuatan pinjam setelah pinjaman</p>
-							<h3>24%</h3>
+							<h3>{{dataDetailLoan.final_per_strength}}%</h3>
 							<hr/>
 							<p>Total Pinjaman perbulan setelah pinjaman ini </p>
-							<h3 class="mb-0">Rp 2.000.000</h3>
+							<h3 class="mb-0">{{dataDetailLoan.rp_final_installment}}</h3>
 						</div>
 					</div>
 				</div>
@@ -167,7 +140,7 @@
 		</div>
 	</div>
 
-	<div class="mt-5">
+	<div *ngIf="dataDetailLoan" class="mt-5">
 		<div class="card">
 			<div class="card-header">
 				<button class="btn btn-sm btn-info btn-inverse float-right" (click)="isPopupVisible = true">+ Pinjaman Aktif non Koperasi (khusus HR)</button>
@@ -185,35 +158,15 @@
 						<th>Mulai Cicilan</th>
 						<th>Akhir Cicilan</th>
 					</tr>
-					<tr>
-						<td>1</td>
-						<td>Multi Guna</td>
-						<td>10.000.000</td>
-						<td>60</td>
-						<td>1.000.000</td>
-						<td>12</td>
-						<td>01 Januari 2019</td>
-						<td>01 Januari 2023</td>
-					</tr>
-					<tr>
-						<td>2</td>
-						<td>Pendidikan</td>
-						<td>30.000.000</td>
-						<td>60</td>
-						<td>800.000</td>
-						<td>1</td>
-						<td>21 Oktober 2019</td>
-						<td>22 Oktober 2023</td>
-					</tr>
-					<tr>
-						<td>3</td>
-						<td>Cicilan HRD-1</td>
-						<td>20.000.000</td>
-						<td>60</td>
-						<td>500.000</td>
-						<td>5</td>
-						<td>11 Desember 2019</td>
-						<td>22 Desember 2023</td>
+					<tr *ngFor="let item of dataDetailLoan.active_loan; let index = index;">
+						<td>{{index + 1}}</td>
+						<td>{{item.loan_type}}</td>
+						<td>{{item.rp_loan_approved}}</td>
+						<td>{{item.rp_installments}}</td>
+						<td>{{item.term}}</td>
+						<td>{{item.unpaid_term}}</td>
+						<td>{{item.start_date}}</td>
+						<td>{{item.end_date}}</td>
 					</tr>
 				</table>
 			</div>
@@ -266,6 +219,34 @@
 	</div>
 </div>
 <!--End Main Content -->
+
+<!-- Start Dialog Dokumen -->
+<p-dialog [(visible)]="displayDocument" header="Dokumen" [modal]="true" [width]="1000">
+	<div *ngIf="isViewDocumentLoan" class="dialog-content">
+		<img [src]="selectedDocumentLoan.path" class="w-100" alt="" />
+	</div>
+	<div *ngIf="dataProfile && !isViewDocumentLoan" class="wrap-gallery-document">
+		<ul class="list-document row">
+			<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocumentLoan == item" class="col-md-3">
+				<img [src]="item.path" class="img-user-big mb-2" style="width:100px;height:100px;" alt="" />
+				<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}				
+				<div class="mt-3">
+					<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="viewDocumentLoan(item)" [disabled]="item.disable">Zoom</button>
+				</div>
+			</li>
+		</ul>
+	</div>
+	
+	<p-footer>
+		<button *ngIf="!isViewDocumentLoan" class="btn btn-default" type="button" (click)="displayDocument = false">
+			Close
+		</button>
+		<button *ngIf="isViewDocumentLoan" class="btn btn-default" type="button" (click)="closeViewDetailDocument()">
+			Close View
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Dokumen -->
 
 
 <!-- Start Dialog Modal ( Tambah Pinjaman ) -->
@@ -323,16 +304,14 @@
 <!-- End Dialog Modal -->
 
 
-
-
 <!-- Start Dialog Modal ( Tolak permintaan ) -->
 <p-dialog [(visible)]="isPopupReject" header="Tolak pinjaman" [modal]="true" [width]="480">
 	<div class="dialog-content p-4">
 		<form [formGroup]="formReject">
-				<div class="mb-3">
-					<label class="mb-2">Alasan penolakan</label>
-					<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control" formControlName="reason"></textarea>
-				</div>
+			<div class="mb-3">
+				<label class="mb-2">Alasan penolakan</label>
+				<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control" formControlName="reason"></textarea>
+			</div>
 		</form>
 	</div>
 	
@@ -347,13 +326,6 @@
 	</p-footer>
 </p-dialog>
 <!-- End Dialog Modal -->
-	
-
-
-
-
-
-
 
 <!-- Start Dialog Member Modal -->
 <p-dialog  [(visible)]="display" header="Detail Member" [modal]="true" [width]="widthDisplay">
@@ -361,369 +333,371 @@
 		<div *ngIf="isViewDocument" class="dialog-content">
 			<img [src]="selectedDocument.path" class="w-100" alt="" />
 		</div>
-		<p-tabView *ngIf="!isViewDocument" styleClass="tab-nav-tabs" (onChange)="tabChange()">
-			<!-- Start Profile -->
-			<p-tabPanel header="Profile">
-				<div class="mt-4">
-					<div class="dialog-content pt-1">
-						<img [src]="dataProfile.profile.personal_photo" class="img-user-big" />
-						<table class="mt-4 table table-striped mb-3">
-							<tr>
-								<td class="label">No Anggota</td>
-								<td>{{dataProfile.profile.id_user}}</td>
-							</tr>
-							<tr>
-								<td class="label">Nama</td>
-								<td>{{dataProfile.profile.name}}</td>
-							</tr>
-							<tr>
-								<td class="label">Tanggal Lahir</td>
-								<td>{{dataProfile.profile.birth_date}}</td>
-							</tr>
-							<tr>
-								<td class="label">Tempat Lahir</td>
-								<td>{{dataProfile.profile.birth_place}}</td>
-							</tr>
-							<tr>
-								<td class="label">Agama</td>
-								<td>{{dataProfile.profile.name_religion}}</td>
-							</tr>
-							<tr>
-								<td class="label">Jenis Kelamin</td>
-								<td>{{dataProfile.profile.id_gender}}</td>
-							</tr>      
-							<tr>
-								<td class="label">No KTP</td>
-								<td>{{dataProfile.profile.identity_id}}</td>
-							</tr>            
-							<tr>
-								<td class="label">No Handphone</td>
-								<td>{{dataProfile.profile.phone_number}}</td>
-							</tr>         
-							<tr>
-								<td class="label">Status Perkawinan</td>
-								<td>{{dataProfile.profile.marriage_status_name}}</td>
-							</tr>    
-							<tr>
-								<td class="label">Status Tempat Tinggal</td>
-								<td>{{dataProfile.profile.domicili_name}}</td>
-							</tr>      
-							<tr>
-								<td class="label">NPWP No</td>
-								<td>{{dataProfile.profile.NPWP_No}}</td>
-							</tr>      
-							<tr>
-								<td class="label">Email</td>
-								<td>{{dataProfile.profile.email}}</td>
-							</tr>     
-							<tr>
-								<td class="label">Nama Ibu Kandung</td>
-								<td>{{dataProfile.profile.mother_name}}</td>
-							</tr>    
-							<!-- <tr>
-								<td class="label">Golongan</td>
-								<td>{{selectedItem.name_grade}}</td>
-							</tr>  
-							<tr>
-								<td class="label">Tanggal Karyawan Tetap</td>
-								<td>{{selectedItem.employee_starting_date}}</td>
-							</tr>                                                                                                                       -->
-						</table>
-						<div class="text-right">
-							<button class="btn btn-danger">Terminate {{dataProfile.profile.name}}</button>
-						</div>
-					</div>
-				</div>
-			</p-tabPanel>
-			<!-- End Profile -->
-			<!-- Start Company -->
-			<p-tabPanel header="Company">
-				<div class="dialog-content">
-					<div class="row">
-						<div class="col-md-6">
-							<table class="table table-striped mb-0">
+		<ng-container *ngIf="dataProfile">
+			<p-tabView *ngIf="!isViewDocument" styleClass="tab-nav-tabs" (onChange)="tabChange()">
+				<!-- Start Profile -->
+				<p-tabPanel header="Profile">
+					<div class="mt-4">
+						<div class="dialog-content pt-1">
+							<img [src]="dataProfile.profile.personal_photo" class="img-user-big" />
+							<table class="mt-4 table table-striped mb-3">
 								<tr>
-									<td class="label">Tanggal Mulai Bekerja</td>
-									<td>{{dataProfile.company.employee_starting_date}}</td>
+									<td class="label">No Anggota</td>
+									<td>{{dataProfile.profile.id_user}}</td>
 								</tr>
 								<tr>
-									<td class="label">ID Karyawan</td>
-									<td>{{dataProfile.company.id_employee}}</td>
+									<td class="label">Nama</td>
+									<td>{{dataProfile.profile.name}}</td>
 								</tr>
 								<tr>
+									<td class="label">Tanggal Lahir</td>
+									<td>{{dataProfile.profile.birth_date}}</td>
+								</tr>
+								<tr>
+									<td class="label">Tempat Lahir</td>
+									<td>{{dataProfile.profile.birth_place}}</td>
+								</tr>
+								<tr>
+									<td class="label">Agama</td>
+									<td>{{dataProfile.profile.name_religion}}</td>
+								</tr>
+								<tr>
+									<td class="label">Jenis Kelamin</td>
+									<td>{{dataProfile.profile.id_gender}}</td>
+								</tr>      
+								<tr>
+									<td class="label">No KTP</td>
+									<td>{{dataProfile.profile.identity_id}}</td>
+								</tr>            
+								<tr>
+									<td class="label">No Handphone</td>
+									<td>{{dataProfile.profile.phone_number}}</td>
+								</tr>         
+								<tr>
+									<td class="label">Status Perkawinan</td>
+									<td>{{dataProfile.profile.marriage_status_name}}</td>
+								</tr>    
+								<tr>
+									<td class="label">Status Tempat Tinggal</td>
+									<td>{{dataProfile.profile.domicili_name}}</td>
+								</tr>      
+								<tr>
+									<td class="label">NPWP No</td>
+									<td>{{dataProfile.profile.NPWP_No}}</td>
+								</tr>      
+								<tr>
+									<td class="label">Email</td>
+									<td>{{dataProfile.profile.email}}</td>
+								</tr>     
+								<tr>
+									<td class="label">Nama Ibu Kandung</td>
+									<td>{{dataProfile.profile.mother_name}}</td>
+								</tr>    
+								<!-- <tr>
 									<td class="label">Golongan</td>
-									<td>{{dataProfile.company.grade_name}}</td>
-								</tr>
+									<td>{{selectedItem.name_grade}}</td>
+								</tr>  
 								<tr>
-									<td class="label">ID User Company</td>
-									<td>{{dataProfile.company.id_user_company}}</td>
-								</tr>
-								<tr>
-									<td class="label">ID User Profile</td>
-									<td>{{dataProfile.company.id_user_profile}}</td>
-								</tr>
-								<tr>
-									<td class="label">ID Workflow Status</td>
-									<td>{{dataProfile.company.id_workflow_status}}</td>
-								</tr>
-								<tr>
-									<td class="label">Posisi</td>
-									<td>{{dataProfile.company.position}}</td>
-								</tr>
-								<tr>
-									<td class="label">Termination Date</td>
-									<td>{{dataProfile.company.termination_date}}</td>
-								</tr>
+									<td class="label">Tanggal Karyawan Tetap</td>
+									<td>{{selectedItem.employee_starting_date}}</td>
+								</tr>                                                                                                                       -->
 							</table>
+							<div class="text-right">
+								<button class="btn btn-danger">Terminate {{dataProfile.profile.name}}</button>
+							</div>
 						</div>
-						<div class="col-md-6">
-							<form #mutationForm="ngForm">
-								<div class="mb-2">
-									<label>ID Karyawan</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="idEmployee" 
-										[(ngModel)]="idEmployee" 
-										[class.is-invalid]="idEmployeeRef.errors?.required && idEmployeeRef.touched" 
-										#idEmployeeRef="ngModel"
-										placeholder="Masukan ID Karyawan" 
-										required/>
-								</div>
-								<div class="mb-2">
-									<label>Divisi</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="divisi" 
-										[(ngModel)]="division" 
-										[class.is-invalid]="divisionRef.errors?.required && divisionRef.touched" 
-										#divisionRef="ngModel"
-										placeholder="Divisi Karyawan" 
-										required/>
-								</div>
-								<div class="mb-2">
-									<label>Posisi</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="position" 
-										[(ngModel)]="position" 
-										[class.is-invalid]="positionRef.errors?.required && positionRef.touched" 
-										#positionRef="ngModel"
-										placeholder="Posisi Karyawan" 
-										required/>
-								</div>
-								<div class="mb-2">
-									<label>Perusahaan</label>
-									<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true"></p-dropdown>
-								</div>
-								<div class="mb-2">
-									<label>Unggah foto perusahaan</label>
-									<img *ngIf="imgEmployee" [src]="imgEmployee" class="img-user-big mt-2 mb-2" />
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text file pt-1">
-												<i-upload class="icon"></i-upload> 
-											</span>
-										</div>
-										<div class="custom-file">
-											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'company')" id="uploadcompany" required>
-											<label class="custom-file-label" for="uploadcompany">Unggah foto perusahaan</label>
+					</div>
+				</p-tabPanel>
+				<!-- End Profile -->
+				<!-- Start Company -->
+				<p-tabPanel header="Company">
+					<div class="dialog-content">
+						<div class="row">
+							<div class="col-md-6">
+								<table class="table table-striped mb-0">
+									<tr>
+										<td class="label">Tanggal Mulai Bekerja</td>
+										<td>{{dataProfile.company.employee_starting_date}}</td>
+									</tr>
+									<tr>
+										<td class="label">ID Karyawan</td>
+										<td>{{dataProfile.company.id_employee}}</td>
+									</tr>
+									<tr>
+										<td class="label">Golongan</td>
+										<td>{{dataProfile.company.grade_name}}</td>
+									</tr>
+									<tr>
+										<td class="label">ID User Company</td>
+										<td>{{dataProfile.company.id_user_company}}</td>
+									</tr>
+									<tr>
+										<td class="label">ID User Profile</td>
+										<td>{{dataProfile.company.id_user_profile}}</td>
+									</tr>
+									<tr>
+										<td class="label">ID Workflow Status</td>
+										<td>{{dataProfile.company.id_workflow_status}}</td>
+									</tr>
+									<tr>
+										<td class="label">Posisi</td>
+										<td>{{dataProfile.company.position}}</td>
+									</tr>
+									<tr>
+										<td class="label">Termination Date</td>
+										<td>{{dataProfile.company.termination_date}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-md-6">
+								<form #mutationForm="ngForm">
+									<div class="mb-2">
+										<label>ID Karyawan</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="idEmployee" 
+											[(ngModel)]="idEmployee" 
+											[class.is-invalid]="idEmployeeRef.errors?.required && idEmployeeRef.touched" 
+											#idEmployeeRef="ngModel"
+											placeholder="Masukan ID Karyawan" 
+											required/>
+									</div>
+									<div class="mb-2">
+										<label>Divisi</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="divisi" 
+											[(ngModel)]="division" 
+											[class.is-invalid]="divisionRef.errors?.required && divisionRef.touched" 
+											#divisionRef="ngModel"
+											placeholder="Divisi Karyawan" 
+											required/>
+									</div>
+									<div class="mb-2">
+										<label>Posisi</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="position" 
+											[(ngModel)]="position" 
+											[class.is-invalid]="positionRef.errors?.required && positionRef.touched" 
+											#positionRef="ngModel"
+											placeholder="Posisi Karyawan" 
+											required/>
+									</div>
+									<div class="mb-2">
+										<label>Perusahaan</label>
+										<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true"></p-dropdown>
+									</div>
+									<div class="mb-2">
+										<label>Unggah foto perusahaan</label>
+										<img *ngIf="imgEmployee" [src]="imgEmployee" class="img-user-big mt-2 mb-2" />
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text file pt-1">
+													<i-upload class="icon"></i-upload> 
+												</span>
+											</div>
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'company')" id="uploadcompany" required>
+												<label class="custom-file-label" for="uploadcompany">Unggah foto perusahaan</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="mt-4">
-									<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid" (click)="createMutation()">
-										<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
-										<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
-									</button>
-								</div>
-							</form>
+									<div class="mt-4">
+										<button class="btn btn-primary" [class.btn-icon]="!isSubmitMutation" [disabled]="isSubmitMutation || mutationForm.invalid" (click)="createMutation()">
+											<span *ngIf="!isSubmitMutation">Buat mutasi karyawan <i-user class="icon"></i-user></span>
+											<span *ngIf="isSubmitMutation"><i class="fas fa-spin fa-spinner"></i></span>
+										</button>
+									</div>
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-			</p-tabPanel>
-			<!-- End Company -->
-			<!-- Start Bank -->
-			<p-tabPanel header="Bank">
-				<div class="dialog-content pt-1">
-					<table class="mt-4 table table-striped mb-0">
-						<tr>
-							<td class="label">Bank</td>
-							<td>{{dataProfile.bank.name_bank}}</td>
-						</tr>
-						<tr>
-							<td class="label">No Rekening</td>
-							<td>{{dataProfile.bank.account_number_bank}}</td>
-						</tr>
-						<tr>
-							<td class="label">Nama Rekening</td>
-							<td style="word-break: break-all;">{{dataProfile.bank.account_name_bank}}</td>
-						</tr>
-					</table>
-				</div>
-			</p-tabPanel>
-			<!-- End Bank -->
-			<!-- Start Document -->
-			<p-tabPanel header="Document"  [selected]="openTabDocument">
-				<div class="dialog-content">
+				</p-tabPanel>
+				<!-- End Company -->
+				<!-- Start Bank -->
+				<p-tabPanel header="Bank">
+					<div class="dialog-content pt-1">
+						<table class="mt-4 table table-striped mb-0">
+							<tr>
+								<td class="label">Bank</td>
+								<td>{{dataProfile.bank.name_bank}}</td>
+							</tr>
+							<tr>
+								<td class="label">No Rekening</td>
+								<td>{{dataProfile.bank.account_number_bank}}</td>
+							</tr>
+							<tr>
+								<td class="label">Nama Rekening</td>
+								<td style="word-break: break-all;">{{dataProfile.bank.account_name_bank}}</td>
+							</tr>
+						</table>
+					</div>
+				</p-tabPanel>
+				<!-- End Bank -->
+				<!-- Start Document -->
+				<p-tabPanel header="Document"  [selected]="openTabDocument">
+					<div class="dialog-content">
 
-					<div class="row">
-						<div class="col-md-4">
+						<div class="row">
+							<div class="col-md-4">
 
-							<form #documentForm="ngForm">
-								<div class="mb-2">
-									<label>Tipe Dokumen</label>
-									<p-dropdown [options]="arrDocumentType" name="company" styleClass="form-control" [(ngModel)]="selectedDocumentType" (onChange)="changeDocumentType($event)" [required]="true"></p-dropdown>
-								</div>
-								<div class="mb-4">
-									<label>Unggah Dokumen</label>
-									<img *ngIf="imgDocument" [src]="imgDocument" class="img-user-big mt-2 mb-2" />
-									<div class="input-group">
-										<div class="input-group-prepend">
-											<span class="input-group-text file pt-1">
-												<i-upload class="icon"></i-upload> 
-											</span>
-										</div>
-										<div class="custom-file">
-											<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'document')" id="uploaddocument" required>
-											<label class="custom-file-label" for="uploaddocument">Unggah foto perusahaan</label>
+								<form #documentForm="ngForm">
+									<div class="mb-2">
+										<label>Tipe Dokumen</label>
+										<p-dropdown [options]="arrDocumentType" name="company" styleClass="form-control" [(ngModel)]="selectedDocumentType" (onChange)="changeDocumentType($event)" [required]="true"></p-dropdown>
+									</div>
+									<div class="mb-4">
+										<label>Unggah Dokumen</label>
+										<img *ngIf="imgDocument" [src]="imgDocument" class="img-user-big mt-2 mb-2" />
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text file pt-1">
+													<i-upload class="icon"></i-upload> 
+												</span>
+											</div>
+											<div class="custom-file">
+												<input type="file" class="custom-file-input" name="foto" (change)="handleInputChange($event,'document')" id="uploaddocument" required>
+												<label class="custom-file-label" for="uploaddocument">Unggah foto perusahaan</label>
+											</div>
 										</div>
 									</div>
-								</div>
-								<div class="mb-4">
-									<button class="btn btn-primary" [class.btn-icon]="!isSubmitDocument" [disabled]="isSubmitDocument || documentForm.invalid && imgDocument == null" (click)="createDocument()">
-										<span *ngIf="!isSubmitDocument">
-											<span *ngIf="!isUpdateDocument">Tambah Dokumen</span> 
-											<span *ngIf="isUpdateDocument">Update Dokumen</span> 
-											<i-upload class="icon"></i-upload>
-										</span>
-										<span *ngIf="isSubmitDocument"><i class="fas fa-spin fa-spinner"></i></span>
-									</button>
-									<button class="btn btn-primary btn-inverse ml-2" *ngIf="isUpdateDocument" (click)="cancelUpdateDoc()" [disabled]="isSubmitDocument">Cancel</button>
-								</div>
-							</form>
+									<div class="mb-4">
+										<button class="btn btn-primary" [class.btn-icon]="!isSubmitDocument" [disabled]="isSubmitDocument || documentForm.invalid && imgDocument == null" (click)="createDocument()">
+											<span *ngIf="!isSubmitDocument">
+												<span *ngIf="!isUpdateDocument">Tambah Dokumen</span> 
+												<span *ngIf="isUpdateDocument">Update Dokumen</span> 
+												<i-upload class="icon"></i-upload>
+											</span>
+											<span *ngIf="isSubmitDocument"><i class="fas fa-spin fa-spinner"></i></span>
+										</button>
+										<button class="btn btn-primary btn-inverse ml-2" *ngIf="isUpdateDocument" (click)="cancelUpdateDoc()" [disabled]="isSubmitDocument">Cancel</button>
+									</div>
+								</form>
 
+							</div>
 						</div>
-					</div>
 
-					<div class="wrap-gallery">
-						<ul class="list-document row">
-							<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-3">
-								<img [src]="item.path" class="img-user-big mb-2" style="width:100px;height:100px;" alt="" />
-								<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}<br />
-								<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}
-								<div class="mt-3">
-									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
-									<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="editDocument(item)" [disabled]="item.disable">Ubah</button>
-									<button class="btn btn-danger btn-sm" [disabled]="item.disable" (click)="removeDocument(item)">
-										<span *ngIf="!item.disable">Hapus</span>
-										<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
-									</button>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</p-tabPanel>
-			<!-- End Document -->
-			<!-- Start Salary -->
-			<p-tabPanel header="Salary">
-				<div class="dialog-content pt-1">
-					<table class="mt-4 table table-striped mb-0">
-						<tr>
-							<td class="label">Nilai Gaji</td>
-							<td>Rp {{dataProfile.salary.amount}}</td>
-						</tr>
-						<tr>
-							<td class="label">Golongan</td>
-							<td>{{dataProfile.salary.salary_grade_name}}</td>
-						</tr>
-						<tr>
-							<td class="label">Slip Gaji</td>
-							<td>
-								<img [src]="dataProfile.salary.salary_photo" alt="" class="w-100"/>
-							</td>
-						</tr>
-					</table>
-				</div>
-			</p-tabPanel>
-			<!-- End Salary -->
-			<!-- Start User -->
-			<p-tabPanel header="User">
-				<div class="dialog-content pt-1">
-					<div class="row">
-						<div class="col-md-6">
-							<table class="mt-4 table table-striped mb-0">
-								<tr>
-									<td class="label">Username</td>
-									<td>{{dataProfile.user.username}}</td>
-								</tr>
-								<tr>
-									<td class="label">Role</td>
-									<td>{{dataProfile.user.role_master_name}}</td>
-								</tr>
-								<tr>
-									<td class="label">Password</td>
-									<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
-								</tr>
-							</table>
-						</div>
-						<div class="col-md-6 pt-3">
-							<form #passwordForm="ngForm">
-								<div class="mb-2">
-									<label>Password Lama</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="oldpassword" 
-										[(ngModel)]="oldpassword" 
-										[class.is-invalid]="oldpasswordRef.errors?.required && oldpasswordRef.touched" 
-										#oldpasswordRef="ngModel"
-										placeholder="Masukan Password Lama" 
-										type="oldpassword"
-										required/>
-								</div>
-								<div class="mb-2">
-									<label>Password Baru</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="password" 
-										[(ngModel)]="password" 
-										[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
-										#passwordRef="ngModel"
-										placeholder="Masukan Password Baru" 
-										type="password"
-										required/>
-								</div>
-								<div class="mb-2">
-									<label>Konfirmasi Password</label>
-									<input 
-										type="text" 
-										class="form-control" 
-										name="confirmpassword" 
-										[(ngModel)]="confirmpassword" 
-										[class.is-invalid]="confirmpasswordRef.errors?.required && confirmpasswordRef.touched" 
-										#confirmpasswordRef="ngModel"
-										placeholder="Konfirmasi Password Baru" 
-										type="password"
-										required/>
-								</div>
-								<div class="mt-4">
-									<button class="btn btn-primary" [disabled]="isSubmitPassword || passwordForm.invalid || confirmpassword != password" (click)="updatePassword()">
-										<span *ngIf="!isSubmitPassword">Reset Password</span>
-										<span *ngIf="isSubmitPassword"><i class="fas fa-spin fa-spinner"></i></span>
-									</button>
-								</div>
-							</form>
+						<div class="wrap-gallery">
+							<ul class="list-document row">
+								<li *ngFor="let item of dataProfile.document" [class.active]="selectedDocument == item" class="col-md-3">
+									<img [src]="item.path" class="img-user-big mb-2" style="width:100px;height:100px;" alt="" />
+									<label class="d-inline-block mr-2">Document type :</label> {{item.document_name}}<br />
+									<label class="d-inline-block mr-2">Workflow status :</label> {{item.id_workflow_status}}
+									<div class="mt-3">
+										<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="viewDocument(item)" [disabled]="item.disable">Zoom</button>
+										<button class="btn btn-primary btn-inverse mr-2 btn-sm" (click)="editDocument(item)" [disabled]="item.disable">Ubah</button>
+										<button class="btn btn-danger btn-sm" [disabled]="item.disable" (click)="removeDocument(item)">
+											<span *ngIf="!item.disable">Hapus</span>
+											<span *ngIf="item.disable"><i class="fas fa-spin fa-spinner"></i></span>
+										</button>
+									</div>
+								</li>
+							</ul>
 						</div>
 					</div>
-				</div>
-			</p-tabPanel>
-			<!-- End User -->
-		</p-tabView>
+				</p-tabPanel>
+				<!-- End Document -->
+				<!-- Start Salary -->
+				<p-tabPanel header="Salary">
+					<div class="dialog-content pt-1">
+						<table class="mt-4 table table-striped mb-0">
+							<tr>
+								<td class="label">Nilai Gaji</td>
+								<td>Rp {{dataProfile.salary.amount}}</td>
+							</tr>
+							<tr>
+								<td class="label">Golongan</td>
+								<td>{{dataProfile.salary.salary_grade_name}}</td>
+							</tr>
+							<tr>
+								<td class="label">Slip Gaji</td>
+								<td>
+									<img [src]="dataProfile.salary.salary_photo" alt="" class="w-100"/>
+								</td>
+							</tr>
+						</table>
+					</div>
+				</p-tabPanel>
+				<!-- End Salary -->
+				<!-- Start User -->
+				<p-tabPanel header="User">
+					<div class="dialog-content pt-1">
+						<div class="row">
+							<div class="col-md-6">
+								<table class="mt-4 table table-striped mb-0">
+									<tr>
+										<td class="label">Username</td>
+										<td>{{dataProfile.user.username}}</td>
+									</tr>
+									<tr>
+										<td class="label">Role</td>
+										<td>{{dataProfile.user.role_master_name}}</td>
+									</tr>
+									<tr>
+										<td class="label">Password</td>
+										<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
+									</tr>
+								</table>
+							</div>
+							<div class="col-md-6 pt-3">
+								<form #passwordForm="ngForm">
+									<div class="mb-2">
+										<label>Password Lama</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="oldpassword" 
+											[(ngModel)]="oldpassword" 
+											[class.is-invalid]="oldpasswordRef.errors?.required && oldpasswordRef.touched" 
+											#oldpasswordRef="ngModel"
+											placeholder="Masukan Password Lama" 
+											type="oldpassword"
+											required/>
+									</div>
+									<div class="mb-2">
+										<label>Password Baru</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="password" 
+											[(ngModel)]="password" 
+											[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
+											#passwordRef="ngModel"
+											placeholder="Masukan Password Baru" 
+											type="password"
+											required/>
+									</div>
+									<div class="mb-2">
+										<label>Konfirmasi Password</label>
+										<input 
+											type="text" 
+											class="form-control" 
+											name="confirmpassword" 
+											[(ngModel)]="confirmpassword" 
+											[class.is-invalid]="confirmpasswordRef.errors?.required && confirmpasswordRef.touched" 
+											#confirmpasswordRef="ngModel"
+											placeholder="Konfirmasi Password Baru" 
+											type="password"
+											required/>
+									</div>
+									<div class="mt-4">
+										<button class="btn btn-primary" [disabled]="isSubmitPassword || passwordForm.invalid || confirmpassword != password" (click)="updatePassword()">
+											<span *ngIf="!isSubmitPassword">Reset Password</span>
+											<span *ngIf="isSubmitPassword"><i class="fas fa-spin fa-spinner"></i></span>
+										</button>
+									</div>
+								</form>
+							</div>
+						</div>
+					</div>
+				</p-tabPanel>
+				<!-- End User -->
+			</p-tabView>
+		</ng-container>
 	</ng-container>
 	
 	<p-footer>
