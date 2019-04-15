@@ -173,7 +173,7 @@
 		</div>
 	</div>
 
-	<div *ngIf="type == 2" class="row mt-5">
+	<div *ngIf="loan_type == 'LOAN0001'" class="row mt-5">
 		<div class="col-lg-4">
 			<div class="card">
 				<div class="card-header">
@@ -193,7 +193,7 @@
 		</div>
 	</div>
 
-	<div *ngIf="type == 3" class="row mt-5">
+	<div *ngIf="loan_type == 'LOAN0002'" class="row mt-5">
 		<div class="col-lg-4">
 			<div class="card">
 				<div class="card-header">
@@ -250,54 +250,74 @@
 
 
 <!-- Start Dialog Modal ( Tambah Pinjaman ) -->
-<p-dialog [(visible)]="isPopupVisible" header="Pinjaman aktif non Koperasi" [modal]="true" [width]="800">
+<p-dialog [(visible)]="isPopupVisible" header="Pinjaman aktif non Koperasi" [modal]="true" [width]="500">
 	<div class="dialog-content p-4">
-		<form [formGroup]="formAddLoan" (ngSubmit)="save()">
-			<div class="row">
-				<div class="col-6">
-					<div class="mb-3">
-						<label>Tipe Pinjaman non koperasi</label>
-						<p-dropdown [options]="tipePinjaman" formControlName="tipe" optionLabel="title" styleClass="form-control"></p-dropdown>
-					</div>
-					<div class="mb-3">
-						<label>Total pinjaman</label>
-						<input type="text" class="form-control" name="total_pinjaman" formControlName="total_pinjaman">
-					</div>
-					<div class="mb-3">
-						<label>Total Tagihan Per Bulan</label>
-						<input type="text" class="form-control" name="jumlah_perbulan" formControlName="jumlah_perbulan">
-					</div>
-					<div class="mb-3">
-						<label>Mulai Pinjaman</label>
-						<p-calendar formControlName="tgl_mulai" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-		
-					</div>
-					<div class="mb-3">
-						<label>Akhir Pinjaman</label>
-						<p-calendar formControlName="tgl_selesai" view="month" dateFormat="mm/yy" [yearNavigator]="true" yearRange="2000:2030"></p-calendar>
-					</div>
-				</div>
-				<div class="col-6">
-					<div class="mb-3">
-						<label>Nama</label>
-						<input type="text" class="form-control" name="nama" formControlName="nama">
-					</div>
-					<div class="mb-3">
-						<label>Nomor anggota</label>
-						<input type="text" class="form-control" name="nik" formControlName="nik">
-					</div>
-				</div>
+		<form #formRef="ngForm" (ngSubmit)="onSubmit(formRef.value)">
+			<div class="mb-3">
+				<label>Tipe Pinjaman non koperasi</label>
+				<p-dropdown 
+					[options]="arrlanNonCoperative" 
+					name="noncoperative"
+					styleClass="form-control"
+					placeholder="Pilih tipe pinjaman"
+					required
+					#noncoperativeRef="ngModel"
+					[(ngModel)]="selectedNonCoperate"></p-dropdown>
+			</div>
+			<div class="mb-3">
+				<label>Total pinjaman</label>
+				<p-spinner 
+					styleClass="form-control"
+					name="total_pinjaman" 
+					required
+					#total_pinjamanRef="ngModel"
+					[(ngModel)]="total_pinjaman"></p-spinner>
+			</div>
+			<div class="mb-3">
+				<label>Total Tagihan Per Bulan</label>
+				<p-spinner 
+					styleClass="form-control"
+					name="total_tagihan" 
+					required
+					#total_tagihanRef="ngModel"
+					[(ngModel)]="total_tagihan"></p-spinner>
+			</div>
+			<div class="mb-3">
+				<label>Mulai Pinjaman</label>
+				<p-calendar 
+					styleClass="form-control"
+					[(ngModel)]="mulai_pinjaman"
+					name="mulai_pinjaman"
+					appendTo="body"
+					required
+					#mulai_pinjamanRef="ngModel"
+					dateFormat="yy-mm-dd" ></p-calendar>
+			</div>
+			<div class="mb-3">
+				<label>Akhir Pinjaman</label>
+				<p-calendar 
+					styleClass="form-control"
+					[(ngModel)]="akhir_pinjaman"
+					name="akhir_pinjaman"
+					appendTo="body"
+					required
+					#akhir_pinjamanRef="ngModel"
+					dateFormat="yy-mm-dd" ></p-calendar>
 			</div>
 		</form>
 	</div>
 	
 	<p-footer>
-		<button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="back()">
-			<span>Batal</span>
+		<button 
+			[disabled]="formRef.invalid || loadingPostLoanCooperactive || total_pinjaman === 0 || total_tagihan === 0" 
+			class="btn btn-primary mr-2" 
+			type="submit" 
+			(click)="saveLoanCooperative()">
+			<span *ngIf="!loadingPostLoanCooperactive">Simpan</span>
+			<span *ngIf="loadingPostLoanCooperactive"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="save()">
-			<span *ngIf="!isProcessing">Simpan</span>
-			<span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+		<button [disabled]="loadingPostLoanCooperactive" class="btn btn-danger mr-1" type="button" (click)="isPopupVisible = false">
+			<span>Batal</span>
 		</button>
 	</p-footer>
 </p-dialog>
@@ -307,12 +327,10 @@
 <!-- Start Dialog Modal ( Tolak permintaan ) -->
 <p-dialog [(visible)]="isPopupReject" header="Tolak pinjaman" [modal]="true" [width]="480">
 	<div class="dialog-content p-4">
-		<form [formGroup]="formReject">
-			<div class="mb-3">
-				<label class="mb-2">Alasan penolakan</label>
-				<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control" formControlName="reason"></textarea>
-			</div>
-		</form>
+		<div class="mb-3">
+			<label class="mb-2">Alasan penolakan</label>
+			<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control"></textarea>
+		</div>
 	</div>
 	
 	<p-footer>
@@ -710,3 +728,5 @@
 	</p-footer>
 </p-dialog>
 <!-- End Dialog Member Modal -->
+
+<p-toast></p-toast>

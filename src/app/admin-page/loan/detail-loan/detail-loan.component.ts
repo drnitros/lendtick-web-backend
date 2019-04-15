@@ -53,6 +53,7 @@ export class DetailLoanComponent implements OnInit {
 	public arrDomicile = [];
 	public arrMariege = [];
 	public arrRole = [];
+	public arrlanNonCoperative = [];
 	public selectedStatus = null;
 	public date1: Date = null;
 	public date2: Date = null;
@@ -88,21 +89,7 @@ export class DetailLoanComponent implements OnInit {
 		private memberService: MemberService, 
 		private messageService: MessageService,
 		private loanService: LoanService
-	){ 
-		this.formAddLoan = new FormGroup({
-			nama: new FormControl({value:"Anggota", disabled:true}, Validators.required),
-			perusahaan: new FormControl({value:"Pt Mencari Cinta Sejati", disabled:true}, Validators.required),
-			nik: new FormControl({value:"35454532", disabled:true}, Validators.required),
-			tgl_mulai: new FormControl("", Validators.required),
-			tgl_selesai: new FormControl("", Validators.required),
-			tipe: new FormControl("", Validators.required),
-			total_pinjaman: new FormControl("", Validators.required),
-			jumlah_perbulan: new FormControl("", Validators.required),
-		 });
-		 this.formReject = new FormGroup({
-			reason: new FormControl('', Validators.required),
-		 });
-	}
+	){ }
 
 	ngOnInit() {
 		this.route.queryParamMap.subscribe(queryParams => {
@@ -122,23 +109,9 @@ export class DetailLoanComponent implements OnInit {
 		this.fetchMasterDocumentType();
 		this.fetchGrade();
 		this.fetchStatus();
+		this.fetchLoanNoncoperative();
 		this.fetchLoanDetail(this.id_user,this.id_loan);
 		this.fetchDocumentLoan(this.id_user,this.loan_type);
-	}
-	back(){
-		this.isPopupVisible = false;
-		this.formAddLoan.reset();
-	}
-	save(){
-		this.isPopupVisible = false;
-		this.formAddLoan.reset();
-	}
-	cancel(){
-		this.isPopupReject = false;
-		this.formReject.reset();
-	}
-	reject(){
-		this.isPopupReject = false;
 	}
 
 	// Fetch Loan Detail
@@ -259,7 +232,6 @@ export class DetailLoanComponent implements OnInit {
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'success', summary: 'Success', detail:'Mutasi karyawan berhasil'});
 			this.display = false;
-			this.fetchUser();
 		}, err =>{
 			this.isSubmitMutation = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Mutasi karyawan gagal, silakan coba lagi'});
@@ -401,7 +373,6 @@ export class DetailLoanComponent implements OnInit {
 	public oldpassword = null;
 	public confirmpassword = null;
 	public isSubmitPassword: boolean = false;
-
 	updatePassword(){
 		let obj = {
 			old_password: this.oldpassword,
@@ -415,6 +386,38 @@ export class DetailLoanComponent implements OnInit {
 		}, err =>{
 			this.isSubmitPassword = false;
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
+		});
+	}
+
+	// Pinjaman Aktif non koperasi
+	// ========================= //
+	public selectedNonCoperate = null;
+	public total_pinjaman = 0;
+	public total_tagihan = 0;
+	public mulai_pinjaman = new Date;
+	public akhir_pinjaman = new Date;
+	public loadingPostLoanCooperactive: boolean = false;
+
+	saveLoanCooperative(){
+		let obj = {
+			id_user: this.id_user,
+			id_type_pinjaman_non_koperasi: this.selectedNonCoperate,
+			id_workflow_status: "MLTSTS07",
+			amount_per_month: this.total_tagihan,
+			amount_total: this.total_pinjaman,
+			starting_date: moment(this.mulai_pinjaman).format('YYYY-MM-DD'),
+			end_date: moment(this.akhir_pinjaman).format('YYYY-MM-DD')
+		};
+		this.loadingPostLoanCooperactive = true;
+		this.loanService.postPostLoanNoncooperative(obj).subscribe(res =>{
+			this.loadingPostLoanCooperactive = false;
+			this.isPopupVisible = false;
+			this.fetchLoanDetail(this.id_user,this.id_loan);
+			this.fetchDocumentLoan(this.id_user,this.loan_type);
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Data pinjaman non koperasi berhasil disimpan.'});
+		}, err =>{
+			this.loadingPostLoanCooperactive = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Data pinjaman non koperasi gagal disimpan., silakan coba lagi'});
 		});
 	}
 
@@ -514,88 +517,12 @@ export class DetailLoanComponent implements OnInit {
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});
 	}
-
-	// Filter List
-	// ========================== //
-	private typingTimer;
-	private doneTypingInterval = 1000;
-	onSearchName(searchValue : string ) {  
-		clearTimeout(this.typingTimer);
-		this.typingTimer = setTimeout(()=>{
-			if(searchValue){
-				this.objFilter['nama'] = searchValue;
-			}else{
-				delete this.objFilter['nama'];
-			}
-			this.start = 0;
-			this.fetchUser();
-		}, this.doneTypingInterval);
+	fetchLoanNoncoperative(){
+		this.loanService.getNoncoperateLoan().subscribe(res =>{
+			_.map(res['data'], (x)=>{
+				let obj = {label:x.name_pinjaman_non_koperasi,value:x.id_type_pinjaman_non_koperasi};
+				this.arrlanNonCoperative.push(obj);
+			});
+		});
 	}
-	onSearchNik(searchValue : string ) {  
-		clearTimeout(this.typingTimer);
-		this.typingTimer = setTimeout(()=>{
-			if(searchValue){
-				this.objFilter['no_anggota'] = searchValue;
-			}else{
-				delete this.objFilter['no_anggota'];
-			}
-			this.start = 0;
-			this.fetchUser();
-		}, this.doneTypingInterval);
-	}
-	changeCompany(e){
-		if(e.value){
-			this.objFilter['company'] = e.value;
-		}else{
-			delete this.objFilter['company'];
-		}
-		this.start = 0;
-		this.fetchUser();
-	}
-	changeGrade(e){
-		if(e.value){
-			this.objFilter['golongan'] = e.value;
-		}else{
-			delete this.objFilter['golongan'];
-		}
-		this.start = 0;
-		this.fetchUser();
-	}
-	changeStatus(e){
-		if(e.value){
-			this.objFilter['status'] = e.value;
-		}else{
-			delete this.objFilter['status'];
-		}
-		this.start = 0;
-		this.fetchUser();
-	}
-	onSelectTglMasuk(e){
-		if(this.date1[1]){
-			let date1 = moment(this.date1[0]).format("YYYY-MM-DD");
-			let date2 = moment(this.date1[1]).format("YYYY-MM-DD");
-			this.objFilter['tgl_masuk'] = "2019-02-01 - 2019-02-15";		
-		}else{
-			delete this.objFilter['tgl_masuk'];
-		}
-		this.start = 0;
-		this.fetchUser();
-	}
-	onSelectTglPengajuan(e){
-		if(this.date2[1]){
-			let date1 = moment(this.date2[0]).format("YYYY-MM-DD");
-			let date2 = moment(this.date2[1]).format("YYYY-MM-DD");
-			this.objFilter['tgl_pengajuan'] = "2019-02-01 - 2019-02-15";		
-		}else{
-			delete this.objFilter['tgl_pengajuan'];
-		}
-		this.start = 0;
-		this.fetchUser();
-	}
-
-
-	fetchUser(){
-		this.router.navigate(['/main/member']);
-	}
-
 }

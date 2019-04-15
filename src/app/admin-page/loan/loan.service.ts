@@ -12,6 +12,9 @@ export class LoanService {
 	private urlGetGrade = this.APIService['hostAuth'] + '/mst/grade';
 	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
 	private urlGetCompany2 = this.APIService['hostAuth'] + '/company/get';
+	private urlGetNoncooperative = this.APIService['hostLoan'] + '/master/loan/noncooperative/type';
+	private urlPostLoanNoncooperative = this.APIService['hostLoan'] + '/noncoorperative/loan';
+	
 
 	constructor(
 		private APIService: APIService,
@@ -25,7 +28,20 @@ export class LoanService {
 		location.reload();
 	}
 
-	// Ge Loan
+	// Post Loan Non Cooperative
+	// ====================== //
+	postPostLoanNoncooperative(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		let body = obj;
+		return this.http.post(this.urlPostLoanNoncooperative, body, options);
+	}
+
+	// Get Loan
 	// ====================== //
 	getLoan(){
 		const options = {
@@ -35,6 +51,15 @@ export class LoanService {
 			})
 		};
 		return this.http.get(this.urlGetLoan,options);
+	}
+	getNoncoperateLoan(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetNoncooperative,options);
 	}
 	getLoadDocument(id_user,loan_type){
 		const options = {
