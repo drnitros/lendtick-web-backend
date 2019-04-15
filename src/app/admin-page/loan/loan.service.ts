@@ -14,8 +14,9 @@ export class LoanService {
 	private urlGetCompany2 = this.APIService['hostAuth'] + '/company/get';
 	private urlGetNoncooperative = this.APIService['hostLoan'] + '/master/loan/noncooperative/type';
 	private urlPostLoanNoncooperative = this.APIService['hostLoan'] + '/noncoorperative/loan';
+	private urlPutApprove = this.APIService['hostLoan'] + '/loan/backend/aprrove';
+	private urlPutReject = this.APIService['hostLoan'] + '/loan/backend/reject';
 	
-
 	constructor(
 		private APIService: APIService,
 		private http: HttpClient
@@ -26,6 +27,32 @@ export class LoanService {
 	updateToken(token){
 		localStorage.setItem("token", token);
 		location.reload();
+	}
+
+	// U[date] Approve Loan
+	// ====================== //
+	putRejectLoan(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		let body = obj;
+		return this.http.put(this.urlPutReject, body, options);
+	}
+
+	// Update Approve Loan
+	// ====================== //
+	putApproveLoan(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		let body = obj;
+		return this.http.put(this.urlPutApprove, body, options);
 	}
 
 	// Post Loan Non Cooperative

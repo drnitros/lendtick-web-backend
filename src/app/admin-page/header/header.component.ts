@@ -42,6 +42,7 @@ export class HeaderComponent implements OnInit {
 	fetchUserProfile(){
 		this.loading = true;
 		this.headerService.getProfilelUser().subscribe(res =>{
+			console.log(res);
 			this.name = _.truncate(res['data'].name, {
 				'length': 10,
 				'separator': '...'

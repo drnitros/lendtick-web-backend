@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from "@angular/router";
-import { FormGroup, FormControl, Validators } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MemberService } from '../../member/member.service';
 import { LoanService } from '../loan.service';
@@ -137,6 +137,8 @@ export class DetailLoanComponent implements OnInit {
 				x.end_date = moment(x.end_date).format("DD MMM YYYY");
 			});
 			this.loadingData = false;
+			this.sallary = res['data'].salary;
+			this.loading = false;
 		});
 	}
 
@@ -421,6 +423,55 @@ export class DetailLoanComponent implements OnInit {
 		});
 	}
 
+	// Approve Loan
+	// ========================= //
+	public tanggal_pencairan = new Date;
+	public discount = 1;
+	public sallary = 1;
+	public grade = 1;
+	public loadingSubmitApprove: boolean = false;
+	public loadingSubmitReject: boolean = false;
+
+	submitApproveLoan(){
+		let obj = {
+			id_loan: this.id_loan,
+			disbursement_date: moment(this.tanggal_pencairan).format('YYYY-MM-DD'),
+			discount: this.discount
+		};
+
+		this.loadingSubmitApprove = true;
+		this.loanService.putApproveLoan(obj).subscribe(res =>{
+			this.loading = true;
+			this.fetchLoanDetail(this.id_user,this.id_loan);
+			this.fetchDocumentLoan(this.id_user,this.loan_type);
+			this.loadingSubmitApprove = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Pengajuan pinjaman berhasil disetujui.'});
+		}, err =>{
+			console.log(err);
+			this.loadingSubmitApprove = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Pengajuan pinjaman gagal disetujui, silakan coba lagi.'});
+		});
+	}
+	submitApproveReject(){
+		let obj = {
+			id_loan: this.id_loan
+		};
+		this.loadingSubmitReject = true;
+		this.loanService.putRejectLoan(obj).subscribe(res =>{
+			this.loading = true;
+			this.fetchLoanDetail(this.id_user,this.id_loan);
+			this.fetchDocumentLoan(this.id_user,this.loan_type);
+			this.loadingSubmitReject = false;
+			this.isPopupReject = false;
+			this.messageService.add({severity:'success', summary: 'Success', detail:'Pengajuan pinjaman berhasil ditolak.'});
+		}, err =>{
+			console.log(err);
+			this.loadingSubmitReject = false;
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Pengajuan pinjaman gagal ditolak, silakan soba lagi.'});
+		})
+	}
+	
+
 	// Fetch Master 
 	// ========================= //
 	fetchCompany(){
@@ -467,7 +518,6 @@ export class DetailLoanComponent implements OnInit {
 	fetchGrade(){
 		this.memberService.getGrade().subscribe(res =>{
 			this.originGrades = res['data'];
-			this.grades = [{label:"Semua Golongan",value:null}];
 			this.grades2 = [];
 			_.map(res['data'], (x)=>{
 				let obj = {label:x.name_grade,value:x.id_grade};

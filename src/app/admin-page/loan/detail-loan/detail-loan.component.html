@@ -107,7 +107,7 @@
 			</div>
 			<div class="card-body p-0">
 				<div class="row">
-					<div class="col-lg-6 p-5">
+					<div class="col-md-6 p-5">
 						<table class="table-content">
 							<tr>
 								<td style="width:200px"><strong>Total pinjaman Perbulan</strong></td>
@@ -126,7 +126,7 @@
 							</tr>
 						</table>
 					</div>
-					<div class="col-lg-6 p-0">
+					<div class="col-md-6 p-0">
 						<div class="content-summary">
 							<p>prosesentase kekeuatan pinjam setelah pinjaman</p>
 							<h3>{{dataDetailLoan.final_per_strength}}%</h3>
@@ -173,8 +173,9 @@
 		</div>
 	</div>
 
-	<div *ngIf="loan_type == 'LOAN0001'" class="row mt-5">
-		<div class="col-lg-4">
+	<div class="row mt-5">
+		<div class="col-md-12 col-lg-4"></div>
+		<div class="col-md-6 col-lg-4">
 			<div class="card">
 				<div class="card-header">
 					<h6 class="mb-0">Perubahan Gaji dan Golongan</h6>
@@ -182,31 +183,28 @@
 				<div class="card-body">
 					<div class="mb-3">
 						<label>Golongan</label>
-						<p-dropdown [options]="golonganPinjaman" [(ngModel)]="golongan" optionLabel="title" styleClass="form-control"></p-dropdown>
+						<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="golongan"></p-dropdown>
 					</div>
 					<div>
 						<label>Gaji</label>
-						<p-spinner [min]="1" [(ngModel)]="gaji" [formatInput]="false"></p-spinner>
+						<p-spinner [min]="1" [(ngModel)]="sallary" [formatInput]="true"></p-spinner>
 					</div>
 				</div>
 			</div>
 		</div>
-	</div>
-
-	<div *ngIf="loan_type == 'LOAN0002'" class="row mt-5">
-		<div class="col-lg-4">
+		<div class="col-md-6 col-lg-4">
 			<div class="card">
 				<div class="card-header">
 					<h6 class="mb-0">Informasi Tambahan</h6>
 				</div>
 				<div class="card-body">
 					<div class="mb-3">
-						<label>Tanggal pencarian</label>
-						<p-calendar [(ngModel)]="date" placeholder="Tanggal Pencairan"></p-calendar>
+						<label>Tanggal pencarian</label> 
+						<p-calendar [(ngModel)]="tanggal_pencairan" dateFormat="yy-mm-dd" placeholder="Tanggal Pencairan"></p-calendar>
 					</div>
 					<div>
 						<label>Diskon bunga(%)</label>
-						<p-spinner [min]="1" [max]="100" [(ngModel)]="bunga" [formatInput]="false"></p-spinner>
+						<p-spinner [min]="1" [max]="100" [(ngModel)]="discount" [formatInput]="false"></p-spinner>
 					</div>
 				</div>
 			</div>
@@ -214,8 +212,21 @@
 	</div>
 
 	<div class="mt-5 mb-2 text-right">
-		<button class="btn btn-danger btn-lg btn-icon mr-3" type="button" (click)="isPopupReject=true">Tolak <i-x class="icon"></i-x></button>
-		<button class="btn btn-primary btn-lg btn-icon" type="button">Setuju <i-check class="icon"></i-check></button>
+		<button 
+			class="btn btn-primary btn-lg mr-3" 
+			[class.btn-icon]="!loadingSubmitApprove" 
+			[disabled]="loadingSubmitApprove || loadingSubmitReject" 
+			type="button"
+			(click)="submitApproveLoan()">
+			<span *ngIf="!loadingSubmitApprove">Setuju <i-check class="icon"></i-check></span>
+			<span *ngIf="loadingSubmitApprove"><i class="fas fa-spin fa-spinner"></i></span>
+		</button>
+		<button 
+			class="btn btn-danger btn-lg btn-icon" 
+			[disabled]="loadingSubmitApprove || loadingSubmitReject"
+			type="button" 
+			(click)="isPopupReject=true">Tolak <i-x class="icon"></i-x>
+		</button>
 	</div>
 </div>
 <!--End Main Content -->
@@ -332,14 +343,13 @@
 			<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control"></textarea>
 		</div>
 	</div>
-	
 	<p-footer>
-		<button [disabled]="isProcessing" class="btn btn-danger mr-1" type="button" (click)="cancel()">
-			<span>Batal</span>
+		<button [disabled]="loadingSubmitReject" class="btn btn-primary" type="submit" (click)="submitApproveReject()">
+			<span *ngIf="!loadingSubmitReject">Simpan</span>
+			<span *ngIf="loadingSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="isProcessing" class="btn btn-primary" type="submit" (click)="reject()">
-			<span *ngIf="!isProcessing">Simpan</span>
-			<span *ngIf="isProcessing"><i class="fas fa-spin fa-spinner"></i></span>
+		<button [disabled]="loadingSubmitReject" class="btn btn-danger mr-1" type="button" (click)="isPopupReject = false">
+			<span>Batal</span>
 		</button>
 	</p-footer>
 </p-dialog>
@@ -538,21 +548,23 @@
 				<!-- End Company -->
 				<!-- Start Bank -->
 				<p-tabPanel header="Bank">
-					<div class="dialog-content pt-1">
-						<table class="mt-4 table table-striped mb-0">
-							<tr>
-								<td class="label">Bank</td>
-								<td>{{dataProfile.bank.name_bank}}</td>
-							</tr>
-							<tr>
-								<td class="label">No Rekening</td>
-								<td>{{dataProfile.bank.account_number_bank}}</td>
-							</tr>
-							<tr>
-								<td class="label">Nama Rekening</td>
-								<td style="word-break: break-all;">{{dataProfile.bank.account_name_bank}}</td>
-							</tr>
-						</table>
+					<div *ngIf="dataProfile" class="dialog-content pt-1">
+						<ng-container *ngIf="dataProfile.bank">
+							<table class="mt-4 table table-striped mb-0">
+								<tr>
+									<td class="label">Bank</td>
+									<td>{{dataProfile.bank.name_bank}}</td>
+								</tr>
+								<tr>
+									<td class="label">No Rekening</td>
+									<td>{{dataProfile.bank.account_number_bank}}</td>
+								</tr>
+								<tr>
+									<td class="label">Nama Rekening</td>
+									<td style="word-break: break-all;">{{dataProfile.bank.account_name_bank}}</td>
+								</tr>
+							</table>
+						</ng-container>
 					</div>
 				</p-tabPanel>
 				<!-- End Bank -->
@@ -621,7 +633,7 @@
 				<!-- End Document -->
 				<!-- Start Salary -->
 				<p-tabPanel header="Salary">
-					<div class="dialog-content pt-1">
+					<div *ngIf="dataProfile.salary" class="dialog-content pt-1">
 						<table class="mt-4 table table-striped mb-0">
 							<tr>
 								<td class="label">Nilai Gaji</td>
