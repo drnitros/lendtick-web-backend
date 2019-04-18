@@ -355,11 +355,11 @@
 		</div>
 	</div>
 	<p-footer>
-		<button [disabled]="loadingSubmitReject" class="btn btn-primary" type="submit" (click)="submitApproveReject()">
+		<button [disabled]="loadingSubmitReject || reasonReject == ''" class="btn btn-primary" type="submit" (click)="submitApproveReject()">
 			<span *ngIf="!loadingSubmitReject">Simpan</span>
 			<span *ngIf="loadingSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="loadingSubmitReject" class="btn btn-danger ml-3" type="button" (click)="isPopupReject = false">
+		<button [disabled]="loadingSubmitReject || reasonReject == ''" class="btn btn-danger ml-3" type="button" (click)="isPopupReject = false">
 			<span>Batal</span>
 		</button>
 	</p-footer>

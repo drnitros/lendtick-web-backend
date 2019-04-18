@@ -466,7 +466,7 @@ export class DetailLoanComponent implements OnInit {
 		});
 	}
 
-	public reasonReject: null;
+	public reasonReject = '';
 	submitApproveReject(){
 		let obj = {
 			id_loan: this.id_loan,
