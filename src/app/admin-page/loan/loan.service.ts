@@ -16,6 +16,7 @@ export class LoanService {
 	private urlPostLoanNoncooperative = this.APIService['hostLoan'] + '/noncoorperative/loan';
 	private urlPutApprove = this.APIService['hostLoan'] + '/loan/backend/aprrove';
 	private urlPutReject = this.APIService['hostLoan'] + '/loan/backend/reject';
+	private urlPostSalary = this.APIService['hostAuth'] + '/salary/req';
 	
 	constructor(
 		private APIService: APIService,
@@ -27,6 +28,18 @@ export class LoanService {
 	updateToken(token){
 		localStorage.setItem("token", token);
 		location.reload();
+	}
+
+	// Post Sallary
+	// ====================== //
+	postSalary(obj){
+		const options = {
+			headers: new HttpHeaders({
+				'accept':  'application/json',
+				'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.post(this.urlPostSalary, obj, options);
 	}
 
 	// U[date] Approve Loan

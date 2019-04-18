@@ -29,13 +29,6 @@ export class DetailLoanComponent implements OnInit {
 		{id:'pendidikan',title:'Pendidikan'},
 		{id:'cicilan_hrd',title:'Cicilan HRD-1'}
 	];
-	public golonganPinjaman = [
-		{id:'1',title:'I'},
-		{id:'2',title:'II'},
-		{id:'3',title:'III'},
-		{id:'4',title:'IV'}
-	];
-	golongan = {id:'1',title:'I'};
 
 	// Member variable
 	public data:any = this.data = [];
@@ -43,7 +36,6 @@ export class DetailLoanComponent implements OnInit {
 	public selectedItem = null;
 	public grades = [];
 	public grades2 = [];
-	public selectedGrade = null;
 	public companies = [];
 	public companies2 = [];
 	public selectedCompany = null;
@@ -251,7 +243,8 @@ export class DetailLoanComponent implements OnInit {
 	fetchSallary(id){
 		this.memberService.getSallary(id).subscribe(res =>{
 			this.dataProfile['salary'] = res['data'];
-			this.dataProfile['salary'].amount = Number(res['data'].salary_amount).toLocaleString();
+			this.dataProfile['salary'].amount = Number(res['data'].salary_amount);
+			this.dataProfile['salary'].rp_amount = Number(res['data'].salary_amount).toLocaleString();
 			this.fetchBank(id);
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
@@ -369,6 +362,26 @@ export class DetailLoanComponent implements OnInit {
 		this.imgDocument = null;
 	}
 
+	// Update Sallary
+	// ========================= //
+	public loadingUpdateSallary: boolean = false;
+	public selectedGrade = null;
+
+	updateSallary(){
+		this.loadingUpdateSallary = true;
+		let obj = {
+            id_grade: this.selectedGrade,
+            salary_amount: this.dataProfile.salary.amount.toString(),
+        };
+		this.loanService.postSalary(obj).subscribe(res =>{
+			console.log(res);
+			this.loadingUpdateSallary = false;
+		},err =>{
+			console.log(err);
+			this.loadingUpdateSallary = false;
+		});
+	};
+
 	// Update Password
 	// ========================= //
 	public password = null;
@@ -452,9 +465,12 @@ export class DetailLoanComponent implements OnInit {
 			this.messageService.add({severity:'error', summary: 'Error', detail:'Pengajuan pinjaman gagal disetujui, silakan coba lagi.'});
 		});
 	}
+
+	public reasonReject: null;
 	submitApproveReject(){
 		let obj = {
-			id_loan: this.id_loan
+			id_loan: this.id_loan,
+			notes: this.reasonReject
 		};
 		this.loadingSubmitReject = true;
 		this.loanService.putRejectLoan(obj).subscribe(res =>{
@@ -467,7 +483,7 @@ export class DetailLoanComponent implements OnInit {
 		}, err =>{
 			console.log(err);
 			this.loadingSubmitReject = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Pengajuan pinjaman gagal ditolak, silakan soba lagi.'});
+			this.messageService.add({severity:'error', summary: 'Error', detail:'Pengajuan pinjaman gagal ditolak, silakan coba lagi.'});
 		})
 	}
 	
@@ -484,7 +500,6 @@ export class DetailLoanComponent implements OnInit {
 			try{
 				let findCompany = _.find(this.companies, {value: this.dataProfile.company.id_company});
 				if(findCompany) this.dataProfile.company.company_name = findCompany.label;
-				console.log(findCompany);
 			}catch(err){
 				console.log(err);
 			}
@@ -524,6 +539,7 @@ export class DetailLoanComponent implements OnInit {
 				this.grades.push(obj);
 				this.grades2.push(obj);
 			});
+			this.selectedGrade = this.grades[0].value;
 		}, err =>{
 			if(err.status == 401) this.memberService.updateToken(err.error.data.token);
 		});

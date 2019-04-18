@@ -24,7 +24,7 @@
 		<div class="col-md-4">
 			<div *ngIf="dataProfile" class="user-info">
 				<div class="user-info__header">
-					<img [src]="dataProfile.profile.personal_photo" class="img-user" width="125" />
+					<img [src]="dataProfile.profile.personal_photo" class="img-user" />
 				</div>
 				<div class="user-info__body">
 					<table class="table-content">
@@ -51,7 +51,7 @@
 						<tr>
 							<td><strong>Gaji</strong></td>
 							<td>:</td>
-							<td *ngIf="dataProfile.salary">Rp {{dataProfile.salary.amount}}</td>
+							<td *ngIf="dataProfile.salary">Rp {{dataProfile.salary.rp_amount}}</td>
 						</tr>
 					</table>
 					<div class="mt-3 text-right">
@@ -178,23 +178,6 @@
 		<div class="col-md-6 col-lg-4">
 			<div class="card">
 				<div class="card-header">
-					<h6 class="mb-0">Perubahan Gaji dan Golongan</h6>
-				</div>
-				<div class="card-body">
-					<div class="mb-3">
-						<label>Golongan</label>
-						<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="golongan"></p-dropdown>
-					</div>
-					<div>
-						<label>Gaji</label>
-						<p-spinner [min]="1" [(ngModel)]="sallary" [formatInput]="true"></p-spinner>
-					</div>
-				</div>
-			</div>
-		</div>
-		<div class="col-md-6 col-lg-4">
-			<div class="card">
-				<div class="card-header">
 					<h6 class="mb-0">Informasi Tambahan</h6>
 				</div>
 				<div class="card-body">
@@ -206,6 +189,27 @@
 						<label>Diskon bunga(%)</label>
 						<p-spinner [min]="1" [max]="100" [(ngModel)]="discount" [formatInput]="false"></p-spinner>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-6 col-lg-4">
+			<div class="card">
+				<div class="card-header">
+					<h6 class="mb-0">Perubahan Gaji dan Golongan</h6>
+				</div>
+				<div class="card-body">
+					<div class="mb-3">
+						<label>Golongan</label>
+						<p-dropdown [options]="grades" styleClass="form-control" [(ngModel)]="selectedGrade"></p-dropdown>
+					</div>
+					<div class="mb-3" *ngIf="dataProfile">
+						<label>Gaji</label>
+						<p-spinner [min]="1" [(ngModel)]="dataProfile.salary.amount" [formatInput]="true"></p-spinner>
+					</div>
+					<button class="btn btn-primary btn-inverse" [disabled]="loadingUpdateSallary" (click)="updateSallary()">
+						<span *ngIf="!loadingUpdateSallary">Update gaji</span>
+						<span *ngIf="loadingUpdateSallary"><i class="fas fa-spin fa-spinner"></i></span>
+					</button>
 				</div>
 			</div>
 		</div>
@@ -340,7 +344,14 @@
 	<div class="dialog-content p-4">
 		<div class="mb-3">
 			<label class="mb-2">Alasan penolakan</label>
-			<textarea [rows]="5" [cols]="30" placeholder="Masukan alasan penolakan pinjaman" pInputTextarea autoResize="true" class="form-control"></textarea>
+			<textarea 
+				[rows]="5" 
+				[cols]="30" 
+				placeholder="Masukan alasan penolakan pinjaman" 
+				pInputTextarea 
+				autoResize="true" 
+				[(ngModel)]="reasonReject" 
+				class="form-control"></textarea>
 		</div>
 	</div>
 	<p-footer>
@@ -348,7 +359,7 @@
 			<span *ngIf="!loadingSubmitReject">Simpan</span>
 			<span *ngIf="loadingSubmitReject"><i class="fas fa-spin fa-spinner"></i></span>
 		</button>
-		<button [disabled]="loadingSubmitReject" class="btn btn-danger mr-1" type="button" (click)="isPopupReject = false">
+		<button [disabled]="loadingSubmitReject" class="btn btn-danger ml-3" type="button" (click)="isPopupReject = false">
 			<span>Batal</span>
 		</button>
 	</p-footer>

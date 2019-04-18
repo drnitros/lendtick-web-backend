@@ -20,6 +20,9 @@
             margin-left: -62.5px;
             bottom: -62.5px;
             border: solid 10px #ffffff;
+            width: 125px;
+            height: 125px;
+            object-fit: cover;
             @extend .panel-shadow;
             @include border-radius(50%);
         }
