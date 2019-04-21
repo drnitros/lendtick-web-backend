@@ -4,6 +4,7 @@ import { LoanService } from '../loan.service';
 import { MessageService } from 'primeng/components/common/messageservice';
 import * as _ from 'lodash';
 import * as moment from 'moment';
+declare var $: any;
 
 @Component({
   selector: 'app-microloan',
@@ -28,6 +29,7 @@ export class MicroloanComponent implements OnInit {
 	public minDate = moment().add('days',-1)['_d'];
 	public isSubmitApprove: boolean = false;
 	public isSubmitReject: boolean = false;
+	public widthTable = 0;
 
 	public loanTypes = [
 		{label: "Semua tipe Loan", value: null},
@@ -68,6 +70,13 @@ export class MicroloanComponent implements OnInit {
 			{field: 'request_date', header: 'Tgl Pengajuan', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
+
+		var widthTB = $('#tab-card').width();
+		this.widthTable = widthTB;
+		$(window).on('resize', function(){
+			var widthTB = $('#tab-card').width();
+			this.widthTable = widthTB;
+		});
 	}
 
 	// Toggle Columns 

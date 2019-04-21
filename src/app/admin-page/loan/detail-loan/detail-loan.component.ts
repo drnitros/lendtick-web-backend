@@ -4,6 +4,7 @@ import { FormGroup } from '@angular/forms';
 import { MessageService } from 'primeng/components/common/messageservice';
 import { MemberService } from '../../member/member.service';
 import { LoanService } from '../loan.service';
+import { store } from '../../../service/store.service';
 import * as moment from 'moment';
 import * as _ from 'lodash';
 
@@ -18,6 +19,7 @@ export class DetailLoanComponent implements OnInit {
 	public loan_type;
 	public id_user;
 	public id_loan;
+	public id_role_master;
 	public date: Date = null;
 	public bunga: number = 1;
 	public isPopupVisible: boolean;
@@ -81,7 +83,11 @@ export class DetailLoanComponent implements OnInit {
 		private memberService: MemberService, 
 		private messageService: MessageService,
 		private loanService: LoanService
-	){ }
+	){
+		store.subscribe(() => {
+			this.id_role_master = store.getState().auth.id_role_master;
+		});
+	}
 
 	ngOnInit() {
 		this.route.queryParamMap.subscribe(queryParams => {
@@ -120,6 +126,7 @@ export class DetailLoanComponent implements OnInit {
 			this.dataDetailLoan.rp_current_strength = 'Rp ' + this.dataDetailLoan.current_strength.toLocaleString();
 			this.dataDetailLoan.rp_final_installment = 'Rp ' + this.dataDetailLoan.final_installment.toLocaleString();
 
+			console.log(this.dataDetailLoan.active_loan);
 			_.map(this.dataDetailLoan.active_loan,(x)=>{
 				x.rp_installments = 'Rp ' + x.installments.toLocaleString();
 				x.rp_loan_approved = 'Rp ' + x.loan_approved.toLocaleString();
@@ -381,29 +388,7 @@ export class DetailLoanComponent implements OnInit {
 			this.loadingUpdateSallary = false;
 		});
 	};
-
-	// Update Password
-	// ========================= //
-	public password = null;
-	public oldpassword = null;
-	public confirmpassword = null;
-	public isSubmitPassword: boolean = false;
-	updatePassword(){
-		let obj = {
-			old_password: this.oldpassword,
-			new_password: this.password
-		};
-
-		this.isSubmitPassword = true;
-		this.memberService.updatePassword(obj).subscribe(res =>{
-			this.isSubmitPassword = false;
-			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil ganti password'});
-		}, err =>{
-			this.isSubmitPassword = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
-		});
-	}
-
+	
 	// Pinjaman Aktif non koperasi
 	// ========================= //
 	public selectedNonCoperate = null;
@@ -439,7 +424,7 @@ export class DetailLoanComponent implements OnInit {
 	// Approve Loan
 	// ========================= //
 	public tanggal_pencairan = new Date;
-	public discount = 1;
+	public discount = 0;
 	public sallary = 1;
 	public grade = 1;
 	public loadingSubmitApprove: boolean = false;

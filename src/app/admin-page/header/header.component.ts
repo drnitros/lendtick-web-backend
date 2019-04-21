@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { HeaderService } from './header.service';
-
+import { store } from '../../service/store.service';
 import * as _ from 'lodash';
 import * as screenfull from 'screenfull';
 import { APIService } from "../../service/api.service";
@@ -60,6 +60,7 @@ export class HeaderComponent implements OnInit {
 		this.headerService.getCheckUser().subscribe(res =>{
 			localStorage.setItem("id_role_master", res['data'].id_role_master);
 			localStorage.setItem("id_user", res['data'].id_user);
+			store.dispatch({ type: 'UPDATE_ROLE', id_role_master: res['data'].id_role_master })
 		});
 	}
 

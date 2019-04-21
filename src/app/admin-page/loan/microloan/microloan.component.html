@@ -70,34 +70,43 @@
 	</div>
 
 	<!-- Start Card -->
-	<div *ngIf="!loading" class="card">
+	<div *ngIf="!loading" class="card" id="tab-card">
 		<div class="card-body p-0">
 			<!-- Start Table -->
-			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+			<p-table 
+				#dt 
+				[columns]="selectedColumns" 
+				[value]="data" 
+				[paginator]="true" 
+				[rows]="10" 
+				[responsive]="true"
+				[scrollable]="true"
+				[style]="{width: widthTable + 'px'}">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
-						<ng-container *ngFor="let col of columns">
-							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
-							<th *ngIf="col.field != 'number'">{{col.header}}</th>
-						</ng-container>
-						<th class="text-right">
+						<th class="text-center" style="width:110px">
 							Options
 						</th>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'" style="width:200px">{{col.header}}</th>
+						</ng-container>
 					</tr>
 				</ng-template>
 				<!-- End Header -->
 				<!-- Start Body -->
 				<ng-template pTemplate="body" let-rowData let-columns="columns">
 					<tr>
-						<td *ngFor="let col of columns">
-							{{rowData[col.field]}}
-						</td>
-						<td class="text-right">
+						<td class="text-center" style="width:110px">
 							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
 								<i-settings class="icon"></i-settings>
 							</button>
 						</td>
+						<ng-container *ngFor="let col of columns">
+							<td *ngIf="col.field == 'number'" style="width:75px;">{{rowData[col.field]}}</td>
+							<td *ngIf="col.field != 'number'" style="width:200px">{{rowData[col.field]}}</td>
+						</ng-container>
 					</tr>
 				</ng-template>
 				<!-- End Body -->

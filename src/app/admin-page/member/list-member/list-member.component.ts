@@ -392,30 +392,7 @@ export class ListMemberComponent implements OnInit {
 		this.isUpdateDocument = false;
 		this.imgDocument = null;
 	}
-
-	// Update Password
-	// ========================= //
-	public password = null;
-	public oldpassword = null;
-	public confirmpassword = null;
-	public isSubmitPassword: boolean = false;
-
-	updatePassword(){
-		let obj = {
-			old_password: this.oldpassword,
-			new_password: this.password
-		};
-
-		this.isSubmitPassword = true;
-		this.memberService.updatePassword(obj).subscribe(res =>{
-			this.isSubmitPassword = false;
-			this.messageService.add({severity:'success', summary: 'Success', detail:'Berhasil ganti password'});
-		}, err =>{
-			this.isSubmitPassword = false;
-			this.messageService.add({severity:'error', summary: 'Error', detail:'Gagal ganti password'});
-		});
-	}
-
+	
 	// Fetch Master 
 	// ========================= //
 	fetchCompany(){

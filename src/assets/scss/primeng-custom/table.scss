@@ -22,7 +22,7 @@
         tbody{
             tr{
                 td{
-                    word-wrap: break-word;
+                    word-wrap: break-word !important;
                     border-color: #efefef;
                     padding: 20px 25px !important;
                     position: relative;

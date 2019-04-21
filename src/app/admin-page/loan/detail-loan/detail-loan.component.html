@@ -176,16 +176,16 @@
 	<div class="row mt-5">
 		<div class="col-md-12 col-lg-4"></div>
 		<div class="col-md-6 col-lg-4">
-			<div class="card">
+			<div class="card" *ngIf="id_role_master == 'ROLE005' || id_role_master == 'ROLE004'">
 				<div class="card-header">
 					<h6 class="mb-0">Informasi Tambahan</h6>
 				</div>
 				<div class="card-body">
-					<div class="mb-3">
+					<div *ngIf="id_role_master == 'ROLE005' || id_role_master == 'ROLE004'">
 						<label>Tanggal pencarian</label> 
 						<p-calendar [(ngModel)]="tanggal_pencairan" dateFormat="yy-mm-dd" placeholder="Tanggal Pencairan"></p-calendar>
 					</div>
-					<div>
+					<div *ngIf="id_role_master == 'ROLE005'">
 						<label>Diskon bunga(%)</label>
 						<p-spinner [min]="1" [max]="100" [(ngModel)]="discount" [formatInput]="false"></p-spinner>
 					</div>
@@ -664,79 +664,6 @@
 					</div>
 				</p-tabPanel>
 				<!-- End Salary -->
-				<!-- Start User -->
-				<p-tabPanel header="User">
-					<div class="dialog-content pt-1">
-						<div class="row">
-							<div class="col-md-6">
-								<table class="mt-4 table table-striped mb-0">
-									<tr>
-										<td class="label">Username</td>
-										<td>{{dataProfile.user.username}}</td>
-									</tr>
-									<tr>
-										<td class="label">Role</td>
-										<td>{{dataProfile.user.role_master_name}}</td>
-									</tr>
-									<tr>
-										<td class="label">Password</td>
-										<td style="word-break: break-all;">{{dataProfile.user.password}}</td>
-									</tr>
-								</table>
-							</div>
-							<div class="col-md-6 pt-3">
-								<form #passwordForm="ngForm">
-									<div class="mb-2">
-										<label>Password Lama</label>
-										<input 
-											type="text" 
-											class="form-control" 
-											name="oldpassword" 
-											[(ngModel)]="oldpassword" 
-											[class.is-invalid]="oldpasswordRef.errors?.required && oldpasswordRef.touched" 
-											#oldpasswordRef="ngModel"
-											placeholder="Masukan Password Lama" 
-											type="oldpassword"
-											required/>
-									</div>
-									<div class="mb-2">
-										<label>Password Baru</label>
-										<input 
-											type="text" 
-											class="form-control" 
-											name="password" 
-											[(ngModel)]="password" 
-											[class.is-invalid]="passwordRef.errors?.required && passwordRef.touched" 
-											#passwordRef="ngModel"
-											placeholder="Masukan Password Baru" 
-											type="password"
-											required/>
-									</div>
-									<div class="mb-2">
-										<label>Konfirmasi Password</label>
-										<input 
-											type="text" 
-											class="form-control" 
-											name="confirmpassword" 
-											[(ngModel)]="confirmpassword" 
-											[class.is-invalid]="confirmpasswordRef.errors?.required && confirmpasswordRef.touched" 
-											#confirmpasswordRef="ngModel"
-											placeholder="Konfirmasi Password Baru" 
-											type="password"
-											required/>
-									</div>
-									<div class="mt-4">
-										<button class="btn btn-primary" [disabled]="isSubmitPassword || passwordForm.invalid || confirmpassword != password" (click)="updatePassword()">
-											<span *ngIf="!isSubmitPassword">Reset Password</span>
-											<span *ngIf="isSubmitPassword"><i class="fas fa-spin fa-spinner"></i></span>
-										</button>
-									</div>
-								</form>
-							</div>
-						</div>
-					</div>
-				</p-tabPanel>
-				<!-- End User -->
 			</p-tabView>
 		</ng-container>
 	</ng-container>

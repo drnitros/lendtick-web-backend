@@ -13,9 +13,14 @@ export const authReducer = (state = {
 				...state,
                 isLogin: true,
                 token: action.token,
-                id_role_master: action.id_role_master,
                 is_new: action.is_new
 			}
+        break;
+        case "UPDATE_ROLE" :
+            state = {
+                ...state,
+                id_role_master: action.id_role_master,
+            }
         break;
         case "LOGOUT" :
 			state = {
@@ -29,6 +34,7 @@ export const authReducer = (state = {
     }
     return state;
 }
+
 
 export const memberReducer = (state = {
     jmlCalongAnggota: 0,
