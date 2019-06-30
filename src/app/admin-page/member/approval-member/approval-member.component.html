@@ -139,7 +139,7 @@
 					</tr>
 					<tr>
 						<td class="label">No KTP</td>
-						<td>4234123423323</td>
+						<td>{{selectedItem.identity_id}}</td>
 					</tr>
 					<tr>
 						<td class="label">Nama Perusahaan</td>
@@ -156,6 +156,9 @@
 						<p-calendar 
 							dateFormat="dd-mm -yy"
 							[(ngModel)]="date" 
+							[monthNavigator]="true" 
+							[yearNavigator]="true"
+							yearRange="1960:2030"
 							placeholder="Enter date">
 						</p-calendar>
 					</div>

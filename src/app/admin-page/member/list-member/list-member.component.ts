@@ -12,7 +12,7 @@ import * as moment from 'moment';
   providers: [MessageService]
 })
 export class ListMemberComponent implements OnInit {
-	public data:any = this.data = [];
+	public data:any = [];
 	public columns:any = [];
 	public display: boolean = false;
 	public selectedColumns: any[];
@@ -170,7 +170,7 @@ export class ListMemberComponent implements OnInit {
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
 				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
-				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
+				x.employee_starting_date = x.employee_starting_date ? moment(x.employee_starting_date).format('YYYY-MM-DD') : '-';
 			});
 			this.data = res['data'].data;
 			this.totalCount = Number(res['data'].count_filter);

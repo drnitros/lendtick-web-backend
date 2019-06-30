@@ -14,7 +14,7 @@ declare var $: any;
   providers: [MessageService]
 })
 export class ApprovalMemberComponent implements OnInit {
-	public data:any = this.data = [];
+	public data:any = [];
 	public columns:any = [];
 	public display: boolean = false;
 	public selectedColumns: any[];
@@ -122,7 +122,7 @@ export class ApprovalMemberComponent implements OnInit {
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
 				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
-				x.employee_starting_date = moment(x.employee_starting_date).format('YYYY-MM-DD');
+				x.employee_starting_date = x.employee_starting_date ? moment(x.employee_starting_date).format('YYYY-MM-DD') : '-';
 				x['show_input'] = true;
 
 				switch(this.roleId){
@@ -161,6 +161,7 @@ export class ApprovalMemberComponent implements OnInit {
 	selectItem(e){
 		this.display = true;
 		this.selectedItem = e;
+		console.log(e);
 		setTimeout(() => { 
 			window.dispatchEvent(new Event('resize')); 
 		}, 1000);
