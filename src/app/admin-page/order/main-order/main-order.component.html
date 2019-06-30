@@ -1,0 +1,91 @@
+<!-- Start Sub Header -->
+<div class="sub-header">
+	<div class="media">
+		<i-shopping-cart class="icon"></i-shopping-cart> 
+		<div class="media-body">
+			<h5 class="title">Order</h5>
+			<ol class="breadcrumb">
+				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">History Order</li>
+			</ol>
+		</div>
+	</div>
+</div>
+<!-- End Sub Header -->
+<!-- Start Main Content -->
+<div class="main-content">
+
+	<!-- Start Card -->
+	<div *ngIf="!loading" class="card">
+		<div class="card-body p-0">
+			<!-- Start Table -->
+			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+				<!-- Start Header -->
+				<ng-template pTemplate="header" let-columns>
+					<tr>
+						<ng-container *ngFor="let col of columns">
+							<th *ngIf="col.field == 'number'" style="width:75px;">{{col.header}}</th>
+							<th *ngIf="col.field != 'number'">{{col.header}}</th>
+						</ng-container>
+						<th class="text-right">
+							Options
+						</th>
+					</tr>
+				</ng-template>
+				<!-- End Header -->
+				<!-- Start Body -->
+				<ng-template pTemplate="body" let-rowData let-columns="columns">
+					<tr>
+						<td *ngFor="let col of columns">
+							<ng-container *ngIf="col.field == 'status'"><p-inputSwitch [(ngModel)]="rowData[col.field]"></p-inputSwitch></ng-container>
+							<ng-container *ngIf="col.field != 'status'">{{rowData[col.field]}}</ng-container>
+						</td>
+						<td class="text-right">
+							<button type="button" class="btn-circle btn-primary btn-sm" (click)="selectItem(rowData)">
+								<i-settings class="icon"></i-settings>
+							</button>
+						</td>
+					</tr>
+				</ng-template>
+				<!-- End Body -->
+			</p-table>
+			<!-- End Table -->
+		</div>
+	</div>
+	<!-- End Card -->
+</div>
+<!-- End Main Content -->
+
+<!-- Start Dialog Modal -->
+<p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Order" [modal]="true" [width]="500">
+	<div class="dialog-content p-0">
+		<table class="table table-striped mb-0">
+			<tr>
+				<td class="label" style="width:170px"><label>Nomor Akun</label></td>
+				<td>{{selectedItem.account_number}}</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Harga</label></td>
+				<td>Rp {{selectedItem.base_price}}</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Nama Servis</label></td>
+				<td>{{selectedItem.biller_name}}</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Nama Produk</label></td>
+				<td>{{selectedItem.product_name}}</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Harga Jual</label></td>
+				<td>Rp {{selectedItem.sell_price}}</td>
+			</tr>
+		</table>
+	</div>
+	<p-footer>
+		<button class="btn btn-default" (click)="display = false">
+			Close
+		</button>
+	</p-footer>
+</p-dialog>
+<!-- End Dialog Modal -->
