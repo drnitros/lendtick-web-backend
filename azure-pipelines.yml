@@ -12,10 +12,34 @@ pool:
 steps:
 - task: Npm@1
   inputs:
+    command: 'custom'
+    customCommand: 'install @angular/cli-g'
+
+- task: Npm@1
+  inputs:
     command: 'install'
+
 - task: Npm@1
   inputs:
     command: 'custom'
-    customCommand: 'run prod-build-dev'
+    customCommand: 'run-script build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'dist'
+    ArtifactName: 'dist'
+    publishLocation: 'FilePath'
+    TargetPath: 'Visual Studio Team Service/TFS'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: 'Microsoft Azure(030bf431-99c0-479e-8f62-bf5dfefb9877)'
+    appType: 'webApp'
+    WebAppName: 'commerce-kai-web-admin'
+    packageForLinux: '$(System.DefaultWorkingDirectory)/dist/KoperasiAstra'
+    enableCustomDeployment: true
+    DeploymentType: 'webDeploy'
+  
 
 
