@@ -4,9 +4,9 @@
 
 export const environment = {
   production: false,
-  hostAuth: "https://lentick-api-user-dev.azurewebsites.net",
-	hostProduct: "https://lentick-api-product-dev.azurewebsites.net",
-	hostLoan: "https://lentick-api-loan-dev.azurewebsites.net"
+  hostAuth: "https://commerce-kai-user.azurewebsites.net",
+	hostProduct: "https://commerce-kai-product.azurewebsites.net",
+	hostLoan: "https://commerce-kai-loan.azurewebsites.net"
 };
 
 /*
