@@ -18,5 +18,11 @@ steps:
 - script: |
     npm install -g @angular/cli
     npm install
-    ng build --prod
+    ng build 
   displayName: 'npm install and build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'dis'
+    ArtifactName: 'dist'
+    publishLocation: 'Container'
