@@ -51,8 +51,10 @@ export class HeaderComponent implements OnInit {
 			this.loading = false;
 			this.fetchCheckUser();
 		}, err =>{
+			console.log(err);
 			this.loading = false;
 			if(err.status == 401) this.headerService.updateToken(err.error.data.token);
+			if(err.status == 400) this.logout();
 		});
 	}
 

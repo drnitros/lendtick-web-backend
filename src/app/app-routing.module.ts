@@ -50,6 +50,10 @@ import { Page500Component } from './pages/layout-error/page500/page500.component
 import { LayoutSignComponent } from './pages/layout-sign/layout-sign.component';
 import { LayoutErrorComponent } from './pages/layout-error/layout-error.component';
 
+// Order
+// ========================== //
+import { MainOrderComponent } from './admin-page/order/main-order/main-order.component';
+
 const routes: Routes = [
 	{ path: '', redirectTo: 'main', pathMatch: 'full' },
 	{ path: 'main', component: MainComponent, 
@@ -57,6 +61,7 @@ const routes: Routes = [
 			{ path: '', redirectTo: 'dashboard', pathMatch: 'full' },
 			{ path: 'dashboard', component: MainDashboardComponent },
 			{ path: 'ecommerce-dahsboard', component: EcommerceComponent },
+			{ path: 'order', component: MainOrderComponent },
 			{ path: 'member', component: MainMemberComponent,
 				children: [
 					{ path: '', redirectTo: 'anggota', pathMatch: 'full' },

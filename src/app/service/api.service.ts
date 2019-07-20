@@ -6,7 +6,7 @@ import * as _ from 'lodash';
 import { utils, write, WorkBook } from 'xlsx';
 import { saveAs } from 'file-saver';
 import { Angular2Csv } from 'angular2-csv/Angular2-csv';
-import { environment } from '../../environments/environment.prod';
+import { environment } from '../../environments/environment';
 
 @Injectable({
 	providedIn: 'root'

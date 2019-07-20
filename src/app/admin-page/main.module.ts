@@ -10,6 +10,7 @@ import { MemberModule } from './member/member.module';
 import { ProductsModule } from './products/products.module';
 import { LoanModule } from './loan/loan.module';
 import { MasterModule } from './master/master.module';
+import { OrderModule } from './order/order.module';
 import { IconsModule } from '../icons/icons.module';
 
 import { HeaderComponent } from './header/header.component';
@@ -32,6 +33,7 @@ import { AutoCompleteModule } from 'primeng/autocomplete';
 		ProductsModule,
 		LoanModule,
 		MasterModule,
+		OrderModule,
 
 		FormsModule,
 		CommonModule,
