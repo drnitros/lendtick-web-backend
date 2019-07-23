@@ -7,8 +7,8 @@ import { APIService } from "../../service/api.service";
   providedIn: 'root'
 })
 export class ProductService {
-	private urlGetMasterProduct = this.APIService['hostProduct'] + '/master/product/all';
-	private urlGetChanel = "https:/commerce-kai-channel.azurewebsites.net/data-sync";
+	private urlGetMasterProduct = "https://commerce-kai-channel.azurewebsites.net/master/product/all";
+	private urlGetChanel = "https://commerce-kai-channel.azurewebsites.net/data-sync";
 
   	constructor(
 		private APIService: APIService,
