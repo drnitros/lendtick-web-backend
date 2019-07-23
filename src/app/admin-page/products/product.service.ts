@@ -8,7 +8,7 @@ import { APIService } from "../../service/api.service";
 })
 export class ProductService {
 	private urlGetMasterProduct = this.APIService['hostProduct'] + '/master/product/all';
-	private urlGetChanel = "https://lentick-api-channel-dev.azurewebsites.net/data-sync";
+	private urlGetChanel = "https:/commerce-kai-channel.azurewebsites.net/data-sync";
 
   	constructor(
 		private APIService: APIService,

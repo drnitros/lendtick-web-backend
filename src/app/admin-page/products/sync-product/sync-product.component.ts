@@ -24,8 +24,7 @@ export class SyncProductComponent implements OnInit {
 		
 		this.products = [
             {label: 'Bukalapak', value: 'Bukalapak'},
-            {label: 'Tokopedia', value: 'Tokopedia'},
-            {label: 'Lazada', value: 'Lazada'},
+            {label: 'Blibli', value: 'Blibli'},
             {label: 'JD.ID', value: 'JD.ID'},
         ];
 	}
