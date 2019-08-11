@@ -132,7 +132,7 @@ export class ApprovalMemberComponent implements OnInit {
 						}
 					break;
 					case "ROLE002" :
-						if(x.id_workflow_status == 'MBRSTS03' || x.id_workflow_status == 'MBRSTS07' || x.id_workflow_status == 'MBRSTS08'){
+						if(x.id_workflow_status == 'MBRSTS00' ||x.id_workflow_status == 'MBRSTS01' ||x.id_workflow_status == 'MBRSTS03' || x.id_workflow_status == 'MBRSTS07' || x.id_workflow_status == 'MBRSTS08'){
 							x['show_input'] = false;
 						}
 					break;

@@ -29,7 +29,7 @@ export class NonKoperasiComponent implements OnInit {
 			{field: 'nama', header: 'ID', show:true},
 			{field: 'perusahaan', header: 'Perusahaan', show:true},
 			{field: 'nik', header: 'NIK', show:true},
-			{field: 'tgl_masuk', header: 'Tanggal masuk', show:true},
+			{field: 'tgl_masuk', header: 'Tanggal karyawan tetap', show:true},
 			{field: 'tgl_pengajuan', header: 'Tanggal pengajuan', show:true},
 			{field: 'status', header: 'Status', show:true},
 		]

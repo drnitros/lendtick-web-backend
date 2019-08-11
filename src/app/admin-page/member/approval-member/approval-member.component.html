@@ -3,10 +3,10 @@
 	<div class="media">
 		<i-user class="icon"></i-user> 
 		<div class="media-body">
-			<h5 class="title">Calon Anggota</h5>
+			<h5 class="title">Pendaftaran Anggota</h5>
 			<ol class="breadcrumb">
 				<li class="breadcrumb-item"><a routerLink="/main">Home</a></li>
-				<li class="breadcrumb-item"><a routerLink="/main/member/">Calon Anggota</a></li>
+				<li class="breadcrumb-item"><a routerLink="/main/member/">Pendaftaran Anggota</a></li>
 			</ol>
 		</div>
 	</div>
@@ -149,6 +149,14 @@
 						<td class="label">Tanggal Pengajuan</td>
 						<td>{{selectedItem.requested_date}}</td>
 					</tr>
+					<tr>
+						<td class="label">Tanggal Karyawan Tetap</td>
+						<td>{{selectedItem.employee_starting_date}}</td>
+					</tr>
+					<tr>
+						<td class="label">Golongan</td>
+						<td>{{selectedItem.name_grade}}</td>
+					</tr>
 				</table>
 				<div *ngIf="selectedItem.show_input" class="mt-4 mb-2">
 					<div class="mb-2">
@@ -160,11 +168,12 @@
 							[yearNavigator]="true"
 							yearRange="1960:2030"
 							placeholder="Enter date">
+							
 						</p-calendar>
 					</div>
 					<div>
 						<label>Pilih Golongan</label>
-						<p-dropdown [options]="grades2" appendTo="body" styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
+						<p-dropdown [options]="grades2" appendTo="body"  styleClass="form-control" [(ngModel)]="selectedGrade" placeholder="Pilih Grade"></p-dropdown>
 					</div>
 				</div>
 			</div>
