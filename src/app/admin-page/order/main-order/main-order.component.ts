@@ -31,7 +31,7 @@ export class MainOrderComponent implements OnInit {
 			{field: 'number', header: 'No', show:true},
 			{field: 'id_employee', header: 'Id Karyawan', show:true},
 			{field: 'id_koperasi', header: 'Id Koperasi', show:true},
-			{field: 'id_order', header: 'Id Order', show:true},
+			{field: 'billing_number', header: 'Id Order', show:true},
 			{field: 'name', header: 'Nama Anggota', show:true},
 			{field: 'name_company', header: 'Perusahaan', show:true},
 			{field: 'name_payment_type', header: 'Tipe Pembayaran', show:true},
@@ -62,8 +62,7 @@ export class MainOrderComponent implements OnInit {
 		this.loading = true;
 		this.orderService.getHistoryOrder().subscribe(res =>{
 			_.map(res['data'].data, (x,i)=>{
-				x['number'] = i + 1;
-
+				x['number'] = 1;
 				x.order_detail.map((y)=>{
 					y.base_price = y.base_price.toLocaleString();
 					y.base_price = y.sell_price.toLocaleString();

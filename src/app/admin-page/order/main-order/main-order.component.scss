@@ -7,3 +7,19 @@
         padding: 10px;
     }
 }
+
+   
+    ::ng-deep  .ui-datatable table
+    {
+        table-layout:auto !important;
+        overflow-y: scroll !important; 
+    }
+    ::ng-deep .ui-datatable-tablewrapper {
+        overflow-y: scroll !important; 
+        width: auto !important;
+    }
+    ::ng-deep .ui-datatable-resizable {
+        padding-bottom: 1px;
+        /* overflow: auto; */
+        width: auto !important;
+    }
