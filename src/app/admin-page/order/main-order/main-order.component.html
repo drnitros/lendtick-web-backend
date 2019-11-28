@@ -15,6 +15,25 @@
 <!-- Start Main Content -->
 <div class="main-content">
 
+	<!-- Start Toggle Columns -->
+	<ng-container *ngIf="!loading">
+		<div class="row">
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"  (onChange)="changeCompany($event)"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-dropdown [options]="arrStatus" styleClass="form-control" [(ngModel)]="selectedStatus" (onChange)="changeStatus($event)"></p-dropdown>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-calendar [(ngModel)]="date1" dateFormat="yy-mm-dd" (onSelect)="onSelectBillingStart($event)" placeholder="filter by Tanggal start billing"></p-calendar>
+			</div>
+			<div class="col-sm-4 col-lg-3 mb-3">
+				<p-calendar [(ngModel)]="date2" dateFormat="yy-mm-dd" (onSelect)="onSelectBillingEnd($event)" placeholder="filter by Tanggal end billing"></p-calendar>
+			</div>
+		</div>
+	</ng-container>
+	<!-- End Toggle Columns -->
+
 	<!-- Start Card -->
 	<div *ngIf="!loading" class="card">
 		<div class="card-body p-0">

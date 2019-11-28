@@ -6,6 +6,7 @@ import { APIService } from "../../service/api.service";
   providedIn: 'root'
 })
 export class OrderService {
+	private urlGetCompany = this.APIService['hostAuth'] + '/company/auth/get';
 
 	constructor(
 		private APIService: APIService,
@@ -21,7 +22,7 @@ export class OrderService {
 
 	// User Sallary
 	// ====================== //
-	getHistoryOrder(){
+	getHistoryOrder(start,length,objFilter){
 		console.log("asadasd");
 		const options = {
 			headers: new HttpHeaders({
@@ -29,6 +30,19 @@ export class OrderService {
 			  'Authorization' : localStorage.getItem('token')
 			})
 		};
-		return this.http.get(this.APIService.hostLoan + '/order/history',options);
+		let filter = escape(JSON.stringify(objFilter));
+		return this.http.get(this.APIService.hostLoan + '/order/history'  + '?start=' + start +  '&length='+ length + '&manual_filter=' + filter,options);
+	}
+
+	// Get Master
+	// ====================== //
+	getCompany(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetCompany,options);
 	}
 }
