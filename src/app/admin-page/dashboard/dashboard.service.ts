@@ -9,6 +9,7 @@ import { APIService } from "../../service/api.service";
 
 export class DashboardService {
     private urlGetTotalOrder = this.APIService['hostLoan'] + '/order/total';
+    private urlGetTotalUser = this.APIService['hostAuth'] + '/v2/user/total-member-register';
 
     constructor(
 		private APIService: APIService,
@@ -32,5 +33,17 @@ export class DashboardService {
 			})
 		};
 		return this.http.get(this.urlGetTotalOrder,options);
+    }
+    
+    // Get Total User
+	// ====================== //
+	getTotalUser(){
+		const options = {
+			headers: new HttpHeaders({
+			  'accept':  'application/json',
+			  'Authorization' : localStorage.getItem('token')
+			})
+		};
+		return this.http.get(this.urlGetTotalUser,options);
 	}
 }

@@ -9,13 +9,15 @@ import { DashboardService } from '../dashboard.service';
 export class MainDashboardComponent implements OnInit {
   
   public totalOrder = 0;
+  public totalUser = 0;
 
   constructor(
     private dashboardService: DashboardService
   ) { }
 
   ngOnInit() {
-    this.fetchTotalOrder()
+    this.fetchTotalOrder();
+    this.fetchTotalUser();
   }
 
 
@@ -25,6 +27,17 @@ export class MainDashboardComponent implements OnInit {
 		this.dashboardService.getTotalOrder().subscribe(res =>{
       this.totalOrder = res['data'].total_order;
       console.log(this.totalOrder);
+		}, err =>{
+			console.log(err);
+		});
+  }
+  
+  // Fetch Total User
+	// ========================= //
+	fetchTotalUser(){
+		this.dashboardService.getTotalUser().subscribe(res =>{
+      this.totalUser = res['data'].total_member_register;
+      console.log(this.totalUser);
 		}, err =>{
 			console.log(err);
 		});
