@@ -16,7 +16,7 @@
 <div class="main-content">
 
 	<!-- Start Toggle Columns -->
-	<ng-container *ngIf="!loading">
+	<!-- <ng-container *ngIf="!loading"> -->
 		<div class="row">
 			<div class="col-sm-4 col-lg-3 mb-3">
 				<p-dropdown [options]="companies" styleClass="form-control" [(ngModel)]="selectedCompany"  (onChange)="changeCompany($event)"></p-dropdown>
@@ -31,7 +31,7 @@
 				<p-calendar [(ngModel)]="date2" dateFormat="yy-mm-dd" (onSelect)="onSelectBillingEnd($event)" placeholder="filter by Tanggal end billing"></p-calendar>
 			</div>
 		</div>
-	</ng-container>
+	<!-- </ng-container> -->
 	<!-- End Toggle Columns -->
 
 	<!-- Start Card -->

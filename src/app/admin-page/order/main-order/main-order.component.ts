@@ -20,17 +20,23 @@ export class MainOrderComponent implements OnInit {
 	public display = false;
 	public date: Date = null;
 	public date1: Date = null;
+	public sendDate1: String = ''
+	public sendDate2: String = ''
 	public date2: Date = null;
-	public start = 0;
+	public start = 1;
 	public pageLength = 10;
 
 	public arrStatus = [
-		{label:"All",value: null},
-		{label:"Menunggu pembayaran",value:"a"},
-		{label:"Menunggu Approval HR",value:"b"},
-		{label:"Menunggu Approval Keanggotaan",value:"c"},
+		{label:"All",value: ""},
+		{label:"CheckOut",value:"ODSTS00"},
+		{label:"Waiting for Payment",value:"ODSTS00"},
+		{label:"Paid Order",value:"ODSTS02"},
+		{label:"Waiting for Delivery",value:"ODSTS03"},
+		{label:"On Delivery",value:"ODSTS04"},
+		{label:"Receive",value:"ODSTS05"},
+		{label:"Cancel",value:"ODSTS99"},
 	];
-	public selectedStatus = null;
+	public selectedStatus = "";
 
 	constructor(
 		private orderService: OrderService,
@@ -76,7 +82,7 @@ export class MainOrderComponent implements OnInit {
 	// ========================= //
 	fetchData(){
 		this.loading = true;
-		this.orderService.getHistoryOrder(this.start, this.pageLength, this.objFilter).subscribe(res =>{
+		this.orderService.getHistoryOrder(this.start, this.pageLength, this.selectedStatus, this.sendDate1, this.sendDate2).subscribe(res =>{
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
 				x.order_detail.map((y)=>{
@@ -124,36 +130,33 @@ export class MainOrderComponent implements OnInit {
 	}
 	changeStatus(e){
 		if(e.value){
-			this.objFilter['status'] = e.value;
+			// this.objFilter['id_workflow_status'] = e.value;
+			this.selectedStatus = e.value;
 		}else{
-			delete this.objFilter['status'];
+			// delete this.objFilter['id_workflow_status'];
+			this.selectedStatus = e.value;
 		}
 		this.start = 0;
 		this.fetchData();
 	}
 	onSelectBillingStart(e){
 		if(this.date1){
-			let date1 = moment(this.date1 ).format("YYYY-MM-DD");
-			let date2 = moment(this.date2).format("YYYY-MM-DD");
-			this.objFilter['billing_date_start'] = date1.toString();
-			this.objFilter['billing_date_end']	= date2.toString();	
-			console.log(this.objFilter);
+			let date1 = moment(this.date1).format("YYYY-MM-DD");
+			this.sendDate1 = date1;
 		}else{
-			delete this.objFilter['billing_date_start'];
-			delete this.objFilter['billing_date_end'];
+			this.date1 = null
+			this.sendDate1 = ''
 		}
 		this.start = 0;
 		this.fetchData();
 	}
 	onSelectBillingEnd(e){
 		if(this.date2){
-			let date1 = moment(this.date1).format("YYYY-MM-DD");
 			let date2 = moment(this.date2).format("YYYY-MM-DD");
-			this.objFilter['billing_date_start'] = date1;
-			this.objFilter['billing_date_end']	= date2;		
+			this.sendDate2 = date2;		
 		}else{
-			delete this.objFilter['billing_date_start'];
-			delete this.objFilter['billing_date_end'];
+			this.date2 = null
+			this.sendDate2 = ''
 		}
 		this.start = 0;
 		this.fetchData();

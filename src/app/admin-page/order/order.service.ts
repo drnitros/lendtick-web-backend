@@ -22,7 +22,7 @@ export class OrderService {
 
 	// User Sallary
 	// ====================== //
-	getHistoryOrder(start,length,objFilter){
+	getHistoryOrder(start,length,status,bill_start, bill_end){
 		console.log("asadasd");
 		const options = {
 			headers: new HttpHeaders({
@@ -30,8 +30,8 @@ export class OrderService {
 			  'Authorization' : localStorage.getItem('token')
 			})
 		};
-		let filter = escape(JSON.stringify(objFilter));
-		return this.http.get(this.APIService.hostLoan + '/order/history'  + '?start=' + start +  '&length='+ length + '&manual_filter=' + filter,options);
+		// let filter = escape(JSON.stringify(objFilter));
+		return this.http.get(this.APIService.hostLoan + '/order/history'  + '?start=' + start +  '&length='+ length + '&id_workflow_status=' + status + '&billing_date_start=' + bill_start + '&billing_date_end=' + bill_end,options);
 	}
 
 	// Get Master
