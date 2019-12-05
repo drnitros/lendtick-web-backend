@@ -38,7 +38,14 @@
 	<div *ngIf="!loading" class="card">
 		<div class="card-body p-0">
 			<!-- Start Table -->
-			<p-table #dt [columns]="selectedColumns" [value]="data" [paginator]="true" [rows]="10" [responsive]="true">
+			<p-table #dt 
+				[columns]="selectedColumns" 
+				[value]="data" 
+				[paginator]="false" 
+				[rows]="10" 
+				[responsive]="true"
+				[lazy]="true" 
+				[loading]="loading">
 				<!-- Start Header -->
 				<ng-template pTemplate="header" let-columns>
 					<tr>
@@ -77,34 +84,49 @@
 
 <!-- Start Dialog Modal -->
 <p-dialog *ngIf="selectedItem != null" [(visible)]="display" header="Detail Order" [modal]="true" [width]="500">
+	<ng-container *ngIf="!loadingModal">
 	<div class="dialog-content p-0">
 		<table class="table table-striped mb-0">
 			<tr>
-				<td class="label" style="width:170px"><label>Nomor Akun</label></td>
-				<td>{{selectedItem.account_number}}</td>
+				<td class="label"><label>Nama Produk</label></td>
+				<td>{{selectedItem.product_name}}</td>
 			</tr>
 			<tr>
-				<td class="label"><label>Harga</label></td>
-				<td>Rp {{selectedItem.base_price}}</td>
+				<td class="label"><label>Gambar Produk</label></td>
+				<td><img src={{selectedItem.product_image_path}} style="width:100px;height:100px;" alt="" /></td>
 			</tr>
 			<tr>
 				<td class="label"><label>Nama Servis</label></td>
 				<td>{{selectedItem.biller_name}}</td>
 			</tr>
 			<tr>
-				<td class="label"><label>Nama Produk</label></td>
-				<td>{{selectedItem.product_name}}</td>
+				<td class="label"><label>ID Channel</label></td>
+				<td>{{selectedItem.id_channel}}</td>
 			</tr>
 			<tr>
 				<td class="label"><label>Harga Jual</label></td>
 				<td>Rp {{selectedItem.sell_price}}</td>
 			</tr>
+			<tr>
+				<td class="label"><label>Harga</label></td>
+				<td>Rp {{selectedItem.base_price}}</td>
+			</tr>
+			<tr>
+				<td class="label"><label>Detail Produk</label></td>
+				<td>{{selectedItem.product_details}}</td>
+			</tr>
+			<tr>
+				<td class="label" style="width:170px"><label>Nomor Akun</label></td>
+				<td>{{selectedItem.account_number}}</td>
+			</tr>
 		</table>
 	</div>
+	
 	<p-footer>
 		<button class="btn btn-default" (click)="display = false">
 			Close
 		</button>
 	</p-footer>
+</ng-container>
 </p-dialog>
 <!-- End Dialog Modal -->

@@ -13,9 +13,12 @@ export class MainOrderComponent implements OnInit {
 	private objFilter = {};
 	public data:any = [];
 	public columns:any = [];
+	public idOrder: String = '';
 	public selectedColumns: any[];
 	public loading: boolean;
+	public loadingModal: boolean;
 	public selectedItem = null;
+	public itemRes = null;
 	public companies = [];
 	public display = false;
 	public date: Date = null;
@@ -50,13 +53,16 @@ export class MainOrderComponent implements OnInit {
 
 		this.columns = [
 			{field: 'number', header: 'No', show:true},
-			{field: 'id_employee', header: 'Id Karyawan', show:true},
 			{field: 'id_koperasi', header: 'Id Koperasi', show:true},
-			{field: 'id_order', header: 'Id Order', show:true},
+			{field: 'id_order', header: 'Id Order', show:false},
+			{field: 'billing_number', header: 'Invoice No', show: true},
 			{field: 'name', header: 'Nama Anggota', show:true},
 			{field: 'name_company', header: 'Perusahaan', show:true},
 			{field: 'name_payment_type', header: 'Tipe Pembayaran', show:true},
-			{field: 'total_billing', header: 'Total Tagihan', show:true},
+			{field: 'workflow_status_name', header:'Status', show:true},
+			{field: 'billing_date', header: 'Billing Date', show:true},
+			{field: 'product_details', header: 'Product Details', show: true},
+			{field: 'total_billing', header: 'Total Tagihan', show:false},
 			
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
@@ -83,11 +89,13 @@ export class MainOrderComponent implements OnInit {
 	fetchData(){
 		this.loading = true;
 		this.orderService.getHistoryOrder(this.start, this.pageLength, this.selectedStatus, this.sendDate1, this.sendDate2).subscribe(res =>{
-			_.map(res['data'].data, (x,i)=>{
+			_.map(res['data'], (x,i)=>{
 				x['number'] = i + 1;
+				x.billing_date = moment(x.billing_date).format('YYYY-MM-DD');
+				
 				x.order_detail.map((y)=>{
 					y.base_price = y.base_price.toLocaleString();
-					y.base_price = y.sell_price.toLocaleString();
+					y.sell_price = y.sell_price.toLocaleString();
 				});
 			});
 			this.data = res['data'];
@@ -98,9 +106,27 @@ export class MainOrderComponent implements OnInit {
 		});
 	}
 
+	paginate(e){
+		this.start = e.page * this.pageLength;
+		this.fetchData();
+	}
+
 	selectItem(e){
+		this.idOrder = e.id_order;
+		this.itemRes = null;
+		this.selectedItem = null;
+		this.loadingModal = true;
+		this.orderService.getOrderDetail(e.id_order).subscribe(res => {
+			this.itemRes = res['data'];
+			this.selectedItem = this.itemRes[0]
+		},  err =>{
+			console.log(err);
+		})
+		
+		console.log(this.itemRes)
+		// this.selectedItem = this.itemRes[0];
+		this.loadingModal = false;
 		this.display = true;
-		this.selectedItem = e.order_detail[0];
 	}
 
 	// Fetch Company 
