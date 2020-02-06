@@ -528,7 +528,7 @@
 									</div>
 									<div class="mb-2">
 										<label>Perusahaan</label>
-										<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true"></p-dropdown>
+										<p-dropdown [options]="companies2" name="company" styleClass="form-control" [(ngModel)]="selectedCompany2" (onChange)="changeCompany2($event)" [required]="true" [filter]="true" [filterBy]="'label'"></p-dropdown>
 									</div>
 									<div class="mb-2">
 										<label>Unggah foto perusahaan</label>

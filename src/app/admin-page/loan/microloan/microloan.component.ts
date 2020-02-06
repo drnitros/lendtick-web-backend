@@ -64,10 +64,15 @@ export class MicroloanComponent implements OnInit {
 			{field: 'name_company', header: 'Company', show:true},
 			{field: 'name_grade', header: 'Golongan', show:true},
 			{field: 'name_loan_type', header: 'Tipe Pinjaman', show:true},
+			{field: 'loan_request', header: 'Permintaan Pinjaman', show:true},
 			{field: 'loan_approved', header: 'Jumlah Pinjaman', show:true},
+			{field: 'loan_actual', header: 'Pinjaman Aktual', show:true},
+			{field: 'microloan_amount', header: 'Jumlah Microloan', show:true},
 			{field: 'term_monthly', header: 'Tenor', show:true},
-			{field: 'interest', header: 'Bunga', show:true},
+			{field: 'interest', header: 'Bunga', show:false},
 			{field: 'request_date', header: 'Tgl Pengajuan', show:true},
+			{field: 'workflow_status_name', header: 'Status', show:true},
+			{field: 'product', header: 'Produk Pinjaman', show:true},
 		]
 		this.selectedColumns = _.filter(this.columns,{show:true});
 
@@ -96,7 +101,7 @@ export class MicroloanComponent implements OnInit {
 		this.selectedColumns = _.filter(this.columns,{show:true});
 	}
 
-	// Fetching User
+	// Fetching Loan
 	// ========================= //
 	fetchLoan(){
 		this.loading = true;
@@ -106,6 +111,9 @@ export class MicroloanComponent implements OnInit {
 			_.map(this.data,(x,i)=>{
 				x.number = i + 1;
 				x.loan_approved = 'Rp ' + x.loan_approved.toLocaleString();
+				x.loan_request = 'Rp ' + x.loan_request.toLocaleString();
+				x.loan_actual = 'Rp ' + x.loan_actual.toLocaleString();
+				x.microloan_amount = 'Rp ' + x.microloan_amount.toLocaleString();
 				x.request_date = moment(x.request_date).format("DD MMM YYYY");
 			});
 			this.loading = false;

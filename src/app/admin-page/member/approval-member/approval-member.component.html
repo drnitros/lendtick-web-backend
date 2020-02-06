@@ -34,7 +34,7 @@
 			<input type="text" class="form-control" (input)="onSearchName($event.target.value)" placeholder="filter by nama">
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
-			<p-dropdown [options]="companies" styleClass="form-control" (onChange)="changeCompany($event)"></p-dropdown>
+			<p-dropdown [options]="companies" styleClass="form-control" (onChange)="changeCompany($event)" [filter]="true" [filterBy]="'label'"></p-dropdown>
 		</div>
 		<div class="col-sm-4 col-lg-3 mb-3">
 			<p-dropdown [options]="grades" styleClass="form-control" (onChange)="changeGrade($event)"></p-dropdown>

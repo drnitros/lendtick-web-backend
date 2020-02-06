@@ -92,7 +92,7 @@
 				</div> 
 				<div class="mb-3">
 					<label>Nama Perusahaan</label>
-					<p-dropdown [options]="companies" [(ngModel)]="selectedItem.company" styleClass="form-control"></p-dropdown>
+					<p-dropdown [options]="companies" [(ngModel)]="selectedItem.company" styleClass="form-control" [filter]="true" [filterBy]="'label'"></p-dropdown>
 				</div> 
 				<div class="mb-3">
 					<label>NIK</label>
