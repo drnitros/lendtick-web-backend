@@ -169,8 +169,8 @@ export class ListMemberComponent implements OnInit {
 		this.memberService.getListUser(this.start, this.pageLength, this.objFilter).subscribe(res =>{
 			_.map(res['data'].data, (x,i)=>{
 				x['number'] = i + 1;
-				x.requested_date = moment(x.requested_date).format('YYYY-MM-DD');
-				x.employee_starting_date = x.employee_starting_date ? moment(x.employee_starting_date).format('YYYY-MM-DD') : '-';
+				x.requested_date = moment(x.requested_date).format('DD-MM-YYYY');
+				x.employee_starting_date = x.employee_starting_date ? moment(x.employee_starting_date).format('DD-MM-YYYY') : '-';
 			});
 			this.data = res['data'].data;
 			this.totalCount = Number(res['data'].count_filter);
